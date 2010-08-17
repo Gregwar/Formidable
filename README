@@ -1,0 +1,22 @@
+
+  	    DSD - Dual Side Definition
+=========================================================
+
+ DSD Is a PHP Library using pseudo-HTML metadatas to allow
+ easy form processing.
+
+ For instance an input written:
+
+ <input type="mail" name="email" />
+
+ Will be parsed by DSD and render as:
+
+ <input type="text" name="email" />
+
+ The PHP code will look like:
+
+ $f = new DSDForm("forms/example.html");
+ if ($f->posted) {
+  echo "You entered: ".htmlspecialchars($f->email);
+ }
+ echo $f->getHTML();
