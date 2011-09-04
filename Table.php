@@ -1,42 +1,47 @@
 <?php
-/*
- * DSDTable class
- *
- */
 
-class DSDTable {
+namespace Gregwar\DSD;
+
+class Table
+{
 	private $table;
-	private $datas;
+	private $datas = array();
 	private $cond;
 	
-	public function __construct($tableName) {
+    public function __construct($tableName)
+    {
 		$this->table = $tableName;
-		$this->datas = array();
 	}
 
-	public function __set($var, $value) {
+    public function __set($var, $value)
+    {
 		$this->datas[$var] = $value;
 	}
 
-	public function __get($var) {
+    public function __get($var)
+    {
 		return $this->datas[$var];
 	}
 
-	public function __isset($var) {
+    public function __isset($var)
+    {
 		return isset($this->datas[$var]);
 	}
 
-	public function __unset($var) {
+    public function __unset($var)
+    {
 		unset($this->datas[$var]);
 	}
 
-	public function get($cond) {
+    public function get($cond)
+    {
 		$query = mysql_query("SELECT * FROM `".$this->table."` WHERE $cond LIMIT 1");
 		$this->cond=$cond;
 		$this->datas = mysql_fetch_assoc($query);
 	}
 
-	public function insert() {
+    public function insert()
+    {
 		$sql = "INSERT INTO `".$this->table."` ";
 		$keys = array_keys($this->datas);
 		foreach ($keys as $i => $v) {
@@ -51,11 +56,12 @@ class DSDTable {
 				$values[$i]="\"".mysql_real_escape_string($v)."\"";
 		}
 		$sql .= " (".implode(",",$values).")";
-		mysql_query($sql) or die(DSDTable::error($sql, mysql_error()));
+		mysql_query($sql) or die(self::error($sql, mysql_error()));
 		return mysql_insert_id();
 	}
 
-	public function update($cond="") {
+    public function update($cond="")
+    {
 		if (!$cond) {
 			$cond=$this->cond;
 		}
@@ -72,15 +78,15 @@ class DSDTable {
 		}
 		$sql .= implode(",", $sets);
 		$sql .= $cond;
-		mysql_query($sql) or die(DSDTable::error($sql, mysql_error()));
+		mysql_query($sql) or die(self::error($sql, mysql_error()));
 	}
 
-	public static function error($sql, $msg) {
+    public static function error($sql, $msg)
+    {
 		echo "<span style='font-family: Courier;'>";
-		echo "<b>DSDTable Error:</b> ($sql): $msg";
+		echo "<b>Table Error:</b> ($sql): $msg";
 		echo "</span>";
 		exit(0);
 	}
 }
 
-?>

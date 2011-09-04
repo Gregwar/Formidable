@@ -1,28 +1,36 @@
 <?php
-/*
- * DSDDispatcher class
- *
- */
 
-$dir = $DSDRoot."/Fields";
-if (!is_dir($dir)) {
-	DSDField::error("Fields directory doesn't exists");
-}
-$fields_dir = opendir($dir);
-while ($f = readdir($fields_dir)) {
-	if (substr($f,0,9)=="DSDField_" && substr($f,-4)==".php") {
-		require_once($DSDRoot."/Fields/".$f);
+namespace Gregwar\DSD;
+
+/**
+ * Inclusion de Fields/*Field.php
+ */
+$fields_dir = __DIR__.'/Fields';
+
+$dir = opendir($fields_dir);
+while ($file = readdir($dir)) {
+	if (substr($file, -9) == 'Field.php') {
+		require_once($fields_dir.'/'.$file);
 	}
 }
-closedir($fields_dir);
+closedir($dir);
 
-require_once($DSDRoot."/Fields/DSDTextarea.class.php");
-require_once($DSDRoot."/Fields/DSDSelect.class.php");
-require_once($DSDRoot."/Fields/DSDOption.class.php");
-require_once($DSDRoot."/Fields/DSDOptions.class.php");
-require_once($DSDRoot."/Fields/DSDCustom.class.php");
+/**
+ * Inclusion des types
+ */
+require_once(__DIR__.'/Fields/Textarea.php');
+require_once(__DIR__.'/Fields/Select.php');
+require_once(__DIR__.'/Fields/Option.php');
+require_once(__DIR__.'/Fields/Options.php');
+require_once(__DIR__.'/Fields/Custom.php');
 
-class DSDDispatcher {
+/**
+ * Dispatch une balise pour créer les champs enfants
+ *
+ * @author Grégoire Passault <g.passault@gmail.com>
+ */
+class Dispatcher
+{
 	public static function dispatch(&$name, &$data) {
 		$field = NULL;
 		switch (strtolower($name)) {
@@ -30,21 +38,23 @@ class DSDDispatcher {
 				$find = explode(" ",substr($data, strpos($data, "type=")+5));
 				$type = strtolower(str_replace("\"","",str_replace("'","",$find[0])));
 				if (!$type) {
-					DSDForm::error("Untyped input");
+					Form::fatal("Untyped input");
 				} else {
 					if ($type=="submit") {
 						return "<$name $data>";
-					}
-					$classname = "DSDField_$type";
+                    }
+
+                    $classname = sprintf('Gregwar\DSD\Fields\%sField', ucfirst(strtolower($type)));
+
 					try {
-						$class = new ReflectionClass($classname);
+						$class = new \ReflectionClass($classname);
 						if ($class->isInstantiable()) {
 							$field = $class->newInstance();
 						} else {
-							DSDForm::error("Class $classname is not instanciable");
+							Form::fatal("Class $classname is not instanciable");
 						}
-					} catch (ReflectionException $e) {
-						DSDForm::error("Type ".htmlspecialchars($classname)." doesn't exists");
+					} catch (\ReflectionException $e) {
+						Form::fatal("Type ".htmlspecialchars($classname)." doesn't exists");
 					}
 				}
 			break;
@@ -130,4 +140,3 @@ class DSDDispatcher {
 		}
 	}
 }
-?>

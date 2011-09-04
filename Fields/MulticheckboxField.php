@@ -1,23 +1,22 @@
 <?php
-/*
- * DSDField_multicheckbox class
- *
- */
 
-require_once("DSDField.class.php");
+namespace Gregwar\DSD\Fields;
 
-class DSDField_multicheckbox extends DSDField {
+class MulticheckboxField extends Field
+{
 	private $datas;
-	private $checked;
+	private $checked = array();
 	private $source;
 
-	public function check() {
+    public function check()
+    {
 		return;
 	}
 
-	public function push($var, $val) {
+    public function push($var, $val)
+    {
 		switch ($var) {
-			case "source":
+			case 'source':
 				$this->source = $val;
 			break;
 			default:
@@ -25,20 +24,19 @@ class DSDField_multicheckbox extends DSDField {
 			break;
 		}
 	}
-	
-	public function __construct() {
-		$this->checked = array();
-	}
 
-	public function getSource() {
+    public function getSource()
+    {
 		return $this->source;
 	}
 
-	public function source($d) {
-		$this->datas = $d;
+    public function source($datas)
+    {
+		$this->datas = $datas;
 	}
 
-	public function setValue($val) {
+    public function setValue($val)
+    {
 		$this->checked=array();
 		if (!is_array($val)) {
 			$tmp=explode(",",$val);
@@ -54,7 +52,8 @@ class DSDField_multicheckbox extends DSDField {
 		}
 	}
 
-	public function getValue() {
+    public function getValue()
+    {
 		$tmp = array();
 		foreach ($this->checked as $k=>$v) {
 			$tmp[] = $k;
@@ -62,7 +61,8 @@ class DSDField_multicheckbox extends DSDField {
 		return $tmp;
 	}
 
-	public function getHTML() {
+    public function getHTML()
+    {
 		$s="";
 		if (is_array($this->datas))
 		foreach ($this->datas as $val => $label) {
@@ -77,4 +77,3 @@ class DSDField_multicheckbox extends DSDField {
 		return $s;
 	}
 }
-?>

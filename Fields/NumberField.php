@@ -1,22 +1,19 @@
 <?php
-/*
- * DSDField_number class
- *
- */
 
-require_once("DSDField.class.php");
+namespace Gregwar\DSD\Fields;
 
-class DSDField_number extends DSDField {
-	private $min;
-	private $max;
+class NumberField extends Field 
+{
+	private $min = null;
+	private $max = null;
 	
-	public function __construct() {
-		$this->type = "text";
-		$this->min = NULL;
-		$this->max = NULL;
+    public function __construct()
+    {
+		$this->type = 'text';
 	}
 
-	public function push($name, $val) {
+    public function push($name, $val)
+    {
 		if ($name == "min") {
 			$this->min = $val;
 		} else
@@ -26,11 +23,12 @@ class DSDField_number extends DSDField {
 		DSDField::push($name, $val);
 	}
 
-	public function check() {
+    public function check()
+    {
 		if ($this->optional && !$this->value)
 			return;
 		
-		$err=DSDField::check();
+		$err=parent::check();
 		if ($err)
 			return $err;
 
@@ -50,4 +48,3 @@ class DSDField_number extends DSDField {
 		}
 	}
 }
-?>

@@ -1,17 +1,15 @@
 <?php
-/*
- * DSDField_mail class
- *
- */
 
-require_once("DSDField.class.php");
+namespace Gregwar\DSD\Fields;
 
-class DSDField_mail extends DSDField {
-	public function check() {
+class MailField extends FIeld
+{
+    public function check()
+    {
 		if ($this->optional && !$this->value)
 			return;
 
-		$err=DSDField::check();
+		$err = parent::check();
 		if ($err)
 			return $err;
 
@@ -21,4 +19,3 @@ class DSDField_mail extends DSDField {
 		return;
 	}	
 }
-?>

@@ -1,23 +1,21 @@
 <?php
-/*
- * DSDSelect class
- *
- */
- 
-require_once("DSDField.class.php");
- 
-class DSDSelect extends DSDField {
-	private $options;
-	
-	public function __construct() {
-	
-	}
 
-	public function countOptions() {
+namespace Gregwar\DSD\Fields;
+ 
+class Select extends Field
+{
+    /**
+     * Options (enfants)
+     */
+	private $options = array();
+
+    public function countOptions()
+    {
 		return count($this->options);
 	}
 
-	public function addOption($opt,$pos=null) {
+    public function addOption($opt,$pos=null)
+    {
 		$opt->setParent($this);
 		if ($pos==null) {
 			$this->options[] = $opt;
@@ -29,11 +27,13 @@ class DSDSelect extends DSDField {
 		}
 	}
 
-	public function addValue($c) {
+    public function addValue($c)
+    {
 		$this->options[count($this->options)-1]->addValue($c);
 	}
 
-	public function check() {
+    public function check()
+    {
 		if ($this->value == "")
 			return "Vous devez choisur une valeur pour le champ ".$this->printName();
 		foreach ($this->options as $opt) {
@@ -47,14 +47,16 @@ class DSDSelect extends DSDField {
 		return "Vous devez choisir une option parmi les choix pour le champ ".$this->printName();
 	}
 
-	public function setOptionClass($val, $value) {
+    public function setOptionClass($val, $value)
+    {
 		foreach ($this->options as $opt) {
 			if ($opt->getValue() == $val)
 				$opt->setClass($value);
 		}
 	}
 
-	public function getHTML() {
+    public function getHTML()
+    {
 		$s = "<select class=\"".$this->class."\" name=\"".$this->name."\"".$this->HTML.">\n";
 		if (count($this->options) !=0) {
 			foreach ($this->options as $opt) {
@@ -68,4 +70,3 @@ class DSDSelect extends DSDField {
 		return $s;
 	}
 }
-?>

@@ -1,24 +1,23 @@
 <?php
-/*
- * DSDField_multicheckbox class
- *
- */
 
-require_once("DSDField.class.php");
+namespace Gregwar\DSD\Fields;
 
-class DSDField_multiradio extends DSDField {
+class MultiradioField extends Field 
+{
 	private $datas;
 	private $source;
 
-	public function check() {
+    public function check()
+    {
 		if (!$this->optional && ($this->value===false))
 			return "Vous devez saisir une valeur pour ".$this->printName();
 		return;
 	}
 
-	public function push($var, $val) {
+    public function push($var, $val)
+    {
 		switch ($var) {
-			case "source":
+			case 'source':
 				$this->source = $val;
 			break;
 			default:
@@ -26,19 +25,19 @@ class DSDField_multiradio extends DSDField {
 			break;
 		}
 	}
-	
-	public function __construct() {
-	}
 
-	public function getSource() {
+    public function getSource()
+    {
 		return $this->source;
 	}
 
-	public function source($d) {
+    public function source($d)
+    {
 		$this->datas = $d;
 	}
 
-	public function setValue($val) {
+    public function setValue($val)
+    {
 		foreach ($this->datas as $k=>$data)  {
 			if ($k == $val) {
 				$this->value = $val;
@@ -46,11 +45,13 @@ class DSDField_multiradio extends DSDField {
 		}
 	}
 
-	public function getValue() {
+    public function getValue()
+    {
 		return $this->value;
 	}
 
-	public function getHTML() {
+    public function getHTML()
+    {
 		$s="";
 		if (is_array($this->datas))
 		foreach ($this->datas as $val => $label) {
@@ -65,4 +66,3 @@ class DSDField_multiradio extends DSDField {
 		return $s;
 	}
 }
-?>

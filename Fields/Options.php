@@ -1,24 +1,17 @@
 <?php
-/*
- * DSDOptions class
- *
- */
 
-require_once("DSDField.class.php");
-require_once("DSDOption.class.php");
+namespace Gregwar\DSD\Fields;
 
-class DSDOptions extends DSDField {
+class Options extends Field
+{
 
 	private $source;
 	private $parent;
-	private $pushSave;
+	private $pushSave = array();
 	private $pos;
 
-	public function __construct() {
-		$this->pushSave = array();
-	}
-
-	public function push($name, $value) {
+    public function push($name, $value)
+    {
 		if ($name == "source") {
 			$this->source = $value;
 		} else {
@@ -27,20 +20,24 @@ class DSDOptions extends DSDField {
 		}
 	}
 
-	public function setParent($p) {
+    public function setParent($p)
+    {
 		$this->parent = $p;
 		$this->pos = $this->parent->countOptions();
 	}
 
-	public function check() {
+    public function check()
+    {
 		return;
 	}
 
-	public function getSource() {
+    public function getSource()
+    {
 		return $this->source;
 	}
 
-	public function source($data) {
+    public function source($data)
+    {
 		foreach ($data as $k => $v) {
 			if (is_object($v)) {
 				$k = $v->getKey();
@@ -57,4 +54,3 @@ class DSDOptions extends DSDField {
 	}
 }
 
-?>

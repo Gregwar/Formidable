@@ -1,5 +1,6 @@
-<?
-//Generate a CAPTCHA
+<?php
+
+namespace Gregwar\DSD\Fields;
 
 function getCol($image, $x, $y) {
 	$L = imagesx($image);
@@ -9,7 +10,7 @@ function getCol($image, $x, $y) {
 	else return imagecolorat($image, $x, $y);
 }
 
-class DSDCaptcha {
+class Captcha {
 	public $value;
 
 	public static $charset = "0123456789abcdefghijkmnpqrstuvwxyz";
