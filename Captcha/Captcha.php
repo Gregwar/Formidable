@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD\Fields;
+namespace Gregwar\DSD\Captcha;
 
 function getCol($image, $x, $y) {
 	$L = imagesx($image);
