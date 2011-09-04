@@ -201,7 +201,7 @@ class Parser
         switch (strtolower($name)) {
         case 'input':
             $find = explode(' ',substr($data, strpos($data, 'type=') +5));
-            $type = strtolower(str_replace("\"","",str_replace("'","",$find[0])));
+            $type = strtolower(str_replace('"', '', str_replace('\'', '', $find[0])));
 
             if (!$type) {
                 Form::fatal('Untyped input');
@@ -211,17 +211,7 @@ class Parser
                 }
 
                 $classname = sprintf('Gregwar\DSD\Fields\%sField', ucfirst(strtolower($type)));
-
-                try {
-                    $class = new \ReflectionClass($classname);
-                    if ($class->isInstantiable()) {
-                        $field = $class->newInstance();
-                    } else {
-                        Form::fatal('Class '.$classname.' is not instanciable');
-                    }
-                } catch (\ReflectionException $e) {
-                    Form::fatal('Type '.htmlspecialchars($classname).' doesn\'t exists');
-                }
+                $field = new $classname;
             }
             break;
         case 'textarea':
