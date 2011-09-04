@@ -249,50 +249,17 @@ class Parser
             break;
         }
         if (null !== $field) {
-            $buffer = '';
-            $guillemet="";
-            for ($i=0; $i<strlen($data); $i++) {
-                $c = $data[$i];
-                if ($c == " ") {
-                    if (!$guillemet) {
-                        $tmp = split("=", $buffer);
-                        if (isset($tmp[1]) && $tmp[1][strlen($tmp[1])-1]=="/")
-                            $tmp[1]=substr($tmp[1],0,-1);
-                        if (isset($tmp[1])) {
-                            if ($tmp[1][0]=="\"" || $tmp[1][0]=="'")
-                                $tmp[1] = substr($tmp[1], 1, strlen($tmp[1])-2);	
-                        } else {
-                            $tmp[1]="";
-                        }
-                        $field->push(strtolower($tmp[0]), $tmp[1]);
-                        $buffer="";
-                    } else {
-                        $buffer.=" ";
-                    }
-                } else {
-                    if (!$guillemet) {
-                        if ($c=="'" || $c=="\"")
-                            $guillemet = $c;
-                    } else {
-                        if ($c == $guillemet)
-                            $guillemet = "";
-                    }
-                    $buffer .= $c;
+            $attributes = explode(' ', $data);
+            foreach ($attributes as $attribute) {
+                if (preg_match("#([^=]+)(=\"(.+)\"|)#muSi", $attribute, $match)) {
+                    $field->push($match[1], isset($match[3]) ? $match[3] : null);
                 }
             }
-            if ($buffer!="") {
-                $tmp = split("=", $buffer);
-                if (isset($tmp[1]) && $tmp[1][strlen($tmp[1])-1]=="/")
-                    $tmp[1]=substr($tmp[1],0,-1);
-                if (!isset($tmp[1])) $tmp[1]="";
-                else
-                    if ($tmp[1][0]=="\"" || $tmp[1][0]=="'")
-                        $tmp[1] = substr($tmp[1], 1, strlen($tmp[1])-2);
-                $field->push(strtolower($tmp[0]), $tmp[1]);
-            }
+
             return $field;
         } else {
-            return "";
+
+            return '';
         }
     }
 
