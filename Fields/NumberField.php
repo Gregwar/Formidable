@@ -20,7 +20,7 @@ class NumberField extends Field
 		if ($name == "max") {
 			$this->max = $val;
 		} else
-		DSDField::push($name, $val);
+		parent::push($name, $val);
 	}
 
     public function check()

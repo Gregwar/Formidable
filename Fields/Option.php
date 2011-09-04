@@ -22,7 +22,7 @@ class Option extends Field {
 		if ($name == "selected" && $value==NULL) {
 			$this->isSelected = true;
 		} else {
-			DSDField::push($name, $value);
+			parent::push($name, $value);
 		}
 	}
 

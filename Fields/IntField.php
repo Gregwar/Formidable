@@ -7,7 +7,7 @@ class IntField extends NumberField {
 		if ($this->optional && !$this->value)
 			return;
 
-		$err=DSDField_number::check();
+		$err=parent::check();
 		if ($err)
 			return $err;
 		if ($this->multiple && is_array($this->value))

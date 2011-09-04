@@ -3,7 +3,6 @@
 namespace Gregwar\DSD;
 
 require_once('Parser.php');
-require_once('Dispatcher.php');
 require_once('Table.php');
 require_once('Error.php');
 
@@ -40,7 +39,7 @@ class Form implements \Iterator
     private $hash;
 
     /**
-     * Position dans la ligne courante
+     * Position courrante pour l'itération
      */
     private $position;
 
@@ -115,7 +114,7 @@ class Form implements \Iterator
                 } else {
                     if ($field instanceof Fields\CheckboxField
                         || $field instanceof Fields\MulticheckboxField) {
-                        $d->setValue('');
+                        $field->setValue('');
                     }
                 }
             }
@@ -145,6 +144,21 @@ class Form implements \Iterator
     public function setValue($name, $value)
     {
         $this->fields[$name]->setValue($value, 1);
+    }
+
+    /**
+     * Obtention de la valeur d'un champ
+     */
+    public function getValue($var) {
+        foreach ($this->fields as $name => $field) {
+            if ($d instanceof Fields\RadioFIeld && $d->isChecked()==false) {
+                continue;
+            }
+            if ($field_name === $name) {
+                return $d->getValue();
+            }
+        }
+        return null;
     }
 
     /**
@@ -178,7 +192,7 @@ class Form implements \Iterator
         $html = '';
 
         foreach ($this->datas as $d) {
-            if (!is_object($d)) {
+            if (is_string($d)) {
                 $html .= $d;
             } else {
                 $html .= $d->getHTML();
@@ -188,43 +202,49 @@ class Form implements \Iterator
         return $html;
     }
 
-    public function check() {
-        $n = func_get_args();
-        $e = array();
+    /**
+     * Checker les erreurs
+     */
+    public function check()
+    {
+        $to_check = array_flip(func_get_args());
+        $errors = array();
         $radios = array();
-        foreach ($this->datas as $d) {
-            if (is_object($d)) {
-                if (count($n) == 0 || array_search($d->getName(), $n)!==FALSE) {
-                    $r = $d->check();
-                    if ($d instanceof Fields\RadioField) {
-                        if ($r == Fields\RadioField::$OPTIONAL)
-                            $radios[$d->getName()] = true;
-                        else {
-                            if (!isset($radios[$d->getName()]) || $radios[$d->getName()] == false) {
-                                if ($r == Fields\RadioField::$CHECKED)
-                                    $radios[$d->getName()] = true;
-                                else
-                                    $radios[$d->getName()] = false;
-                            }
+
+        foreach ($this->fields as $name => $field) {
+            if (!count($to_check) || isset($to_check[$name])) {
+                $error = $field->check();
+
+                // XXX: Le cas particulier des radio devrait être géré ailleurs qu'ici..
+                if ($field instanceof Fields\RadioField) {
+                    if ($error == Fields\RadioField::$OPTIONAL)
+                        $radios[$name] = true;
+                    else {
+                        if (!isset($radios[$name]) || $radios[$name] == false) {
+                            if ($r == Fields\RadioField::$CHECKED)
+                                $radios[$name] = true;
+                            else
+                                $radios[$name] = false;
                         }
-                    } else {
-                        if ($r) {
-                            $e[] = new Error($d->getName(), $r);
-                        }
+                    }
+                } else {
+                    if ($error) {
+                        $errors[] = new Error($field->getName(), $error);
                     }
                 }
             }
         }
         foreach ($radios as $name => $val) {
             if ($val == false) {
-                $e[] = new Error($name, Fields\RadioField::error($name));
+                $errors[] = new Error($name, Fields\RadioField::error($name));
             }
         }
 
-        return $e;
+        return $errors;
     }
 
-    public function source($source, $data) {
+    public function source($source, $data)
+    {
         if (is_array($this->sourcers))
             foreach ($this->sourcers as $s) {
                 if ($s->getSource() == $source) {
@@ -233,51 +253,55 @@ class Form implements \Iterator
             }
     }
 
-    public function SQL($table) {
-        if (gettype($table) == "string")
+    /**
+     * Transformation des données en un objet
+     */
+    public function SQL($table)
+    {
+        if (gettype($table) == 'string')
             $table = new Table($table);
-        foreach ($this->datas as $d) {
-            if (is_object($d)) {
-                $sql = $d->getSQLName();
-                if ($sql) {
-                    if ($d instanceof Fields\MulticheckboxField)
-                        continue;
-                    if ($d instanceof Fields\RadioField || $d->isChecked()==true) {
-                        $table->$sql = $d->getValue();
-                        if ($d instanceof Fields\CheckboxField) {
-                            if ($d->isChecked()) {
-                                $table->$sql=$d->getValue();
-                            } else $table->$sql=0;
-                        }						
-                    }
+
+        foreach ($this->fields as $name => $field) {
+            $sql = $field->getSQLName();
+
+            if ($sql) {
+                if ($field instanceof Fields\MulticheckboxField)
+                    continue;
+
+                if ($field instanceof Fields\RadioField || $field->isChecked()==true) {
+                    $table->$sql = $field->getValue();
+                    if ($field instanceof Fields\CheckboxField) {
+                        if ($field->isChecked()) {
+                            $table->$sql = $d->getValue();
+                        } else $table->$sql = 0;
+                    }						
                 }
             }
         }
         return $table;
     }
 
-    public function __get($var) {
-        foreach ($this->datas as $d) {
-            if (is_object($d)) {
-                if ($d instanceof Fields\RadioFIeld && $d->isChecked()==false) 
-                    continue;
-                if ($d->getName() == $var)
-                    return $d->getValue();
-            }
-        }
-        return false;
+    /**
+     * Obtention de la valeur d'un champ
+     */
+    public function __get($field_name)
+    {
+        return $this->getValue($var);
     }
 
-    public function getValue($var) {
-        return $this->__get($var);
-    }
-
-    public function __set($var, $val) {
+    /**
+     * Définition de la valeur d'un champ
+     */
+    public function __set($var, $val)
+    {
         $this->setValue($var, $val);
     }
 
-    public function posted() {
-        global $_POST, $_SESSION;
+    /**
+     * Savoir si le formulaire a été posté
+     */
+    public function posted()
+    {
         if (isset($_POST['DSDCsrf']) && $_POST['DSDCsrf'] == $this->hash) {
             $this->setValues($_POST, $_FILES);
             return true;
@@ -286,33 +310,38 @@ class Form implements \Iterator
         }
     }
 
-    public function rewind() {
+    /**
+     * Permet d'itérer sur les champs
+     */
+
+    public function rewind()
+    {
         $this->position = 0;
-        $this->next();
     }
 
-    public function next() {
-        $i = $this->position+1;
-        while ($i<count($this->datas)) {
-            if (is_object($this->datas[$i]))
-                break;
-            $i++;
-        }
-        $this->position = $i;
+    public function next()
+    {
+        $this->position++;
     }
 
-    public function current() {
-        return ($this->datas[$this->position]->getValue());
+    public function current()
+    {
+        return ($this->fields[$this->position]);
     }
 
-    public function valid() {
-        return isset($this->datas[$this->position]);
+    public function valid()
+    {
+        return isset($this->fields[$this->position]);
     }
 
-    public function key() {
-        return $this->datas[$this->position]->getName();
+    public function key()
+    {
+        return $this->fields[$this->position]->getName();
     }
 
+    /**
+     * Erreur fatale
+     */
     public static function fatal($message, $prefix = '')
     {
         echo '<span style="font-family: Courier;">';

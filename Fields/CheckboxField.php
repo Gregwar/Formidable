@@ -17,7 +17,7 @@ class CheckboxField extends Field
 		if ($name=="checked" && $value==null) {
 			$this->checked = true;
 		} else {
-			DSDField::push($name, $value);
+			parent::push($name, $value);
 		}
 	}
 

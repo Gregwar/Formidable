@@ -16,7 +16,7 @@ class Options extends Field
 			$this->source = $value;
 		} else {
 			$pushSave[] = array($name, $value);
-			DSDField::push($name, $value);
+			parent::push($name, $value);
 		}
 	}
 
