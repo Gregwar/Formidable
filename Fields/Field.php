@@ -140,8 +140,8 @@ abstract class Field
             $this->HTML .=" readonly ";
             break;
         default:
-            if (eregi("^([a-z0-9_-]+)$",$name)) {
-                if ($value!==NULL) {
+            if (preg_match('#^([a-z0-9_-]+)$#mUsi', $name)) {
+                if ($value !== null) {
                     $this->HTML .= " $name=\"".$value."\"";
                 } else {
                     $this->HTML .= " $name";
@@ -319,7 +319,7 @@ abstract class Field
 
     public function getSource()
     {
-        return "";
+        return '';
     }
 
     public function isChecked()

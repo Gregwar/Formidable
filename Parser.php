@@ -3,6 +3,16 @@
 namespace Gregwar\DSD;
 
 /**
+ * Inclusion des types
+ */
+require_once(__DIR__.'/Fields/Field.php');
+require_once(__DIR__.'/Fields/Textarea.php');
+require_once(__DIR__.'/Fields/Select.php');
+require_once(__DIR__.'/Fields/Option.php');
+require_once(__DIR__.'/Fields/Options.php');
+require_once(__DIR__.'/Fields/Custom.php');
+
+/**
  * Inclusion de Fields/xxxField.php
  */
 
@@ -15,15 +25,6 @@ while ($file = readdir($dir)) {
     }
 }
 closedir($dir);
-
-/**
- * Inclusion des types
- */
-require_once(__DIR__.'/Fields/Textarea.php');
-require_once(__DIR__.'/Fields/Select.php');
-require_once(__DIR__.'/Fields/Option.php');
-require_once(__DIR__.'/Fields/Options.php');
-require_once(__DIR__.'/Fields/Custom.php');
 
 /**
  * Parse un formulaire pour DSD
