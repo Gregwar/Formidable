@@ -127,8 +127,14 @@ class Form implements \Iterator
         foreach ($this->datas as $field) {
             if (is_object($field)) {
                 if ($mapping = $field->geMappingName()) {
-                    if (isset($entity->$mapping)) {
-                        $field->setValue($table->$mapping, 1);
+                    if (is_array($entity)) {
+                        if (isset($entity[$mapping])) {
+                            $field->setValue($table[$mapping], 1);
+                        }
+                    } else {
+                        if (isset($entity->$mapping)) {
+                            $field->setValue($table->$mapping, 1);
+                        }
                     }
                 }
             }
@@ -239,7 +245,11 @@ class Form implements \Iterator
 
         foreach ($this->fields as $name => $field) {
             if ($mapping = $field->getMappingName()) {
-                $entity->$mapping = $field->getValue();
+                if (is_array($entity)) {
+                    $entity[$mapping] = $field->getValue();
+                } else {
+                    $entity->$mapping = $field->getValue();
+                }
             }
         }
 
