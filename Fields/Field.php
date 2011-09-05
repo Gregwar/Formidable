@@ -73,9 +73,9 @@ abstract class Field
     protected $notin = '';
 
     /**
-     * Donnée de mapping pour la base de données
+     * Donnée de mapping pour l'entité
      */
-    protected $sqlname;
+    protected $mapping;
 
     /**
      * Définir un attribut
@@ -152,8 +152,8 @@ abstract class Field
         case 'multiplechange':
             $this->multipleChange = $value;
             break;
-        case 'sqlname':
-            $this->sqlname = $value;
+        case 'mapping':
+            $this->mapping = $value;
             break;
         case 'in':
             $this->in = $value;
@@ -252,8 +252,8 @@ abstract class Field
     {
         $field = $this->name;
 
-        if (isset($this->sqlname)) {
-            $field = $this->sqlname;
+        if (isset($this->mapping)) {
+            $field = $this->mapping;
         }
 
         $tmp = explode('.', $v);
@@ -273,9 +273,9 @@ abstract class Field
         return $this->name;
     }
 
-    public function getSQLName()
+    public function getMappingName()
     {
-        return $this->sqlname;
+        return $this->mapping;
     }
 
     public function getValue()

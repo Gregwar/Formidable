@@ -3,7 +3,7 @@
 namespace Gregwar\DSD;
 
 require_once('Parser.php');
-require_once('Table.php');
+require_once('Entity.php');
 require_once('Error.php');
 
 /**
@@ -122,14 +122,13 @@ class Form implements \Iterator
     /**
      * Définir les valeurs par noms du mapping
      */
-    public function setSQLValues($table)
+    public function setMappingValues($entity)
     {
         foreach ($this->datas as $field) {
             if (is_object($field)) {
-                $sql = $field->getSQLName();
-                if ($sql) {
-                    if (isset($table->$sql)) {
-                        $field->setValue($table->$sql, 1);
+                if ($mapping = $field->geMappingName()) {
+                    if (isset($entity->$mapping)) {
+                        $field->setValue($table->$mapping, 1);
                     }
                 }
             }
@@ -230,19 +229,21 @@ class Form implements \Iterator
     /**
      * Transformation des données en un objet
      */
-    public function SQL($table)
+    public function entity($tableOrEntity)
     {
-        if (gettype($table) == 'string')
-            $table = new Table($table);
+        if (gettype($table) == 'string') {
+            $entity = new Entity($tableOrEntity);
+        } else {
+            $entity = $tableOrEntity;
+        }
 
         foreach ($this->fields as $name => $field) {
-            $sql = $field->getSQLName();
-
-            if ($sql) {
-                $table->$sql = $field->getValue();
+            if ($mapping = $field->getMappingName()) {
+                $entity->$mapping = $field->getValue();
             }
         }
-        return $table;
+
+        return $entity;
     }
 
     /**
