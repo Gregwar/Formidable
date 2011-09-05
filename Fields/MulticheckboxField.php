@@ -68,17 +68,23 @@ class MulticheckboxField extends Field
 
     public function getHTML()
     {
-        $s="";
-        if (is_array($this->datas))
-            foreach ($this->datas as $val => $label) {
-                if (isset($this->checked[$val]))
-                    $checked=" checked";
-                else	$checked="";
-                $s.="<div class=\"".$this->class."\">\n";
-                $s.="<input type=\"checkbox\" name=\"".$this->name."[$val]\"$checked id=\"".$this->name."_$val\" value=\"1\" />\n";
-                $s.=" <label for=\"".$this->name."_$val\">".$label."</label>\n";
-                $s.="</div>\n";
+        $html = '';
+
+        if (is_array($this->datas)) {
+            foreach ($this->datas as $value => $label) {
+                if (isset($this->checked[$value])) {
+                    $checked = ' checked="checked"';
+                } else {
+                    $checked = '';
+                }
+
+                $html.= "<div class=\"".$this->getAttribute('class')."\">\n";
+                $html.= "<input type=\"checkbox\" name=\"".$this->name."[$value]\"$checked id=\"".$this->name."_$value\" value=\"1\" />\n";
+                $html.= "<label for=\"".$this->name."_$value\">".$label."</label>\n";
+                $html.= "</div>\n";
             }
-        return $s;
+        }
+
+        return $html;
     }
 }

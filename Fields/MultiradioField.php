@@ -19,14 +19,14 @@ class MultiradioField extends Field
         return;
     }
 
-    public function push($var, $val)
+    public function push($var, $value)
     {
         switch ($var) {
         case 'source':
-            $this->source = $val;
+            $this->source = $value;
             break;
         default:
-            parent::push($var,$val);
+            parent::push($var, $value);
             break;
         }
     }
@@ -41,11 +41,11 @@ class MultiradioField extends Field
         $this->datas = $d;
     }
 
-    public function setValue($val)
+    public function setValue($value)
     {
-        foreach ($this->datas as $k=>$data)  {
-            if ($k == $val) {
-                $this->value = $val;
+        foreach ($this->datas as $name => $data)  {
+            if ($name == $value) {
+                $this->value = $name;
             }
         }
     }
@@ -57,17 +57,23 @@ class MultiradioField extends Field
 
     public function getHTML()
     {
-        $s="";
-        if (is_array($this->datas))
-            foreach ($this->datas as $val => $label) {
-                if ($val == $this->value)
-                    $checked=" checked";
-                else	$checked="";
-                $s.="<div class=\"".$this->class."\">\n";
-                $s.="<input type=\"radio\" name=\"".$this->name."\"$checked id=\"".$this->name."_$val\" value=\"".$val."\" />\n";
-                $s.=" <label for=\"".$this->name."_$val\">".$label."</label>\n";
-                $s.="</div>\n";
+        $html = '';
+
+        if (is_array($this->datas)) {
+            foreach ($this->datas as $value => $label) {
+                if ($value == $this->value) {
+                    $checked = ' checked="checked"';
+                } else {
+                    $checked = '';
+                }
+
+                $html.= "<div class=\"".$this->getAttribute('class')."\">\n";
+                $html.= "<input type=\"radio\" name=\"".$this->name."\"$checked id=\"".$this->name."_$value\" value=\"".$value."\" />\n";
+                $html.= "<label for=\"".$this->name."_$value\">".$label."</label>\n";
+                $html.= "</div>\n";
             }
-        return $s;
+        }
+
+        return $html;
     }
 }

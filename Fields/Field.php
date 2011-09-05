@@ -90,7 +90,11 @@ abstract class Field
      */
     public function getAttribute($name)
     {
-        return $this->attributes[$name];
+        if ($this->hasAttribute($name)) {
+            return $this->attributes[$name];
+        } else {
+            return null;
+        }
     }
 
     /**

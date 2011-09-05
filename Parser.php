@@ -215,9 +215,9 @@ class Parser
                                 }
 
                                 if ($return instanceof Fields\Custom || 
-                                    $return instanceof FIelds\MultiCheckboxField ||
+                                    $return instanceof FIelds\MulticheckboxField ||
                                     $return instanceof Fields\MultiradioField) {
-                                        $this->sourcers[$return->getSource()] = $return;
+                                        $this->sources[$return->getSource()] = $return;
                                     }
                             }
                         }
