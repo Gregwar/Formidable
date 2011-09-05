@@ -247,19 +247,25 @@ abstract class Field
         }
     }
 
-    //XXX: très sale
+    //XXX: très sale...
     function checkInQuery($v)
     {
-        if (isset($this->sqlname)) $defaultField = $this->sqlname;
-        else $defaultField = $this->name;
-        $tmp = explode(".",$v);
-        $table=$tmp[0];
-        if (isset($tmp[1]))
-            $field=$tmp[1];
-        else $field=$defaultField;
-        $q = mysql_query("SELECT COUNT(*) AS NB FROM `".$table."` WHERE `$field`=\"".mysql_real_escape_string($this->value)."\"");
+        $field = $this->name;
+
+        if (isset($this->sqlname)) {
+            $field = $this->sqlname;
+        }
+
+        $tmp = explode('.', $v);
+        $table = $tmp[0];
+
+        if (isset($tmp[1])) {
+            $field = $tmp[1];
+        }
+
+        $q = mysql_query('SELECT COUNT(*) AS NB FROM `'.$table.'` WHERE `'.$field.'`="'.mysql_real_escape_string($this->value).'"');
         $r = mysql_fetch_assoc($q);
-        return $r["NB"];
+        return $r['NB'];
     }
 
     public function getName()
@@ -337,8 +343,9 @@ abstract class Field
             } 
 
             $prototype = $this->getHTMLForValue('', '[]');
+
             $html= '<span id="'.$rnd.'"></span>';
-            $html.= '<script type="text/javascript">'.$others.'</script><br/>';
+            $html.= '<script type="text/javascript">'.$others.'</script>';
             $html.= "<a href=\"javascript:DSD.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">Ajouter</a>";
 
             return $html;
