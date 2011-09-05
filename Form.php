@@ -162,11 +162,11 @@ class Form implements \Iterator
     }
 
     /**
-     * Définir la classe d'un champ
+     * Définir la valeur d'un attribut
      */
-    public function setClass($name, $value)
+    public function setAttribute($name, $attr_name, $value)
     {
-        $this->fields[$name]->setClass($value);
+        $this->fields[$name]->setAttribute($attr_name, $value);
     }
 
     /**

@@ -20,7 +20,7 @@ abstract class Field
     /**
      * Code HTML supplémentaire
      */
-    protected $HTML;
+    protected $attributes = array();
 
     /**
      * Une value a t-elle été fournie ?
@@ -42,11 +42,6 @@ abstract class Field
      */
     protected $minlength;
     protected $maxlength;
-
-    /**
-     * Classe CSS
-     */
-    protected $class;
 
     /**
      * Nom "joli" (pour les messages d'erreur)
@@ -80,9 +75,28 @@ abstract class Field
      */
     protected $sqlname;
 
-    public function needJS()
+    /**
+     * Définir un attribut
+     */
+    public function setAttribute($name, $value)
     {
-        return $this->multiple;
+        $this->attributes[$name] = $value;
+    }
+
+    /**
+     * Obtenir un attribut 
+     */
+    public function getAttribute($name)
+    {
+        return $this->attributes[$name];
+    }
+
+    /**
+     * A t-il l'attribut $name ?
+     */
+    public function hasAttribute($name)
+    {
+        return isset($this->attributes[$name]);
     }
 
     /**
@@ -92,17 +106,18 @@ abstract class Field
     {
         switch ($name) {
         case 'class':
-            $this->class = $value;
+            $this->attributes['class'] = $value;
             break;
         case 'name':
             $this->name = $value;
             break;
         case 'type':
-            if (!$this->type)
+            if (!$this->type) {
                 $this->type = $value;
+            }
             break;
         case 'value':
-            $this->value = $value;
+            $this->setValue($value);
             break;
         case 'optional':
             $this->optional = true;
@@ -115,7 +130,7 @@ abstract class Field
             break;
         case 'maxlength':
             $this->maxlength = $value;
-            $this->HTML .= " maxlength=\"".$value."\"";
+            $this->attributes['maxlength'] = $value;
             break;
         case 'multiple':
             $this->multiple = true;
@@ -137,14 +152,14 @@ abstract class Field
             break;
         case 'readonly':
             $this->readonly=true;
-            $this->HTML .=" readonly ";
+            $this->attributes['readonly'] = 'readonly';
             break;
         default:
             if (preg_match('#^([a-z0-9_-]+)$#mUsi', $name)) {
                 if ($value !== null) {
-                    $this->HTML .= " $name=\"".$value."\"";
+                    $this->attributes[$name] = $value;
                 } else {
-                    $this->HTML .= " $name";
+                    $this->attributes[$name] = $name;
                 }
             }
         }
@@ -249,7 +264,7 @@ abstract class Field
     }
 
     /**
-     * Définition d'une valeur
+     * Définition de la valeur
      */
     public function setValue($val, $default = 0)
     {
@@ -270,14 +285,18 @@ abstract class Field
         }
     }
 
-    public function setClass($class)
-    {
-        $this->class = $class;
-    }
-
     public function getHTMLForValue($extra, $value = '', $nameb = '')
     {
-        return "<input class=\"".$this->class."\" type=\"".$this->type."\" name=\"".$this->name."$nameb\"".$this->HTML.$extra." value=\"".htmlspecialchars($value)."\" />\n";
+        $html = '<input ';
+        foreach ($this->attributes as $name => $value) {
+            $html.= $name.'="'.$value.'" ';
+        }
+        $html.= 'name="'.$this->name.$nameb.'" ';
+        $html.= 'value="'.htmlspecialchars($value).'" ';
+        $html.= $extra;
+        $html.= "/>\n";
+
+        return $html;
     }
 
     public function getHTML($extra = '')

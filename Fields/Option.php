@@ -8,17 +8,20 @@ class Option extends Field {
 	private $isSelected;
 	private $label;
 	
-	public function __construct() {
+        public function __construct()
+        {
 		$this->parent = null;
 	}
 
-	public function setParent($p) {
+        public function setParent($p)
+        {
 		$this->parent = $p;
 		if ($this->isSelected)
 			$this->parent->setValue($this->value);
 	}
 
-	public function push($name, $value) {
+        public function push($name, $value)
+        {
 		if ($name == "selected" && $value==NULL) {
 			$this->isSelected = true;
 		} else {
@@ -26,16 +29,29 @@ class Option extends Field {
 		}
 	}
 
-	public function addValue($c) {
-		$this->label .= $c;
+        public function addValue($content)
+        {
+		$this->label .= $content;
 	}
 
-	public function setLabel($l) {
-		$this->label = $l;
+        public function setLabel($label)
+        {
+		$this->label = $label;
 	}
 
-	public function getHTML($selected) {
-		return "<option class=\"".$this->class."\" ".($selected ? "selected " : "")."value=\"".htmlspecialchars($this->value)."\"".$this->HTML.">".$this->label."</option>\n";
+        public function getHTML($selected)
+        {
+            $html = '<option ';
+            foreach ($this->attributes as $name => $value) {
+                $html.= $name.'="'.$value.'" ';
+            }
+            if ($selected) {
+                $html.='selected="selected" ';
+            }
+            $html.= 'value="'.htmlspecialchars($this->value).'"';
+            $html.= '>'.$this->label;
+            $html.= "</option>\n";
+
+            return $html;
 	}
 }
-?>
