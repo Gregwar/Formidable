@@ -17,7 +17,7 @@ class Option extends Field
     /**
      * Séléctionnée ?
      */
-    private $isSelected;
+    private $selected = false;
 
     /**
      * Label
@@ -29,11 +29,13 @@ class Option extends Field
         $this->parent = null;
     }
 
-    public function setParent($p)
+    public function setParent($parent)
     {
-        $this->parent = $p;
-        if ($this->isSelected)
+        $this->parent = $parent;
+
+        if ($this->selected) {
             $this->parent->setValue($this->value);
+        }
     }
 
     public function push($name, $value)

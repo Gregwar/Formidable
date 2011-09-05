@@ -10,26 +10,41 @@ namespace Gregwar\DSD\Fields;
  */
 class Options extends Field
 {
-
+    /**
+     * Nom de la source d'alimentation
+     */
     private $source;
+
+    /**
+     * Champ select correspondant
+     */
     private $parent;
+
+    /**
+     * Position des options dans le parent
+     */
+    private $position;
+
+    /**
+     * Sauvegarde les données poussées pour les répercuter plus
+     * tard sur les options
+     */
     private $pushSave = array();
-    private $pos;
 
     public function push($name, $value)
     {
-        if ($name == "source") {
+        if ($name == 'source') {
             $this->source = $value;
         } else {
-            $pushSave[] = array($name, $value);
+            $pushSave[$name] = $value;
             parent::push($name, $value);
         }
     }
 
-    public function setParent($p)
+    public function setParent($parent)
     {
-        $this->parent = $p;
-        $this->pos = $this->parent->countOptions();
+        $this->parent = $parent;
+        $this->position = $this->parent->countOptions();
     }
 
     public function check()
@@ -42,20 +57,22 @@ class Options extends Field
         return $this->source;
     }
 
-    public function source($data)
+    public function source($options)
     {
-        foreach ($data as $k => $v) {
-            if (is_object($v)) {
-                $k = $v->getKey();
-                $v = $v->getValue();
+        foreach ($options as $key => $value) {
+            if (is_object($value)) {
+                $key = $value->getKey();
+                $value = $value->getValue();
             }
-            $opt = new DSDOption();
-            foreach ($this->pushSave as $p) {
-                $opt->push($p[0], $p[1]);
+
+            $option = new Option();
+            foreach ($this->pushSave as $name => $value) {
+                $option->push($name, $value);
             }
-            $opt->push("value", $k);
-            $opt->setLabel($v);
-            $this->parent->addOption($opt, $this->pos);
+            $option->setValue($key);
+            $option->setLabel($value);
+
+            $this->parent->addOption($option, $this->position);
         }
     }
 }

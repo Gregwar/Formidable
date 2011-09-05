@@ -31,7 +31,7 @@ class Form implements \Iterator
     /**
      * Sources d'information
      */
-    private $sourcers;
+    private $sources = array();
 
     /**
      * Hash du formulaire
@@ -79,7 +79,7 @@ class Form implements \Iterator
         $parser = new Parser($this->content);
 
         $this->datas = $parser->getDatas();
-        $this->sourcers = $parser->getSourcers();
+        $this->sources = $parser->getSources();
         $this->hash = $parser->getHash();
 
         foreach ($this->datas as $field) {
@@ -243,14 +243,12 @@ class Form implements \Iterator
         return $errors;
     }
 
+    /**
+     * Sourcer un champ avec des valeurs
+     */
     public function source($source, $data)
     {
-        if (is_array($this->sourcers))
-            foreach ($this->sourcers as $s) {
-                if ($s->getSource() == $source) {
-                    $s->source($data);
-                }
-            }
+        $this->sources[$source]->source($data);
     }
 
     /**

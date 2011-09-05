@@ -41,7 +41,12 @@ class Parser
     /**
      * Sources
      */
-    private $sourcers = array();
+    private $sources = array();
+
+    /**
+     * Champs
+     */
+    private $fields = array();
 
     /**
      * Hash CSRF
@@ -63,9 +68,9 @@ class Parser
         return $this->datas;
     }
 
-    public function getSourcers()
+    public function getSources()
     {
-        return $this->sourcers;
+        return $this->sources;
     }
 
     public function getHash()
@@ -143,14 +148,14 @@ class Parser
                             if (!$this->datas[$idx-1] instanceof Fields\Select) {
                                 $this->error("Options out of select.");
                             }
-                            $this->sourcers[] = $return;
-                            $return->setParent($this->datas[$a-1]);
+                            $this->sources[$return->getSource()] = $return;
+                            $return->setParent($this->datas[$idx-1]);
                         } else {
                             if ($return instanceof Fields\Option) {
                                 $option = true;
 
                                 if (!$this->datas[$idx-1] instanceof Fields\Select) {
-                                    $this->error("Option out of select.");
+                                    $this->error('Option out of select.');
                                 } else {
                                     $this->datas[$idx-1]->addOption($return);
                                 }
@@ -169,7 +174,7 @@ class Parser
                                 if ($return instanceof Fields\Custom || 
                                     $return instanceof FIelds\MultiCheckboxField ||
                                     $return instanceof Fields\MultiradioField) {
-                                        $this->sourcers[] = $return;
+                                        $this->sourcers[$return->getSourcr()] = $return;
                                     }
                             }
                         }
