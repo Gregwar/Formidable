@@ -7,7 +7,7 @@ namespace Gregwar\DSD\Fields;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class MailField extends FIeld
+class EmailField extends FIeld
 {
     public function __construct()
     {

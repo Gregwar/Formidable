@@ -2,28 +2,31 @@
 DSD - Dual Side Definition
 ==========================
 
-DSD Is a PHP Library using pseudo-HTML metadatas to allow
-easy form processing.
+DSD est une bibliothèque PHP utilisant du code pseudo HTML 
+contenant des métadonnées pour simplifier la gestion des 
+formulaires.
 
-For instance an input written:
+Par exemple, l'input suivant :
 
 ```html
-<input type="mail" name="email" />
+<input type="mail" name="email" optional />
 ```
 
-Will be parsed by DSD and render as:
+Sera parsé et affiché comme cela :
 
 ```html
 <input type="text" name="email" />
 ```
 
-The PHP code will look like:
+Le code PHP ressemblera à :
 
-```
+```php
 <?php
-$f = new DSDForm("forms/example.html");
-if ($f->posted) {
-echo "You entered: ".htmlspecialchars($f->email);
+$form = new Gregwar\DSD\Form('forms/example.html');
+
+if ($form->posted()) {
+    echo 'Vous avez tappés : '.htmlspecialchars($f->email);
 }
+
 echo $f->getHTML();
 ```
