@@ -7,6 +7,7 @@ namespace Gregwar\DSD;
  */
 require_once(__DIR__.'/Fields/Field.php');
 require_once(__DIR__.'/Fields/Textarea.php');
+require_once(__DIR__.'/Fields/Radios.php');
 require_once(__DIR__.'/Fields/Select.php');
 require_once(__DIR__.'/Fields/Option.php');
 require_once(__DIR__.'/Fields/Options.php');
@@ -109,8 +110,9 @@ class Parser
         $balise = $textarea = $select = $option = false;
 
         for ($i=0; $i<$len; $i++) {
+            $char = $content[$i];
 
-            if ($content[$i] == "\n") {
+            if ($char == "\n") {
                 $this->currentLine++;
             }
 
@@ -119,18 +121,18 @@ class Parser
             }
 
             if (!$balise) {
-                if ($content[$i] == '<') {
+                if ($char == '<') {
                     $balise = true;
                     $buffer = '';
                 } else {
                     if ($textarea || $option) {
-                        $this->datas[$idx-1]->addValue($content[$i]);
+                        $this->datas[$idx-1]->addValue($char);
                     } else if (!$select) {
-                        $this->datas[$idx] .= $content[$i];
+                        $this->datas[$idx] .= $char;
                     }
                 }
             } else {
-                if ($content[$i] == '>') {
+                if ($char == '>') {
                     $balise = false;
                     $return = $this->parseBalise($buffer);
                     if (!is_object($return)) {
@@ -145,13 +147,13 @@ class Parser
                             $option = false;
                             break;
                         case '</form>':
-                            if (isset($_SESSION["DSDSecret"]))
-                                $secret=$_SESSION["DSDSecret"];
+                            if (isset($_SESSION['DSDSecret']))
+                                $secret=$_SESSION['DSDSecret'];
                             else {
-                                $secret=sha1(mt_rand().time().mt_rand());
-                                $_SESSION["DSDSecret"]=$secret;
+                                $secret = sha1(mt_rand().time().mt_rand());
+                                $_SESSION['DSDSecret']=$secret;
                             }
-                            $this->hash = md5($secret);
+                            $this->hash = sha1($secret);
                             $return = '<input type="hidden" name="DSDCsrf" value="'.$this->hash.'" /></form>';
                         default:
                             $this->datas[$idx] .= $return;
@@ -176,8 +178,17 @@ class Parser
                                 } else {
                                     $this->datas[$idx-1]->addOption($return);
                                 }
+                            } else if ($return instanceof Fields\RadioField) {
+                                $this->datas[] = $return;
+                                $idx += 2;
+
+                                if (!isset($this->fields[$return->getName()])) {
+                                    $this->fields[$return->getName()] = new Fields\Radios;
+                                }
+                                $this->fields[$return->getName()]->addRadio($return);
                             } else {
                                 $this->datas[] = $return;
+                                $this->fields[$return->getName()] = $return;
                                 $idx += 2;
 
                                 if ($return instanceof Fields\Textarea) {
@@ -197,7 +208,7 @@ class Parser
                         }
                     }
                 } else {
-                    $buffer .= $content[$i];
+                    $buffer .= $char;
                 }
             }
         }

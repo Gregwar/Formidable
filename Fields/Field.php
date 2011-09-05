@@ -102,6 +102,14 @@ abstract class Field
     }
 
     /**
+     * Enlever l'attribut
+     */
+    public function unsetAttribute($name)
+    {
+        unset($this->attributes[$name]);
+    }
+
+    /**
      * Fonction apellée par le dispatcher
      */
     public function push($name, $value = null)
@@ -287,25 +295,22 @@ abstract class Field
         }
     }
 
-    public function getHTMLForValue($extra, $value = '', $nameb = '')
+    public function getHTMLForValue($value = '', $nameb = '')
     {
         $html = '<input ';
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
+        $html.= 'type="'.$this->type.'" ';
         $html.= 'name="'.$this->name.$nameb.'" ';
         $html.= 'value="'.htmlspecialchars($value).'" ';
-        $html.= $extra;
         $html.= "/>\n";
 
         return $html;
     }
 
-    public function getHTML($extra = '')
+    public function getHTML()
     {
-        if ($extra != '')
-            $extra = ' '.$extra;
-
         // XXX: Utiliser un prototype
         $nameb = '';
         $rnd = md5(mt_rand(0,1000000).md5(time()).mt_rand(0,100000));
@@ -317,15 +322,15 @@ abstract class Field
             else	$value="";
         }
 
-        $code=$this->getHTMLForValue($extra, $value, $nameb);
-        $novalcode=$this->getHTMLForValue($extra, "", $nameb);
+        $code=$this->getHTMLForValue($value, $nameb);
+        $novalcode=$this->getHTMLForValue('', $nameb);
 
         $others="";
         if ($this->multiple && is_array($this->value)) {
             for ($i=1; $i<count($this->value); $i++) {
                 if (trim($this->value[$i])!="") {
                     $others.="DSD.addInput(\"$rnd\",\"";
-                    $others.=str_replace(array("\r","\n"),array("",""),addslashes($this->getHTMLForValue($extra, $this->value[$i],$nameb)));
+                    $others.=str_replace(array("\r","\n"),array("",""),addslashes($this->getHTMLForValue($this->value[$i],$nameb)));
                     $others.="\");\n";
                 }
             }
@@ -348,7 +353,7 @@ abstract class Field
         return true;
     }	
 
-    public function source() {
-        return false;
+    public function source()
+    {
     }
 }

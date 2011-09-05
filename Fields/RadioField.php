@@ -13,16 +13,6 @@ class RadioField extends Field
      */
     private $checked = false;
 
-    // XXX: c'est horrible, à modifier
-    public static $CHECKED = 0;
-    public static $NOTCHECKED = 1;
-    public static $OPTIONAL = 2;
-
-    public static function error($name)
-    {
-        return 'Vous devez cocher une des cases pour le champ '.$name;
-    }
-
     public function __construct()
     {
         $this->type = 'radio';
@@ -30,8 +20,9 @@ class RadioField extends Field
 
     public function push($name, $value)
     {
-        if ($name=='checked') {
+        if ($name == 'checked') {
             $this->checked = true;
+            $this->setAttribute('checked', 'checked');
         } else {
             parent::push($name, $value);
         }
@@ -41,8 +32,10 @@ class RadioField extends Field
     {
         if ($this->value == $val) {
             $this->checked = true;
+            $this->setAttribute('checked', 'checked');
         } else {
             $this->checked = false;
+            $this->unsetAttribute('checked');
         }
     }
 
@@ -53,19 +46,6 @@ class RadioField extends Field
 
     public function check()
     {
-        if ($this->optional)
-            return self::$OPTIONAL;
-        if ($this->checked)
-            return self::$CHECKED;
-        return self::$NOTCHECKED;
-    }
-
-    public function getHTML()
-    {
-        if ($this->checked) {
-            return self::getHTML('checked');
-        } else {
-            return self::getHTML();
-        }
+        throw new \Exception('Un champ radio ne peut pas être vérifié');
     }
 }

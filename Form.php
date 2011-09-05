@@ -79,14 +79,9 @@ class Form implements \Iterator
         $parser = new Parser($this->content);
 
         $this->datas = $parser->getDatas();
+        $this->fields = $parser->getFields();
         $this->sources = $parser->getSources();
         $this->hash = $parser->getHash();
-
-        foreach ($this->datas as $field) {
-            if (is_object($field)) {
-                $this->fields[$field->getName()] = $field;
-            }
-        }
     }
 
     /**
@@ -112,10 +107,7 @@ class Form implements \Iterator
                 if ($field instanceof Fields\FileField && isset($files[$name])) {
                     $field->setValue($files[$name]);
                 } else {
-                    if ($field instanceof Fields\CheckboxField
-                        || $field instanceof Fields\MulticheckboxField) {
-                        $field->setValue('');
-                    }
+                    $field->setValue('');
                 }
             }
         }
@@ -149,16 +141,9 @@ class Form implements \Iterator
     /**
      * Obtention de la valeur d'un champ
      */
-    public function getValue($var) {
-        foreach ($this->fields as $name => $field) {
-            if ($d instanceof Fields\RadioFIeld && $d->isChecked()==false) {
-                continue;
-            }
-            if ($field_name === $name) {
-                return $d->getValue();
-            }
-        }
-        return null;
+    public function getValue($var)
+    {
+        return $this->fields[$name]->getValue();
     }
 
     /**
@@ -214,29 +199,10 @@ class Form implements \Iterator
         foreach ($this->fields as $name => $field) {
             if (!count($to_check) || isset($to_check[$name])) {
                 $error = $field->check();
-
-                // XXX: Le cas particulier des radio devrait être géré ailleurs qu'ici..
-                if ($field instanceof Fields\RadioField) {
-                    if ($error == Fields\RadioField::$OPTIONAL)
-                        $radios[$name] = true;
-                    else {
-                        if (!isset($radios[$name]) || $radios[$name] == false) {
-                            if ($r == Fields\RadioField::$CHECKED)
-                                $radios[$name] = true;
-                            else
-                                $radios[$name] = false;
-                        }
-                    }
-                } else {
-                    if ($error) {
-                        $errors[] = new Error($field->getName(), $error);
-                    }
+                
+                if ($error) {
+                     $errors[] = new Error($field, $error);
                 }
-            }
-        }
-        foreach ($radios as $name => $val) {
-            if ($val == false) {
-                $errors[] = new Error($name, Fields\RadioField::error($name));
             }
         }
 
@@ -263,17 +229,7 @@ class Form implements \Iterator
             $sql = $field->getSQLName();
 
             if ($sql) {
-                if ($field instanceof Fields\MulticheckboxField)
-                    continue;
-
-                if ($field instanceof Fields\RadioField || $field->isChecked()==true) {
-                    $table->$sql = $field->getValue();
-                    if ($field instanceof Fields\CheckboxField) {
-                        if ($field->isChecked()) {
-                            $table->$sql = $d->getValue();
-                        } else $table->$sql = 0;
-                    }						
-                }
+                $table->$sql = $field->getValue();
             }
         }
         return $table;

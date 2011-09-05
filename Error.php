@@ -10,23 +10,23 @@ namespace Gregwar\DSD;
 class Error
 {
     /**
-     * Nom du champ concerné
+     * Champ correspondant
      */
-    public $name;
+    private $field;
 
     /**
      * Message de l'erreur
      */
-	public $message;
+    private $message;
 
-    public function __construct($name, $message)
+    public function __construct($field, $message)
     {
-		$this->name = $name;
-		$this->message = $message;
-	}
+        $this->field = $field;
+        $this->message = $message;
+    }
 
     public function __toString()
     {
-		return $this->message;
-	}
+        return $this->message;
+    }
 }
