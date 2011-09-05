@@ -141,7 +141,7 @@ class Form implements \Iterator
     /**
      * Obtention de la valeur d'un champ
      */
-    public function getValue($var)
+    public function getValue($name)
     {
         return $this->fields[$name]->getValue();
     }
@@ -238,9 +238,9 @@ class Form implements \Iterator
     /**
      * Obtention de la valeur d'un champ
      */
-    public function __get($field_name)
+    public function __get($name)
     {
-        return $this->getValue($var);
+        return $this->getValue($name);
     }
 
     /**

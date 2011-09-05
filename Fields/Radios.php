@@ -29,9 +29,12 @@ class Radios extends Field
         $this->value = $value;
 
         foreach ($this->radios as $radio) {
-            $radio->setValue($value);
-            if ($radio->getValue() == $value)
+            if ($radio->getValue() == $value) {
                 $this->value_set = true;
+                $radio->setChecked(true);
+            } else {
+                $radio->setChecked(false);
+            }
         }
     }
 
@@ -42,7 +45,6 @@ class Radios extends Field
 
     public function check()
     {
-        echo "Check!";
         if (!$this->optional && !$this->value_set) {
             return 'Vous devez cocher une case pour '.$this->radios[0]->printName();
         }

@@ -295,7 +295,7 @@ abstract class Field
         }
     }
 
-    public function getHTMLForValue($value = '', $nameb = '')
+    public function getHTMLForValue($given_value = '', $nameb = '')
     {
         $html = '<input ';
         foreach ($this->attributes as $name => $value) {
@@ -303,7 +303,7 @@ abstract class Field
         }
         $html.= 'type="'.$this->type.'" ';
         $html.= 'name="'.$this->name.$nameb.'" ';
-        $html.= 'value="'.htmlspecialchars($value).'" ';
+        $html.= 'value="'.htmlspecialchars($given_value).'" ';
         $html.= "/>\n";
 
         return $html;
@@ -348,12 +348,12 @@ abstract class Field
         return '';
     }
 
-    public function isChecked()
-    {
-        return true;
-    }	
-
     public function source()
     {
+    }
+
+    public function needJS()
+    {
+        return $this->multiple;
     }
 }

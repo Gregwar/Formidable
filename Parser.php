@@ -104,6 +104,7 @@ class Parser
     private function parse($content)
     {
         $buffer = '';
+        $need_js = false;
         $idx = 0;
         $len = strlen($content);
 
@@ -154,7 +155,12 @@ class Parser
                                 $_SESSION['DSDSecret']=$secret;
                             }
                             $this->hash = sha1($secret);
+
                             $return = '<input type="hidden" name="DSDCsrf" value="'.$this->hash.'" /></form>';
+
+                            if ($need_js) {
+                                $return.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/dsd.js').'</script>';
+                            }
                         default:
                             $this->datas[$idx] .= $return;
                         }
@@ -163,6 +169,7 @@ class Parser
                             $this->datas[$idx-1]->addValue($return);
                         }
                     } else {
+                        $need_js =  $need_js || $return->needJS();
                         if ($return instanceof Fields\Options) {
                             if (!$this->datas[$idx-1] instanceof Fields\Select) {
                                 $this->error("Options out of select.");

@@ -28,15 +28,14 @@ class RadioField extends Field
         }
     }
 
-    public function setValue($val)
+    public function setChecked($checked)
     {
-        if ($this->value == $val) {
-            $this->checked = true;
+        if ($checked) {
             $this->setAttribute('checked', 'checked');
         } else {
-            $this->checked = false;
             $this->unsetAttribute('checked');
         }
+        $this->checked = $checked;
     }
 
     public function isChecked()
