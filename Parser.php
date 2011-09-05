@@ -63,16 +63,33 @@ class Parser
         $this->parse($content);
     }
 
+    /**
+     * Composants du formulaire
+     */
     public function getDatas()
     {
         return $this->datas;
     }
 
+    /**
+     * Champs, mappés par leur nom
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Sources
+     */
     public function getSources()
     {
         return $this->sources;
     }
 
+    /**
+     * Le hash CSRF
+     */
     public function getHash()
     {
         return $this->hash;
@@ -174,7 +191,7 @@ class Parser
                                 if ($return instanceof Fields\Custom || 
                                     $return instanceof FIelds\MultiCheckboxField ||
                                     $return instanceof Fields\MultiradioField) {
-                                        $this->sourcers[$return->getSourcr()] = $return;
+                                        $this->sourcers[$return->getSource()] = $return;
                                     }
                             }
                         }

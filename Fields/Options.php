@@ -4,7 +4,6 @@ namespace Gregwar\DSD\Fields;
 
 /**
  * Des options sourcées
- * XXX: à réécrire pour créer un select et y injecter des options
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
