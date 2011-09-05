@@ -55,6 +55,11 @@ class Parser
     private $hash = '';
 
     /**
+     * Besoin de JS ?
+     */
+    private $needJs = false;
+
+    /**
      * Ligne du fichier courante
      */
     private $currentLine = 1;
@@ -97,6 +102,14 @@ class Parser
     }
 
     /**
+     * Besoin de JS ?
+     */
+    public function needJs()
+    {
+        return $this->needJs;
+    }
+
+    /**
      * Parse le formulaire et construit les objets DSD
      *
      * @param string $content le contenu du code du formulaire
@@ -104,7 +117,6 @@ class Parser
     private function parse($content)
     {
         $buffer = '';
-        $need_js = false;
         $idx = 0;
         $len = strlen($content);
 
@@ -157,10 +169,6 @@ class Parser
                             $this->hash = sha1($secret);
 
                             $return = '<input type="hidden" name="DSDCsrf" value="'.$this->hash.'" /></form>';
-
-                            if ($need_js) {
-                                $return.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/dsd.js').'</script>';
-                            }
                         default:
                             $this->datas[$idx] .= $return;
                         }
@@ -169,7 +177,7 @@ class Parser
                             $this->datas[$idx-1]->addValue($return);
                         }
                     } else {
-                        $need_js =  $need_js || $return->needJS();
+                        $this->needJs = $this->needJs || $return->needJs();
                         if ($return instanceof Fields\Options) {
                             if (!$this->datas[$idx-1] instanceof Fields\Select) {
                                 $this->error("Options out of select.");

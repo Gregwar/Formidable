@@ -295,14 +295,14 @@ abstract class Field
         }
     }
 
-    public function getHTMLForValue($given_value = '', $nameb = '')
+    public function getHTMLForValue($given_value = '', $name_suffix = '')
     {
         $html = '<input ';
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
         $html.= 'type="'.$this->type.'" ';
-        $html.= 'name="'.$this->name.$nameb.'" ';
+        $html.= 'name="'.$this->name.$name_suffix.'" ';
         $html.= 'value="'.htmlspecialchars($given_value).'" ';
         $html.= "/>\n";
 
@@ -311,36 +311,34 @@ abstract class Field
 
     public function getHTML()
     {
-        // XXX: Utiliser un prototype
-        $nameb = '';
-        $rnd = md5(mt_rand(0,1000000).md5(time()).mt_rand(0,100000));
-        $value = $this->value;
-        if ($this->multiple) {
-            $nameb="[0]";
-            if (is_array($this->value) && isset($this->value[0]))
-                $value=$this->value[0];
-            else	$value="";
-        }
+        if (!$this->multiple) {
+            return $this->getHTMLForValue($this->value);
+        } else {
+            $rnd = sha1(mt_rand().time().mt_rand());
 
-        $code=$this->getHTMLForValue($value, $nameb);
-        $novalcode=$this->getHTMLForValue('', $nameb);
+            if (!is_array($this->value) || !$this->value) {
+                $this->value = array('');
+            }
 
-        $others="";
-        if ($this->multiple && is_array($this->value)) {
-            for ($i=1; $i<count($this->value); $i++) {
-                if (trim($this->value[$i])!="") {
+            $others = '';
+            if ($this->multiple && is_array($this->value)) {
+                foreach ($this->value as $id => $value) {
                     $others.="DSD.addInput(\"$rnd\",\"";
-                    $others.=str_replace(array("\r","\n"),array("",""),addslashes($this->getHTMLForValue($this->value[$i],$nameb)));
+                    $others.=str_replace(
+                        array("\r", "\n"), array('', ''),
+                        addslashes($this->getHTMLForValue($value, '['.$id.']'))
+                    );
                     $others.="\");\n";
                 }
-            }
+            } 
+
+            $prototype = $this->getHTMLForValue('', '[]');
+            $html= '<span id="'.$rnd.'"></span>';
+            $html.= '<script type="text/javascript">'.$others.'</script><br/>';
+            $html.= "<a href=\"javascript:DSD.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">Ajouter</a>";
+
+            return $html;
         }
-        if ($this->multiple) {
-            $html="<br /><span id=\"$rnd\"><span name=\"add\"></span></span><script type=\"text/javascript\">$others</script>";
-            $html.="<a href=\"javascript:DSD.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($novalcode))."');".$this->multipleChange."\">Ajouter</a>";
-            $html=$code.$html;
-        } else $html=$code;
-        return $html;
     }
 
     public function getSource()
@@ -352,7 +350,7 @@ abstract class Field
     {
     }
 
-    public function needJS()
+    public function needJs()
     {
         return $this->multiple;
     }

@@ -44,6 +44,11 @@ class Form implements \Iterator
     private $position;
 
     /**
+     * Besoin de Js ?
+     */
+    private $needJs = false;
+
+    /**
      * Chemin du fichier
      */
     private $path;
@@ -82,6 +87,7 @@ class Form implements \Iterator
         $this->fields = $parser->getFields();
         $this->sources = $parser->getSources();
         $this->hash = $parser->getHash();
+        $this->needJs = $parser->needJs();
     }
 
     /**
@@ -175,6 +181,10 @@ class Form implements \Iterator
      */
     public function getHTML() {
         $html = '';
+
+        if ($this->needJs) {
+            $html.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/dsd.js').'</script>';
+        }
 
         foreach ($this->datas as $d) {
             if (is_string($d)) {
