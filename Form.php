@@ -122,18 +122,18 @@ class Form implements \Iterator
     /**
      * Définir les valeurs par noms du mapping
      */
-    public function setMappingValues($entity)
+    public function setDatas($entity)
     {
-        foreach ($this->datas as $field) {
+        foreach ($this->fields as $field) {
             if (is_object($field)) {
-                if ($mapping = $field->geMappingName()) {
+                if ($mapping = $field->getMappingName()) {
                     if (is_array($entity)) {
                         if (isset($entity[$mapping])) {
-                            $field->setValue($table[$mapping], 1);
+                            $field->setValue($entity[$mapping], 1);
                         }
                     } else {
                         if (isset($entity->$mapping)) {
-                            $field->setValue($table->$mapping, 1);
+                            $field->setValue($entity->$mapping, 1);
                         }
                     }
                 }
@@ -235,12 +235,16 @@ class Form implements \Iterator
     /**
      * Transformation des données en un objet
      */
-    public function entity($tableOrEntity)
+    public function getDatas($tableOrEntity = null)
     {
-        if (gettype($table) == 'string') {
+        if (gettype($tableOrEntity) == 'string') {
             $entity = new Entity($tableOrEntity);
         } else {
-            $entity = $tableOrEntity;
+            if (null !== $tableOrEntity) {
+                $entity = $tableOrEntity;
+            } else {
+                $entity = array();
+            }
         }
 
         foreach ($this->fields as $name => $field) {

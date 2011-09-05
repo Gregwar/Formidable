@@ -22,6 +22,9 @@ class Radios extends Field
     public function addRadio(RadioField $radio)
     {
         $this->radios[] = $radio;
+
+        if ($radio->getMappingName())
+            $this->mapping = $radio->getMappingName();
     }
 
     public function setValue($value)
