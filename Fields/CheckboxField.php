@@ -2,54 +2,53 @@
 
 namespace Gregwar\DSD\Fields;
 
+/**
+ * Champ de type checkbox
+ *
+ * @author Grégoire Passault <g.passault@gmail.com>
+ */
 class CheckboxField extends Field
 {
-	private $checked;
-	
+    /**
+     * La case est t-elle cochée ?
+     */
+    private $checked = false;
+
     public function __construct()
     {
-		$this->type = "checkbox";
-		$this->checked = false;
-	}
+        $this->type = 'checkbox';
+    }
 
     public function push($name, $value)
     {
-		if ($name=="checked" && $value==null) {
-			$this->checked = true;
-		} else {
-			parent::push($name, $value);
-		}
-	}
+        if ($name === 'checked' && $value==null) {
+            $this->checked = true;
+        } else {
+            parent::push($name, $value);
+        }
+    }
 
-    public function setValue($val)
+    public function setValue($value)
     {
-		if ($val!="" && $val!=="0") {
-			$this->checked = true;
-		} else {
-			$this->checked = false;
-		}
-	}
+        $this->checked = ($value !== '' && $value !== '0');
+    }
 
     public function getValue()
     {
-		if ($this->checked) {
-			return $this->value;
-		} else {
-			return '';
-		}
-	}
+        return $this->checked ? $this->value : '';
+    }
 
     public function check()
     {
-		return;
-	}
+        return;
+    }
 
     public function getHTML()
     {
-		if ($this->checked) {
-			return parent::getHTML('checked');
-		} else {
-			return parent::getHTML();
-		}
-	}
+        if ($this->checked) {
+            return parent::getHTML('checked');
+        } else {
+            return parent::getHTML();
+        }
+    }
 }

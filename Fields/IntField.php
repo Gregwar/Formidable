@@ -2,21 +2,34 @@
 
 namespace Gregwar\DSD\Fields;
 
-class IntField extends NumberField {
-	public function check() {
-		if ($this->optional && !$this->value)
-			return;
+/**
+ * Entier
+ *
+ * @author Grégoire Passault <g.passault@gmail.com>
+ */
+class IntField extends NumberField
+{
+    public function __construct()
+    {
+        $this->type = 'text';
+    }
 
-		$err=parent::check();
-		if ($err)
-			return $err;
-		if ($this->multiple && is_array($this->value))
-			return;
-		
-		if ((int)($this->value) != $this->value)
-			return "Le champ ".$this->printName()." doit être un entier";
+    public function check()
+    {
+        if ($this->optional && !$this->value)
+            return;
 
-		return;
-	}
+        $error = parent::check();
+        if ($error)
+            return $error;
+
+        if ($this->multiple && is_array($this->value))
+            return;
+
+        if ((int)($this->value) != $this->value)
+            return 'Le champ '.$this->printName().' doit être un entier';
+
+        return;
+    }
 }
-?>
+

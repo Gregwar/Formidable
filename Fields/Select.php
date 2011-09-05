@@ -2,6 +2,11 @@
 
 namespace Gregwar\DSD\Fields;
 
+/**
+ * Une ComboBox
+ *
+ * @author Grégoire Passault <g.passault@gmail.com>
+ */
 class Select extends Field
 {
     /**
@@ -49,16 +54,18 @@ class Select extends Field
 
     public function getHTML()
     {
-        $s = "<select class=\"".$this->class."\" name=\"".$this->name."\"".$this->HTML.">\n";
-        if (count($this->options) !=0) {
-            foreach ($this->options as $opt) {
-                if ($opt->getValue() == $this->value)
-                    $s .= $opt->getHTML(true);
-                else
-                    $s .= $opt->getHTML(false);
-            }
+        $html = '<select class="'.$this->class.'" name="'.$this->name.'" ';
+        foreach ($this->attributes as $name => $value) {
+            $html.= $name.'="'.$value.'" ';
         }
-        $s .= "</select>\n";
-        return $s;
+        $html.= ">\n";
+        foreach ($this->options as $option) {
+            if ($option->getValue() == $this->value)
+                $html .= $option->getHTML(true);
+            else
+                $html .= $option->getHTML(false);
+        }
+        $html .= "</select>\n";
+        return $html;
     }
 }

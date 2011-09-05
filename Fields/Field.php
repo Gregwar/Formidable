@@ -4,6 +4,8 @@ namespace Gregwar\DSD\Fields;
 
 /**
  * Classe parente des champs
+ *
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 abstract class Field
 {
