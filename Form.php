@@ -2,9 +2,9 @@
 
 namespace Gregwar\DSD;
 
-require_once('Parser.php');
-require_once('Entity.php');
-require_once('Error.php');
+require_once(__DIR__.'/Parser.php');
+require_once(__DIR__.'/Entity.php');
+require_once(__DIR__.'/Error.php');
 
 /**
  * Classe principale de DSD
