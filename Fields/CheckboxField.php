@@ -14,6 +14,11 @@ class CheckboxField extends Field
      */
     private $checked = false;
 
+    /**
+     * Valeur pour la checker
+     */
+    private $checkedValue = '1';
+
     public function __construct()
     {
         $this->type = 'checkbox';
@@ -23,6 +28,9 @@ class CheckboxField extends Field
     {
         if ($name === 'checked' && $value==null) {
             $this->checked = true;
+        } elseif ($name === 'value') {
+            $this->checkedValue = $value;
+            $this->setAttribute('value', $value);
         } else {
             parent::push($name, $value);
         }
@@ -30,12 +38,12 @@ class CheckboxField extends Field
 
     public function setValue($value)
     {
-        $this->checked = ($value !== '' && $value !== '0');
+        $this->checked = ($value == $this->checkedValue);
     }
 
     public function getValue()
     {
-        return $this->checked ? $this->value : '';
+        return $this->checked ? $this->checkedValue : '';
     }
 
     public function check()
@@ -45,10 +53,12 @@ class CheckboxField extends Field
 
     public function getHTML()
     {
+        $this->unsetAttribute('checked');
+
         if ($this->checked) {
-            return parent::getHTML('checked');
-        } else {
-            return parent::getHTML();
+            $this->setAttribute('checked', 'checked');
         }
+
+        return parent::getHTML();
     }
 }
