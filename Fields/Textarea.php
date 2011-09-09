@@ -3,9 +3,9 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Représente une balise <textarea>
+ * ReprÃ©sente une balise <textarea>
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class Textarea extends Field
 {

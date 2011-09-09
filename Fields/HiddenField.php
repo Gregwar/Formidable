@@ -3,9 +3,9 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Champs caché
+ * Champs cachÃ©
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class HiddenField extends Field
 {

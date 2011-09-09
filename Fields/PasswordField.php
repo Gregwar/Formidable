@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Une mot de passe
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class PasswordField extends Field
 {

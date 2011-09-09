@@ -5,12 +5,12 @@ namespace Gregwar\DSD\Fields;
 /**
  * Champ de type checkbox
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class CheckboxField extends Field
 {
     /**
-     * La case est t-elle cochée ?
+     * La case est t-elle cochÃ©e ?
      */
     private $checked = false;
 

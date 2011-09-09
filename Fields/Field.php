@@ -5,12 +5,12 @@ namespace Gregwar\DSD\Fields;
 /**
  * Classe parente des champs
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 abstract class Field
 {
     /**
-     * Type du champ (à placer dans le type="")
+     * Type du champ (Ã  placer dans le type="")
      */
     protected $type = 'text';
 
@@ -20,12 +20,12 @@ abstract class Field
     protected $name;
 
     /**
-     * Code HTML supplémentaire
+     * Code HTML supplÃ©mentaire
      */
     protected $attributes = array();
 
     /**
-     * Une value a t-elle été fournie ?
+     * Une value a t-elle Ã©tÃ© fournie ?
      */
     protected $value = false;
 
@@ -35,12 +35,12 @@ abstract class Field
     protected $optional = false;
 
     /**
-     * Expression régulière à respecter
+     * Expression rÃ©guliÃ¨re Ã  respecter
      */
     protected $regex;
 
     /**
-     * Dimensions à respecter
+     * Dimensions Ã  respecter
      */
     protected $minlength;
     protected $maxlength;
@@ -56,7 +56,7 @@ abstract class Field
     protected $readonly = false;
 
     /**
-     * La valeur a t-elle changé ?
+     * La valeur a t-elle changÃ© ?
      */
     protected $valuechanged = false;
 
@@ -73,12 +73,12 @@ abstract class Field
     protected $notin = '';
 
     /**
-     * Donnée de mapping pour l'entité
+     * DonnÃ©e de mapping pour l'entitÃ©
      */
     protected $mapping;
 
     /**
-     * Définir un attribut
+     * DÃ©finir un attribut
      */
     public function setAttribute($name, $value)
     {
@@ -114,7 +114,7 @@ abstract class Field
     }
 
     /**
-     * Fonction apellée par le dispatcher
+     * Fonction apellÃ©e par le dispatcher
      */
     public function push($name, $value = null)
     {
@@ -227,7 +227,7 @@ abstract class Field
             if ($this->minlength && strlen($this->value)<$this->minlength)
                 return 'Le champ '.$this->printName().' doit faire au moins '.$this->minlength.' caracteres.';
             if ($this->maxlength && strlen($this->value)>$this->maxlength)
-                return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->maxlength.' caracteres.';
+                return 'Le champ '.$this->printName().' ne doit pas dÃ©passer '.$this->maxlength.' caracteres.';
 
             $err = $this->inNotIn();
             if ($err)
@@ -239,15 +239,15 @@ abstract class Field
     {
         if ($this->in) {
             if ($this->checkInQuery($this->in)==0)
-                return "La valeur du champ ".$this->printName()." doit être présent dans la base";
+                return "La valeur du champ ".$this->printName()." doit Ãªtre prÃ©sent dans la base";
         }
         if ($this->notin) {
             if ($this->checkInQuery($this->notin)!=0)
-                return "La valeur du champ ".$this->printName()." doit pas déja être présent dans la base";
+                return "La valeur du champ ".$this->printName()." doit pas dÃ©ja Ãªtre prÃ©sent dans la base";
         }
     }
 
-    //XXX: très sale...
+    //XXX: trÃ¨s sale...
     function checkInQuery($v)
     {
         $field = $this->name;
@@ -284,7 +284,7 @@ abstract class Field
     }
 
     /**
-     * Définition de la valeur
+     * DÃ©finition de la valeur
      */
     public function setValue($val, $default = 0)
     {
@@ -310,6 +310,9 @@ abstract class Field
         $html = '<input ';
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
+        }
+        if (!$this->optional) {
+            $html.= 'required="required" ';
         }
         $html.= 'type="'.$this->type.'" ';
         $html.= 'name="'.$this->name.$name_suffix.'" ';

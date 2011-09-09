@@ -3,9 +3,9 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Des options sourcées
+ * Des options sourcÃ©es
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class Options extends Field
 {
@@ -25,7 +25,7 @@ class Options extends Field
     private $position;
 
     /**
-     * Sauvegarde les données poussées pour les répercuter plus
+     * Sauvegarde les donnÃ©es poussÃ©es pour les rÃ©percuter plus
      * tard sur les options
      */
     private $pushSave = array();

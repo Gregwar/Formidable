@@ -4,12 +4,12 @@ namespace Gregwar\DSD\Fields;
 /**
  * Un champ radio
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class RadioField extends Field
 {
     /**
-     * La case est t-elle cochée ?
+     * La case est t-elle cochÃ©e ?
      */
     private $checked = false;
 
@@ -45,6 +45,6 @@ class RadioField extends Field
 
     public function check()
     {
-        throw new \Exception('Un champ radio ne peut pas être vérifié');
+        throw new \Exception('Un champ radio ne peut pas Ãªtre vÃ©rifiÃ©');
     }
 }

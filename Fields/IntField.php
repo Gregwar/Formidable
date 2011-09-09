@@ -7,7 +7,7 @@ require_once(__DIR__.'/NumberField.php');
 /**
  * Entier
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class IntField extends NumberField
 {
@@ -29,7 +29,7 @@ class IntField extends NumberField
             return;
 
         if ((int)($this->value) != $this->value)
-            return 'Le champ '.$this->printName().' doit être un entier';
+            return 'Le champ '.$this->printName().' doit Ãªtre un entier';
 
         return;
     }

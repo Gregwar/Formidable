@@ -5,12 +5,12 @@ namespace Gregwar\DSD\Fields;
 /**
  * Champ de type custom
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class FileField extends Field
 {
     /**
-     * Données du fichier
+     * DonnÃ©es du fichier
      */
     private $datas = null;
 
@@ -25,7 +25,7 @@ class FileField extends Field
     private $filetype = null;
 
     /**
-     * Utilisé pour les limitations de dimensions
+     * UtilisÃ© pour les limitations de dimensions
      */
     private $image = null;
 
@@ -61,15 +61,15 @@ class FileField extends Field
     {
         if ($this->hasData()) {
             if (null !== $this->maxsize && $this->datas["size"] > $this->maxsize) {
-                return 'La taille du fichier envoyé pour le champ '.$this->printName().
-                       ' ne doit pas excéder '.$this->sizePrettyize($this->maxsize);
+                return 'La taille du fichier envoyÃ© pour le champ '.$this->printName().
+                       ' ne doit pas excÃ©der '.$this->sizePrettyize($this->maxsize);
             }
             if (null !== $this->filetype) {
                 switch ($this->filetype) {
                 case 'image':
                     $size = @getimagesize($this->datas['tmp_name']);
                     if (!$size || !$size[0] || !$size[1]) {
-                        return 'Le fichier fourni dans le champ '.$this->printName().' doit être une image (JPEG, GIF, PNG...)';
+                        return 'Le fichier fourni dans le champ '.$this->printName().' doit Ãªtre une image (JPEG, GIF, PNG...)';
                     }
                 default:
                     break;

@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Une option
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class Option extends Field
 {
@@ -15,7 +15,7 @@ class Option extends Field
     private $parent;
 
     /**
-     * Séléctionnée ?
+     * SÃ©lÃ©ctionnÃ©e ?
      */
     private $selected = false;
 

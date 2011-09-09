@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Nombre
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class NumberField extends Field 
 {
@@ -51,15 +51,15 @@ class NumberField extends Field
             return;
 
         if (!is_numeric($this->value)) {
-            return 'Le champ '.$this->printName().' doit être un nombre';
+            return 'Le champ '.$this->printName().' doit Ãªtre un nombre';
         }
         if ($this->min !== null) {
             if ($this->value < $this->min)
-                return 'Le champ '.$this->printName().' doit être au moins égal à '.$this->min;
+                return 'Le champ '.$this->printName().' doit Ãªtre au moins Ã©gal Ã  '.$this->min;
         }
         if ($this->max !== null) {
             if ($this->value > $this->max) {
-                return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->max;
+                return 'Le champ '.$this->printName().' ne doit pas dÃ©passer '.$this->max;
             }
         }
     }

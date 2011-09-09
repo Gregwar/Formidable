@@ -9,7 +9,7 @@ use Gregwar\DSD\Captcha\Captcha;
 /**
  * Champ de type CAPTCHA
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class CaptchaField extends Field
 {
@@ -22,7 +22,7 @@ class CaptchaField extends Field
     }
 
     /**
-     * Génère la valeur du CAPTCHA
+     * GÃ©nÃ¨re la valeur du CAPTCHA
      */
     private function generate()
     {

@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Une ComboBox
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class Select extends Field
 {

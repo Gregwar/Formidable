@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Adresse e-mail
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class EmailField extends Field
 {
@@ -24,7 +24,7 @@ class EmailField extends Field
             return $error;
 
         if (!($this->multiple && is_array($this->value)) && !filter_var($this->value, FILTER_VALIDATE_EMAIL)) {
-            return 'Le champ '.$this->printName().' doit être une adresse e-mail valide';
+            return 'Le champ '.$this->printName().' doit Ãªtre une adresse e-mail valide';
         }
         return;
     }	

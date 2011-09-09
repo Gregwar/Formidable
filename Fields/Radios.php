@@ -3,9 +3,9 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Gestion d'un groupe de radios du même nom
+ * Gestion d'un groupe de radios du mÃªme nom
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class Radios extends Field
 {

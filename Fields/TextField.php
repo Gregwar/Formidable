@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Champ text
  *
- * @author Grégoire Passault <g.passault@gmail.com>
+ * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class TextField extends Field
 {
