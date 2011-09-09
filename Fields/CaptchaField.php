@@ -9,7 +9,7 @@ use Gregwar\DSD\Captcha\Captcha;
 /**
  * Champ de type CAPTCHA
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class CaptchaField extends Field
 {
@@ -18,11 +18,10 @@ class CaptchaField extends Field
     public function __construct()
     {
         $this->type = 'text';
-        $this->generate();
     }
 
     /**
-     * GÃ©nÃ¨re la valeur du CAPTCHA
+     * Génère la valeur du CAPTCHA
      */
     private function generate()
     {
@@ -38,7 +37,6 @@ class CaptchaField extends Field
     public function check()
     {
         $this->value = strtolower($this->value);
-        $this->value = strtr($this->value, 'lo', '10');
 
         if (!isset($_SESSION['DSD_Captcha']) || $_SESSION['DSD_Captcha']!=$this->value) {
             return 'La valeur du code visuel n\'est pas la bonne';
@@ -48,6 +46,7 @@ class CaptchaField extends Field
 
     public function getHTML()
     {
+        $this->generate();
         $temp = $this->value;
         $this->value = '';
         $input_html = parent::getHTML();

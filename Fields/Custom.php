@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Champ de type custom
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Custom extends Field
 {

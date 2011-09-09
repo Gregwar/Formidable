@@ -2,11 +2,17 @@
 session_start(); // required for CSRF
 include(__DIR__.'/../Form.php');
 
+include('person.php');
+
 $form = new Gregwar\DSD\Form('forms/demoform.html');
 $errors = array();
 
 if ($form->posted()) {
     $errors = $form->check();
+    if (!$errors) {
+        $person = $form->getDatas(new Person);
+        var_dump($person);
+    }
 }
 
 ?>
