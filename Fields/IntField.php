@@ -2,6 +2,8 @@
 
 namespace Gregwar\DSD\Fields;
 
+require_once(__DIR__.'/NumberField.php');
+
 /**
  * Entier
  *
