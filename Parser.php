@@ -5,6 +5,7 @@ namespace Gregwar\DSD;
 /**
  * Inclusion des types
  */
+require_once(__DIR__.'/Head.php');
 require_once(__DIR__.'/Fields/Field.php');
 require_once(__DIR__.'/Fields/Textarea.php');
 require_once(__DIR__.'/Fields/Radios.php');
@@ -60,7 +61,12 @@ class Parser
     private $needJs = false;
 
     /**
-     * Ligne du fichier courante
+     * En-tête du formulaire
+     */
+    private $head = null;
+
+    /**
+     * Ligne du fichier en cours de lecture
      */
     private $currentLine = 1;
 
@@ -99,6 +105,14 @@ class Parser
     public function getHash()
     {
         return $this->hash;
+    }
+
+    /**
+     * Obtenir l'en-tête
+     */
+    public function getHead()
+    {
+        return $this->head;
     }
 
     /**
@@ -203,8 +217,16 @@ class Parser
                                 $this->fields[$return->getName()]->addRadio($return);
                             } else {
                                 $this->datas[] = $return;
-                                $this->fields[$return->getName()] = $return;
+                                if ($return instanceof Head) {
+                                    $this->head = $return;
+                                } else {
+                                    $this->fields[$return->getName()] = $return;
+                                }
                                 $idx += 2;
+
+                                if ($return instanceof Fields\FileField && $this->head) {
+                                    $this->head->set('enctype', 'multipart/form-data');
+                                }
 
                                 if ($return instanceof Fields\Textarea) {
                                     $textarea = true;
@@ -263,20 +285,23 @@ class Parser
                 $field = new $classname;
             }
             break;
+        case 'form':
+            $field = new Head;
+            break;
         case 'textarea':
-            $field=(new Fields\Textarea($data));
+            $field = new Fields\Textarea;
             break;
         case 'select':
-            $field=(new Fields\Select($data));
+            $field = new Fields\Select;
             break;
         case 'option':
-            $field=(new Fields\Option($data));
+            $field = new Fields\Option;
             break;
         case 'options':
-            $field=(new Fields\Options($data));
+            $field=new Fields\Options;
             break;
         case 'custom':
-            $field = (new FIelds\Custom($data));
+            $field = new FIelds\Custom;
             break;
         case '/textarea':
             return '</textarea>';

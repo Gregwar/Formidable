@@ -44,6 +44,11 @@ class Form implements \Iterator
     private $position;
 
     /**
+     * En-tête
+     */
+    private $head = null;
+
+    /**
      * Besoin de Js ?
      */
     private $needJs = false;
@@ -88,6 +93,7 @@ class Form implements \Iterator
         $this->sources = $parser->getSources();
         $this->hash = $parser->getHash();
         $this->needJs = $parser->needJs();
+        $this->head = $parser->getHead();
     }
 
     /**
