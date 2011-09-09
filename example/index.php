@@ -20,7 +20,7 @@ if ($form->posted()) {
         <h1>DSD Demo</h1>
         <?php if ($errors) { ?>
             <div style="color:red">
-                <h2>Error in validation</h1>
+                <h2>Erreurs de validation</h1>
                 <ul>
                 <?php foreach ($errors as $error) { ?>
                     <li><?php echo $error; ?></li>
