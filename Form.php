@@ -287,7 +287,7 @@ class Form implements \Iterator
      */
     public function posted()
     {
-        if (isset($_POST['DSDCsrf']) && $_POST['DSDCsrf'] == $this->hash) {
+        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->hash) {
             $this->setValues($_POST, $_FILES);
             return true;
         } else {
