@@ -119,6 +119,8 @@ abstract class Field
     public function push($name, $value = null)
     {
         switch ($name) {
+        case 'required':
+            break;
         case 'class':
             $this->attributes['class'] = $value;
             break;
