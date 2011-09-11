@@ -7,8 +7,13 @@ include('person.php');
 $form = new Gregwar\DSD\Form('forms/demoform.html');
 $errors = array();
 
+$form->source('series', array(
+    'Dr. House', '24', 'How I met your mother'
+));
+
 if ($form->posted()) {
     $errors = $form->check();
+    var_dump($form->series);
     if (!$errors) {
         $person = $form->getDatas(new Person);
         var_dump($person);

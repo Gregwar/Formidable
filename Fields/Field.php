@@ -25,7 +25,7 @@ abstract class Field
     protected $attributes = array();
 
     /**
-     * Une value a t-elle été fournie ?
+     * Valeur du champ
      */
     protected $value = false;
 
@@ -199,10 +199,10 @@ abstract class Field
 
         if ($this->multiple && is_array($this->value)) {
             $tmp = $this->value;
-            $nodata=true;
+            $nodata = true;
             foreach ($tmp as $val) {
-                if ($val!="")
-                    $nodata=false;
+                if ($val)
+                    $nodata = false;
                 $this->value = $val;
                 $err = $this->check();
                 if ($err) {
@@ -215,7 +215,7 @@ abstract class Field
             $this->value = $tmp;
             return;
         }
-        if ($this->value===false || (is_string($this->value) && $this->value=="")) {
+        if ($this->value === null || (is_string($this->value) && $this->value=="")) {
             if ($this->optional || $this->multiple)
                 return;
             else {

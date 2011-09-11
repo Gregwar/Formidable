@@ -240,7 +240,7 @@ class Parser
                                     $return instanceof FIelds\MulticheckboxField ||
                                     $return instanceof Fields\MultiradioField) {
                                         $this->sources[$return->getSource()] = $return;
-                                    }
+                                }
                             }
                         }
                     }
