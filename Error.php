@@ -29,4 +29,12 @@ class Error
     {
         return $this->message;
     }
+
+    /**
+     * Obtenir le champs
+     */
+    public function getField()
+    {
+        return $this->field;
+    }
 }
