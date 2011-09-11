@@ -194,7 +194,7 @@ abstract class Field
     public function check()
     {
         if ($this->valuechanged && $this->readonly) {
-            return 'Le champ '.$this->printName().' est en lecture seule';
+            return 'Le champ '.$this->printName().' est en lecture seule et ne doit pas changer';
         }
 
         if ($this->multiple && is_array($this->value)) {
@@ -288,22 +288,16 @@ abstract class Field
     /**
      * Définition de la valeur
      */
-    public function setValue($val, $default = 0)
+    public function setValue($value, $default = 0)
     {
-        if ($val!=$this->value && !$default)
+        if ($value != $this->value && !$default)
             $this->valuechanged = true;
+        
         if (!($this->valuechanged && $this->readonly))
-            $this->value = $val;
+            $this->value = $value;
+        
         if ($this->multiple && !is_array($this->value)) {
-            $this->value = explode(",",$this->value);
-        }
-        if ($this->multiple && is_array($this->value)) {
-            $valuez = array();
-            foreach ($this->value as $v) {
-                if ($v!="")
-                    $valuez[] = $v;
-            }
-            $this->value = $valuez;
+            $this->value = explode(',', $this->value);
         }
     }
 
@@ -369,5 +363,10 @@ abstract class Field
     public function needJs()
     {
         return $this->multiple;
+    }
+
+    public function readOnly()
+    {
+        return $this->readonly;
     }
 }
