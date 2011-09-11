@@ -215,7 +215,6 @@ class Form implements \Iterator
     {
         $to_check = array_flip(func_get_args());
         $errors = array();
-        $radios = array();
 
         foreach ($this->fields as $name => $field) {
             if (!count($to_check) || isset($to_check[$name])) {
