@@ -67,12 +67,6 @@ abstract class Field
     protected $multipleChange = '';
 
     /**
-     * Permet d'appliquer des contraintes sql
-     */
-    protected $in = '';
-    protected $notin = '';
-
-    /**
      * Donnée de mapping pour l'entité
      */
     protected $mapping;
@@ -157,12 +151,6 @@ abstract class Field
         case 'mapping':
             $this->mapping = $value;
             break;
-        case 'in':
-            $this->in = $value;
-            break;
-        case 'notin':
-            $this->notin = $value;
-            break;
         case 'prettyname':
             $this->prettyname=$value;
             break;
@@ -235,39 +223,6 @@ abstract class Field
             if ($err)
                 return $err;
         }
-    }
-
-    function inNotIn()
-    {
-        if ($this->in) {
-            if ($this->checkInQuery($this->in)==0)
-                return "La valeur du champ ".$this->printName()." doit être présent dans la base";
-        }
-        if ($this->notin) {
-            if ($this->checkInQuery($this->notin)!=0)
-                return "La valeur du champ ".$this->printName()." doit pas déja être présent dans la base";
-        }
-    }
-
-    //XXX: très sale...
-    function checkInQuery($v)
-    {
-        $field = $this->name;
-
-        if (isset($this->mapping)) {
-            $field = $this->mapping;
-        }
-
-        $tmp = explode('.', $v);
-        $table = $tmp[0];
-
-        if (isset($tmp[1])) {
-            $field = $tmp[1];
-        }
-
-        $q = mysql_query('SELECT COUNT(*) AS NB FROM `'.$table.'` WHERE `'.$field.'`="'.mysql_real_escape_string($this->value).'"');
-        $r = mysql_fetch_assoc($q);
-        return $r['NB'];
     }
 
     public function getName()
