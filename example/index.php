@@ -7,6 +7,12 @@ include('person.php');
 $form = new Gregwar\DSD\Form('forms/demoform.html');
 $errors = array();
 
+$form->addConstraint('prenom', function($value) {
+    if ($value[0] == 'P') {
+	return 'Le prénom ne doit pas commencer par un P !';
+    }
+});
+
 if ($form->posted()) {
     $errors = $form->check();
     if (!$errors) {

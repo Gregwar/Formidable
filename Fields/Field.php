@@ -61,6 +61,11 @@ abstract class Field
     protected $valuechanged = false;
 
     /**
+     * Contraintes
+     */
+    protected $constraints = array();
+
+    /**
      * Plusieurs valeurs ?
      */
     protected $multiple = false;
@@ -189,7 +194,7 @@ abstract class Field
             $tmp = $this->value;
             $nodata=true;
             foreach ($tmp as $val) {
-                if ($val!="")
+                if ($val!='')
                     $nodata=false;
                 $this->value = $val;
                 $err = $this->check();
@@ -218,11 +223,13 @@ abstract class Field
                 return 'Le champ '.$this->printName().' doit faire au moins '.$this->minlength.' caracteres.';
             if ($this->maxlength && strlen($this->value)>$this->maxlength)
                 return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->maxlength.' caracteres.';
+	}
 
-            $err = $this->inNotIn();
-            if ($err)
-                return $err;
-        }
+	foreach ($this->constraints as $constraint) {
+	    $err = $constraint($this->value);
+	    if ($err) 
+		return $err;
+	}
     }
 
     public function getName()
@@ -324,5 +331,10 @@ abstract class Field
     public function needJs()
     {
         return $this->multiple;
+    }
+
+    public function addConstraint($closure)
+    {
+	$this->constraints[] = $closure;
     }
 }

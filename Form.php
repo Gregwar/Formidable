@@ -164,6 +164,14 @@ class Form implements \Iterator
     }
 
     /**
+     * Ajouter une contrainte à un champ
+     */
+    public function addConstraint($name, $closure)
+    {
+	$this->fields[$name]->addConstraint($closure);
+    }
+
+    /**
      * Définir la valeur d'un attribut
      */
     public function setAttribute($name, $attr_name, $value)
