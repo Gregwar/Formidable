@@ -156,8 +156,8 @@ abstract class Field
         case 'mapping':
             $this->mapping = $value;
             break;
-        case 'prettyname':
-            $this->prettyname=$value;
+	case 'prettyname':
+            $this->prettyname = $value;
             break;
         case 'readonly':
             $this->readonly=true;

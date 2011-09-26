@@ -322,11 +322,16 @@ class Parser
                 return "<$name $data>";
             break;
         }
-        if (null !== $field) {
-            $attributes = explode(' ', $data);
+	if (null !== $field) {
+	    $data = preg_replace_callback('#"([^"]+)"#mUsi', function($matches) {
+		    return '"'.urlencode($matches[1]).'"';   
+	    }, $data);
+
+	    $attributes = explode(' ', $data);
+
             foreach ($attributes as $attribute) {
                 if (preg_match("#([^=]+)(=\"(.+)\"|)#muSi", $attribute, $match)) {
-                    $field->push($match[1], isset($match[3]) ? $match[3] : null);
+                    $field->push($match[1], isset($match[3]) ? urldecode($match[3]) : null);
                 }
             }
 
