@@ -132,7 +132,7 @@ class Form implements \Iterator
     {
         foreach ($this->fields as $field) {
             if (is_object($field)) {
-                if ($mapping = $field->getMappingName()) {
+                if ($mapping = $field->getMappingName() && !$field->readOnly()) {
                     if (is_array($entity)) {
                         if (isset($entity[$mapping])) {
                             $field->setValue($entity[$mapping], 1);
@@ -223,7 +223,6 @@ class Form implements \Iterator
     {
         $to_check = array_flip(func_get_args());
         $errors = array();
-        $radios = array();
 
         foreach ($this->fields as $name => $field) {
             if (!count($to_check) || isset($to_check[$name])) {
