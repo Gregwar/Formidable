@@ -323,8 +323,8 @@ class Parser
             break;
         }
 	if (null !== $field) {
-	    $data = preg_replace_callback('#"([^"]+)"#mUsi', function($matches) {
-		    return '"'.urlencode($matches[1]).'"';   
+	    $data = preg_replace_callback('#="([^"]+)"#mUsi', function($matches) {
+		    return '="'.urlencode($matches[1]).'"';   
 	    }, $data);
 
 	    $attributes = explode(' ', $data);
