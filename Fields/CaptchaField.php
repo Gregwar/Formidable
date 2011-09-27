@@ -13,7 +13,7 @@ use Gregwar\DSD\Captcha\Captcha;
  */
 class CaptchaField extends Field
 {
-    private $captchaValue = '';
+    protected $captchaValue = '';
 
     public function __construct()
     {
@@ -32,6 +32,11 @@ class CaptchaField extends Field
         }
 
         $_SESSION['DSD_Captcha'] = $this->captchaValue;
+    }
+
+    public function getCaptchaValue()
+    {
+        return $this->captchaValue;
     }
 
     public function check()
