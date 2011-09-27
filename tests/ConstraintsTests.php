@@ -61,6 +61,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     public function testMaxLength()
     {
         $form = $this->getForm('maxlength.html');
+        
+        $this->assertContains('maxlength', "$form");
 
         $_POST = array(
             'csrf_token' => $form->getToken(),
@@ -194,6 +196,26 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('captcha.html');
         $html = "$form";
         $_POST['code'] = 'xdz';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test de valeur postée n'étant pas dans un select
+     */
+    public function testSelectOut()
+    {
+        $form = $this->getForm('select.html');
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'city' => 'la'
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['city'] = 'xk';
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
     }
