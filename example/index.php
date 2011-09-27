@@ -1,6 +1,6 @@
 <?php
 session_start(); // required for CSRF
-include(__DIR__.'/../lib/Form.php');
+include(__DIR__.'/../Form.php');
 
 include('person.php');
 

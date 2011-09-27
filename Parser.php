@@ -199,7 +199,7 @@ class Parser
                         $this->needJs = $this->needJs || $return->needJs();
                         if ($return instanceof Fields\Options) {
                             if (!$this->datas[$idx-1] instanceof Fields\Select) {
-                                throw new ParserException('Options out of select');
+                                throw new ParserException('<option> en dehors d\'un <select>');
                             }
                             $this->sources[$return->getSource()] = $return;
                             $return->setParent($this->datas[$idx-1]);
@@ -208,7 +208,7 @@ class Parser
                                 $option = true;
 
                                 if (!$this->datas[$idx-1] instanceof Fields\Select) {
-                                    throw new ParserException('Option out of select');
+                                    throw new ParserException('<option> en dehors d\'un <select>');
                                 } else {
                                     $this->datas[$idx-1]->addOption($return);
                                 }
@@ -280,11 +280,14 @@ class Parser
 
         switch (strtolower($name)) {
         case 'input':
-            $find = explode(' ',substr($data, strpos($data, 'type=') +5));
-            $type = strtolower(str_replace('"', '', str_replace('\'', '', $find[0])));
+            $type = null;
+
+            if (preg_match('#type="(.+)"#mUsi', $data, $match)) {
+                $type = $match[1];
+            }
 
             if (!$type) {
-                throw new ParserException('Untyped input');
+                throw new ParserException('<input> non typé');
             } else {
                 if ($type=='submit') {
                     return '<'.$name.' '.$data.'>';
