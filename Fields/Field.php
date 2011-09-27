@@ -213,8 +213,9 @@ abstract class Field
             }
         } else {
             if ($this->regex) {
-                if (!eregi($this->regex, $this->value))
+                if (!preg_match('/'.$this->regex.'/mUsi', $this->value)) {
                     return 'Le format du champ '.$this->printName().' est incorrect';
+                }
             }
             if ($this->minlength && strlen($this->value)<$this->minlength)
                 return 'Le champ '.$this->printName().' doit faire au moins '.$this->minlength.' caracteres.';
