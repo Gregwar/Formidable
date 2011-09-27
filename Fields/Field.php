@@ -208,8 +208,10 @@ abstract class Field
             return;
         }
 
-        if (!$this->optional && (null === $this->value || '' === $this->value)) {
-            return 'Vous devez saisir une valeur pour '.$this->printName();
+        if (null === $this->value || '' === $this->value) {
+            if (!$this->optional) {
+                return 'Vous devez saisir une valeur pour '.$this->printName();
+            }
         } else {
             // Expressions régulière
             if ($this->regex) {
@@ -262,12 +264,15 @@ abstract class Field
         }
 
         if (!($this->valuechanged && $this->readonly)) {
-            if (is_string($value)) {
-                $this->value = $value;
+            if (is_string($value) || is_int($value) || is_float($value)) {
+                $this->value = (string)$value;
+            } else {
+                $this->value = null;
             }
         }
 
         if ($this->multiple) {
+            $this->value = null;
             if (is_array($value)) {
                 foreach ($value as $val) {
                     if (!is_string($val)) {
