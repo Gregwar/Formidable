@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Une option
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoirr Passault <g.passault@gmail.com>
  */
 class Option extends Field
 {
@@ -15,7 +15,7 @@ class Option extends Field
     private $parent;
 
     /**
-     * SÃ©lÃ©ctionnÃ©e ?
+     * Séléctionnée ?
      */
     private $selected = false;
 
@@ -40,8 +40,9 @@ class Option extends Field
 
     public function push($name, $value)
     {
-        if ($name == "selected" && $value==NULL) {
+        if ($name == 'selected' && $value==NULL) {
             $this->isSelected = true;
+            $this->parent->setValue($this->value);
         } else {
             parent::push($name, $value);
         }

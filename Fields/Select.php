@@ -39,8 +39,8 @@ class Select extends Field
 
     public function check()
     {
-        if ($this->value == "")
-            return "Vous devez choisur une valeur pour le champ ".$this->printName();
+        if ($this->value == '')
+            return 'Vous devez choisur une valeur pour le champ '.$this->printName();
         foreach ($this->options as $opt) {
             if ($this->value == $opt->getValue()) {
                 $err = $this->inNotIn();
