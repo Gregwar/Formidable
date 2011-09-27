@@ -3,6 +3,11 @@
 namespace Gregwar\DSD;
 
 /**
+ * Inclusion de l'exception
+ */
+require_once(__DIR__.'/ParserException.php');
+
+/**
  * Inclusion des types
  */
 require_once(__DIR__.'/Head.php');
@@ -194,7 +199,7 @@ class Parser
                         $this->needJs = $this->needJs || $return->needJs();
                         if ($return instanceof Fields\Options) {
                             if (!$this->datas[$idx-1] instanceof Fields\Select) {
-                                $this->error("Options out of select.");
+                                throw new ParserException('Options out of select');
                             }
                             $this->sources[$return->getSource()] = $return;
                             $return->setParent($this->datas[$idx-1]);
@@ -203,7 +208,7 @@ class Parser
                                 $option = true;
 
                                 if (!$this->datas[$idx-1] instanceof Fields\Select) {
-                                    $this->error('Option out of select.');
+                                    throw new ParserException('Option out of select');
                                 } else {
                                     $this->datas[$idx-1]->addOption($return);
                                 }
@@ -249,6 +254,10 @@ class Parser
                 }
             }
         }
+
+        if (null === $this->getHead()) {
+            throw new ParserException('Le formulaire DSD doit avoir une balise <form>');
+        }
     }
 
     /**
@@ -275,7 +284,7 @@ class Parser
             $type = strtolower(str_replace('"', '', str_replace('\'', '', $find[0])));
 
             if (!$type) {
-                Form::fatal('Untyped input');
+                throw new ParserException('Untyped input');
             } else {
                 if ($type=='submit') {
                     return '<'.$name.' '.$data.'>';
@@ -340,13 +349,5 @@ class Parser
 
             return '';
         }
-    }
-
-    /**
-     * Meurt en cas d'erreur
-     */    
-    private function error($message)
-    {
-        Form::fatal($message, sprintf('(l.%d)', $this->currentLine));
     }
 }

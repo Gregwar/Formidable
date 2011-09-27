@@ -86,14 +86,19 @@ class Form implements \Iterator
      */
     private function parse()
     {
-        $parser = new Parser($this->content);
+        try {
+            $parser = new Parser($this->content);
 
-        $this->datas = $parser->getDatas();
-        $this->fields = $parser->getFields();
-        $this->sources = $parser->getSources();
-        $this->hash = $parser->getHash();
-        $this->needJs = $parser->needJs();
-        $this->head = $parser->getHead();
+
+            $this->datas = $parser->getDatas();
+            $this->fields = $parser->getFields();
+            $this->sources = $parser->getSources();
+            $this->hash = $parser->getHash();
+            $this->needJs = $parser->needJs();
+            $this->head = $parser->getHead();
+        } catch (ParserException $e) {
+            self::fatal($e->getMessage());
+        }
     }
 
     /**
@@ -337,7 +342,7 @@ class Form implements \Iterator
     public static function fatal($message, $prefix = '')
     {
         echo '<span style="font-family: Courier;">';
-        echo '<b>DSD error '.$prefix.':</b> '.$message;
+        echo '<b>DSD error '.$prefix.':</b> '.htmlspecialchars($message);
         echo '</span>';
         exit();
     }
