@@ -220,6 +220,38 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($form->check());
     }
 
+    /**
+     * Test des multiples
+     */
+    public function testMultiple()
+    {
+        $form = $this->getForm('multiple.html');
+        $html = "$form";
+
+        $this->assertContains('<script', $html);
+        $this->assertContains('<a', $html);
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'names' => ''
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+
+        $_POST['names'] = array('a', 'b');
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['names'] = array('oooooooooooooooooooooooo');
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+
+        $_POST['names'] = array(array('a'), 'b');
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
     private function getForm($file)
     {
         return new Form(__DIR__.'/files/form/'.$file);
