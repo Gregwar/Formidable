@@ -29,10 +29,10 @@ class NumberField extends Field
         switch ($name) {
             case 'min':
                 $this->min = $value;
-                break;
+                return;
             case 'max':
                 $this->max = $value;
-            break;
+                return;
         }
 
         parent::push($name, $value);
