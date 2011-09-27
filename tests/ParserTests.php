@@ -10,6 +10,9 @@ use Gregwar\DSD\ParserException;
  */
 class ParserTests extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test le retour d'un parse basique
+     */
     public function testBasicParse()
     {
         $parser = $this->getParser('basic.html');
@@ -22,21 +25,31 @@ class ParserTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $fields['foo']->getName());
     }
 
+    /**
+     * Test le type de champs
+     */
     public function testTypes()
     {
         $parser = $this->getParser('types.html');
 
         $fields = $parser->getFields();
 
-        $this->assertEquals(5, count($fields));
+        $this->assertEquals(9, count($fields));
 
         $this->assertInstanceOf('Gregwar\DSD\Fields\TextField', $fields['name']);
         $this->assertInstanceOf('Gregwar\DSD\Fields\EmailField', $fields['email']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\PasswordField', $fields['pass']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\FileField', $fields['picture']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\HiddenField', $fields['cache']);
         $this->assertInstanceOf('Gregwar\DSD\Fields\IntField', $fields['age']);
         $this->assertInstanceOf('Gregwar\DSD\Fields\Select', $fields['choices']);
         $this->assertInstanceOf('Gregwar\DSD\Fields\Radios', $fields['radio']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\Textarea', $fields['area']);
     }
 
+    /**
+     * Test que la récupération d'attributs marche bien
+     */
     public function testAttributes()
     {
         $parser = $this->getParser('attributes.html');
@@ -50,6 +63,9 @@ class ParserTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Your name', $fields['name']->getAttribute('title'));
     }
 
+    /**
+     * Test la récupération de valeurs par défaut
+     */
     public function testDefaultValues()
     {
         $parser = $this->getParser('values.html');
@@ -72,6 +88,9 @@ class ParserTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Hello world, i\'m a long message', $fields['area']->getValue());
     }
 
+    /**
+     * Test que l'en-tête marche bien
+     */
     public function testHead()
     {
         $parser = $this->getParser('head.html');

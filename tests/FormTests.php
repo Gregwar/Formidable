@@ -9,6 +9,9 @@ use Gregwar\DSD\Form;
  */
 class FormTests extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test que toString renvoie bien le getHtml
+     */
     public function testToString()
     {
         $form = $this->getForm('test.html');
@@ -16,15 +19,39 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals((string)$form, $form->getHtml());
     }
 
+    /**
+     * Test que l'enctype passe en multipart sur des file
+     */
     public function testEnctype()
     {
         $form = $this->getForm('enctype_normal.html');
         $this->assertFalse(strpos("$form", 'enctype='));
 
         $form = $this->getForm('enctype_file.html');
-        $this->assertTrue(false !== strpos("$form", 'enctype='));
+        $this->assertContains('enctype=', "$form");
     }
 
+    /**
+     * Test le rendu d'un champ requis
+     */
+    public function testRequired()
+    {
+        $form = $this->getForm('required.html');
+        $this->assertContains('required=', "$form");
+    }
+
+    /**
+     * Test le rendu d'un champ optionel
+     */
+    public function testOptional()
+    {
+        $form = $this->getForm('optional.html');
+        $this->assertNotContains('required=', "$form");
+    }
+
+    /**
+     * Test l'obtention de valeurs par défaut
+     */
     public function testGetValues()
     {
         $form = $this->getForm('values.html');
@@ -36,16 +63,25 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Hello world, i\'m a long message', $form->area);
     }
 
+    /**
+     * Test la définition de valeurs
+     */
     public function testSetValues()
     {
         $form = $this->getForm('test.html');
         $form->message = 'Setting a value';
         $form->choices = 1;
+        $form->checkme = 1;
 
-        $this->assertTrue(false !== strpos("$form", 'Setting a value'));
-        $this->assertTrue(false !== strpos("$form", 'selected='));
+        $html = "$form";
+        $this->assertContains('Setting a value', $html);
+        $this->assertContains('selected=', $html);
+        $this->assertContains('checked=', $html);
     }
 
+    /**
+     * Test la définition avec plusieurs valeurs
+     */
     public function testSetMultipleValues()
     {
         $form = $this->getForm('test.html');
@@ -61,6 +97,10 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('blue', $form->color);
     }
 
+    /**
+     * Test que le jeton CSRF calculé est bien le même en le calculant
+     * deux fois de suite
+     */
     public function testCsrfTokenGeneration()
     {
         $form1 = $this->getForm('empty.html');
@@ -69,6 +109,10 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals($form1->getToken(), $form2->getToken());
     }
 
+    /**
+     * Teste que posted() retourne bien vrai quand le jeton CSRF est dans
+     * la requête
+     */
     public function testCsrfTokenCheck()
     {
         $form = $this->getForm('empty.html');
