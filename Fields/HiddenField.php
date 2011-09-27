@@ -12,6 +12,7 @@ class HiddenField extends Field
     public function __construct()
     {
         $this->type = 'hidden';
+        $this->optional = true;
     }
 
     public function check()
