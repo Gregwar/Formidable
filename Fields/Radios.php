@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Gestion d'un groupe de radios du mÃªme nom
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Radios extends Field
 {
@@ -23,8 +23,11 @@ class Radios extends Field
     {
         $this->radios[] = $radio;
 
-        if ($radio->getMappingName())
+        if ($radio->getMappingName()) {
             $this->mapping = $radio->getMappingName();
+        }
+
+        $radio->setParent($this);
     }
 
     public function setValue($value)

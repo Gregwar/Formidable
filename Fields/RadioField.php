@@ -9,13 +9,27 @@ namespace Gregwar\DSD\Fields;
 class RadioField extends Field
 {
     /**
-     * La case est t-elle cochÃ©e ?
+     * La case est t-elle cochée ?
      */
     private $checked = false;
+
+    /**
+     * Radios parent
+     */
+    private $parent;
 
     public function __construct()
     {
         $this->type = 'radio';
+    }
+
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+
+        if ($this->checked) {
+            $parent->setValue($this->value);
+        }
     }
 
     public function push($name, $value)
@@ -23,6 +37,9 @@ class RadioField extends Field
         if ($name == 'checked') {
             $this->checked = true;
             $this->setAttribute('checked', 'checked');
+            if (null !== $this->parent) {
+                $this->parent->setValue($this->value);
+            }
         } else {
             parent::push($name, $value);
         }

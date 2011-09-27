@@ -26,7 +26,7 @@ class CheckboxField extends Field
 
     public function push($name, $value)
     {
-        if ($name === 'checked' && $value==null) {
+        if ($name === 'checked') {
             $this->checked = true;
         } elseif ($name === 'value') {
             $this->checkedValue = $value;
