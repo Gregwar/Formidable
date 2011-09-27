@@ -28,6 +28,10 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $_POST['name'] = 'jack';
         $this->assertTrue($form->posted());
         $this->assertEmpty($form->check());
+
+        $_POST['name'] = '0';
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
     }
 
     /**
