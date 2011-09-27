@@ -133,6 +133,36 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test du bon pré-remplissage des valeurs à l'aide de POST()
+     */
+    public function testPostValue()
+    {
+        $form = $this->getForm('post-values.html');
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'message' => 'Hello with spaces and "!',
+            'gender' => '1',
+            'color' => 'blue',
+            'checkme' => '42',
+            'area' => 'Hello world, i\'m a long message'
+        );
+
+        $this->assertTrue($form->posted());
+
+        $this->assertEquals('Hello with spaces and "!', $form->message);
+        $this->assertEquals('1', $form->gender);
+        $this->assertEquals('blue', $form->color);
+        $this->assertEquals('42', $form->getValue('checkme'));
+        $this->assertEquals('Hello world, i\'m a long message', $form->area);
+
+        $this->assertContains('checked=', "$form");
+        $this->assertContains('selected=', "$form");
+        $this->assertContains('Hello with spaces and &quot;!', "$form");
+        $this->assertContains('Hello world, i\'m a long message', "$form");
+    }
+
+    /**
      * Test que la sortie redonnée à DSD redonne la même sortie
      */
     public function testOutIn()
