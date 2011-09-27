@@ -181,10 +181,13 @@ class Parser
                         case '</form>':
                             if (!isset($this->fields['csrf_token'])) {
                                 if (isset($_SESSION['csrf_token']))
-                                    $secret=$_SESSION['csrf_token'];
+                                    $secret = $_SESSION['csrf_token'];
                                 else {
                                     $secret = sha1(mt_rand().time().mt_rand());
-                                    $_SESSION['csrf_token']=$secret;
+                                    $_SESSION['csrf_token'] = $secret;
+                                }
+                                if ($this->head && $this->head->has('name')) {
+                                    $secret.= '/'.$this->head->get('name');
                                 }
                                 $this->hash = sha1($secret);
 
