@@ -18,6 +18,36 @@ class ParserTests extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, count($fields));
         $this->assertArrayHasKey('foo', $fields);
+
+        $this->assertEquals('foo', $fields['foo']->getName());
+    }
+
+    public function testTypes()
+    {
+        $parser = $this->getParser('types.html');
+
+        $fields = $parser->getFields();
+
+        $this->assertEquals(5, count($fields));
+
+        $this->assertInstanceOf('Gregwar\DSD\Fields\TextField', $fields['name']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\EmailField', $fields['email']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\IntField', $fields['age']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\Select', $fields['choices']);
+        $this->assertInstanceOf('Gregwar\DSD\Fields\Radios', $fields['radio']);
+    }
+
+    public function testAttributes()
+    {
+        $parser = $this->getParser('attributes.html');
+
+        $fields = $parser->getFields();
+
+        $this->assertTrue($fields['name']->hasAttribute('class'));
+        $this->assertTrue($fields['name']->hasAttribute('title'));
+
+        $this->assertEquals('red rounded', $fields['name']->getAttribute('class'));
+        $this->assertEquals('Your name', $fields['name']->getAttribute('title'));
     }
 
     public function testDefaultValues()
@@ -27,7 +57,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
         $fields = $parser->getFields();
 
         $this->assertArrayHasKey('message', $fields);
-        $this->assertEquals('Hello!', $fields['message']->getValue());
+        $this->assertEquals('Hello with spaces!', $fields['message']->getValue());
 
         $this->assertArrayHasKey('gender', $fields);
         $this->assertEquals('1', $fields['gender']->getValue());
