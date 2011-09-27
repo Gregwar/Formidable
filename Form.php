@@ -61,7 +61,7 @@ class Form implements \Iterator
     public function __construct($pathOrContent = '', array $vars = array())
     {
         if (isset($pathOrContent)) {
-            if (strlen($pathOrContent) > 100 || strpos($pathOrContent, "\n" !== false)) {
+            if (strlen($pathOrContent) > 100 || strpos($pathOrContent, "\n") !== false) {
                 $this->content = $pathOrContent;
             } else {
                 $this->path = $pathOrContent;
@@ -88,19 +88,14 @@ class Form implements \Iterator
      */
     private function parse()
     {
-        try {
-            $parser = new Parser($this->content);
+        $parser = new Parser($this->content);
 
-
-            $this->datas = $parser->getDatas();
-            $this->fields = $parser->getFields();
-            $this->sources = $parser->getSources();
-            $this->token = $parser->getHash();
-            $this->needJs = $parser->needJs();
-            $this->head = $parser->getHead();
-        } catch (ParserException $e) {
-            self::fatal($e->getMessage());
-        }
+        $this->datas = $parser->getDatas();
+        $this->fields = $parser->getFields();
+        $this->sources = $parser->getSources();
+        $this->token = $parser->getHash();
+        $this->needJs = $parser->needJs();
+        $this->head = $parser->getHead();
     }
 
     /**
@@ -352,16 +347,5 @@ class Form implements \Iterator
     public function key()
     {
         return $this->fields[$this->position]->getName();
-    }
-
-    /**
-     * Erreur fatale
-     */
-    public static function fatal($message, $prefix = '')
-    {
-        echo '<span style="font-family: Courier;">';
-        echo '<b>DSD error '.$prefix.':</b> '.htmlspecialchars($message);
-        echo '</span>';
-        exit();
     }
 }

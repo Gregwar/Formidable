@@ -20,6 +20,18 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test que DSD devine bien s'il doit inclure ou interpreter le contenu
+     */
+    public function testGuessPathOrContent()
+    {
+        $form = new Form('<form>
+            <input type="text" name="foo" value="bar" />
+        </form>');
+
+        $this->assertEquals('bar', $form->foo);
+    }
+
+    /**
      * Test que l'enctype passe en multipart sur des file
      */
     public function testEnctype()
