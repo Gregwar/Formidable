@@ -343,7 +343,7 @@ class Parser
 
             foreach ($attributes as $attribute) {
                 if (preg_match("#([^=]+)(=\"(.+)\"|)#muSi", $attribute, $match)) {
-                    $field->push($match[1], isset($match[3]) ? urldecode($match[3]) : null);
+                    $field->push($match[1], isset($match[3]) ? html_entity_decode(urldecode($match[3])) : null);
                 }
             }
 
