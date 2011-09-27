@@ -142,6 +142,32 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($form->check());
     }
 
+    /**
+     * Test de contrainte custom
+     */
+    public function testCustomConstraint()
+    {
+        $form = $this->getForm('custom.html');
+
+        $form->addConstraint('name', function($value) {
+            if ($value[0] == 'J') {
+                return 'Le nom ne doit pas commencer par J';
+            }
+        });
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'name' => 'Paul'
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['name'] = 'Jack';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
     private function getForm($file)
     {
         return new Form(__DIR__.'/files/form/'.$file);
