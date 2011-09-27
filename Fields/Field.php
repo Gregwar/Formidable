@@ -120,9 +120,6 @@ abstract class Field
         switch ($name) {
         case 'required':
             break;
-        case 'class':
-            $this->attributes['class'] = $value;
-            break;
         case 'name':
             $this->name = $value;
             break;
@@ -165,10 +162,10 @@ abstract class Field
             break;
         default:
             if (preg_match('#^([a-z0-9_-]+)$#mUsi', $name)) {
-                if ($value !== null) {
-                    $this->attributes[$name] = $value;
+                if (null !== $value) {
+                    $this->setAttribute($name, $value);
                 } else {
-                    $this->attributes[$name] = $name;
+                    $this->setAttribute($name, $name);
                 }
             }
         }
