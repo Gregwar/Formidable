@@ -195,6 +195,14 @@ class Form implements \Iterator
     }
 
     /**
+     * Obtenir un attribut sur un champ
+     */
+    public function getAttribute($name, $attr_name)
+    {
+        return $this->fields[$name]->getAttribute($attr_name);
+    }
+
+    /**
      * Définir la classe d'un champ option
      */
     public function setOptionClass($select, $val, $class)
