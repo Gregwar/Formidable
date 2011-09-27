@@ -57,7 +57,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
         $fields = $parser->getFields();
 
         $this->assertArrayHasKey('message', $fields);
-        $this->assertEquals('Hello with spaces!', $fields['message']->getValue());
+        $this->assertEquals('Hello with spaces and "!', $fields['message']->getValue());
 
         $this->assertArrayHasKey('gender', $fields);
         $this->assertEquals('1', $fields['gender']->getValue());
@@ -67,6 +67,9 @@ class ParserTests extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('checkme', $fields);
         $this->assertEquals('42', $fields['checkme']->getValue());
+
+        $this->assertArrayHasKey('area', $fields);
+        $this->assertEquals('Hello world, i\'m a long message', $fields['area']->getValue());
     }
 
     public function testHead()

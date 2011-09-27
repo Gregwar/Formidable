@@ -41,7 +41,7 @@ class Form implements \Iterator
     /**
      * Position courrante pour l'itération
      */
-    private $position;
+    private $position = 0;
 
     /**
      * En-tête
@@ -58,11 +58,16 @@ class Form implements \Iterator
      */
     private $path;
 
-    public function __construct($path = '', $vars = array())
+    public function __construct($pathOrContent = '', array $vars = array())
     {
-        if (isset($path)) {
-            $this->path = $path;
-            $this->getContent($vars);
+        if (isset($pathOrContent)) {
+            if (strlen($pathOrContent) > 100 || strpos($pathOrContent, "\n" !== false)) {
+                $this->content = $pathOrContent;
+            } else {
+                $this->path = $pathOrContent;
+                $this->getContent($vars);
+            }
+            $this->parse();
         }
     }
 
@@ -76,9 +81,6 @@ class Form implements \Iterator
         ob_start();
         include($this->path);
         $this->content = ob_get_clean();
-
-        $this->position = 0;
-        $this->parse();
     }
 
     /**
