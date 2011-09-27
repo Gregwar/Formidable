@@ -119,11 +119,11 @@ class FormTests extends \PHPUnit_Framework_TestCase
             'name' => ''
         );
 
-        $form->posted();
+        $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
 
         $_POST['name'] = 'jack';
-        $form->posted();
+        $this->assertTrue($form->posted());
         $this->assertEmpty($form->check());
     }
 
@@ -148,7 +148,49 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($form->check());
     }
 
+    /**
+     * Test la longueur maximale
+     */
+    public function testMaxLength()
+    {
+        $form = $this->getForm('maxlength.html');
 
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'nick' => str_repeat('x', 100)
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['nick'] = str_repeat('x', 101);
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test la longueur minimale
+     */
+    public function testMinLength()
+    {
+        $form = $this->getForm('minlength.html');
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'nick' => str_repeat('x', 10)
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['nick'] = str_repeat('x', 9);
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test que la sortie redonnée à DSD redonne la même sortie
+     */
     public function testOutIn()
     {
         $form = $this->getForm('out_in.html');
