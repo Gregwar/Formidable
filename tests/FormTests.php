@@ -200,6 +200,8 @@ class FormTests extends \PHPUnit_Framework_TestCase
     public function testMinLength()
     {
         $form = $this->getForm('minlength.html');
+        
+        $this->assertNotContains('minlength', "$form");
 
         $_POST = array(
             'csrf_token' => $form->getToken(),
@@ -210,6 +212,55 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($form->check());
 
         $_POST['nick'] = str_repeat('x', 9);
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test de regex=""
+     */
+    public function testRegex()
+    {
+        $form = $this->getForm('regex.html');
+
+        $this->assertNotContains('regex', "$form");
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'nick' => 'hello'
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['nick'] = 'he he';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test de min="" et max=""
+     */
+    public function testMinMax()
+    {
+        $form = $this->getForm('minmax.html');
+
+        $this->assertNotContains('min', "$form");
+        $this->assertNotContains('max', "$form");
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'num' => '7'
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['num'] = '3';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+
+        $_POST['num'] = '13';
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
     }
