@@ -40,7 +40,7 @@ class Option extends Field
 
     public function push($name, $value)
     {
-        if ($name == 'selected' && $value==NULL) {
+        if ($name == 'selected') {
             $this->isSelected = true;
             $this->parent->setValue($this->value);
         } else {
