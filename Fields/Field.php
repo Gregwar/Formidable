@@ -124,9 +124,7 @@ abstract class Field
             $this->name = $value;
             break;
         case 'type':
-            if (!$this->type) {
-                $this->type = $value;
-            }
+            $this->type = $value;
             break;
         case 'value':
             $this->setValue($value);
@@ -189,48 +187,48 @@ abstract class Field
         }
 
         if ($this->multiple && is_array($this->value)) {
-            $tmp = $this->value;
-            $nodata = true;
-            foreach ($tmp as $val) {
-                if ($val)
-                    $nodata = false;
-                $this->value = $val;
-                $err = $this->check();
-                if ($err) {
-                    $this->value = $tmp;
+            $nodata = implode('', $this->value) === '';
 
-                    return $err;
+            if (!$this->optional && $nodata) {
+                return 'Vous devez saisir une valeur pour '.$this->printName();
+            }
+
+            // Répectution du test sur chaque partie
+            $values = $this->value;
+            foreach ($values as $value) {
+                $this->value = $value;
+                $error = $this->check();
+                if ($error) {
+                    $this->value = $values;
+                    return $error;
                 }
             }
-            if (!$this->optional && $nodata)
-
-                return 'Vous devez saisir une valeur pour '.$this->printName();
-            $this->value = $tmp;
+            $this->value = $value;
 
             return;
         }
-        if ($this->value === null || (is_string($this->value) && $this->value=="")) {
-            if ($this->optional || $this->multiple)
 
-                return;
-            else {
-                return 'Vous devez saisir une valeur pour '.$this->printName();
-            }
+        if (!$this->optional && (null === $this->value || '' === $this->value)) {
+            return 'Vous devez saisir une valeur pour '.$this->printName();
         } else {
+            // Expressions régulière
             if ($this->regex) {
                 if (!preg_match('/'.$this->regex.'/mUsi', $this->value)) {
                     return 'Le format du champ '.$this->printName().' est incorrect';
                 }
             }
-            if ($this->minlength && strlen($this->value)<$this->minlength) {
+
+            // Longueur minimum et maximum
+            if ($this->minlength && strlen($this->value) < $this->minlength) {
                 return 'Le champ '.$this->printName().' doit faire au moins '.$this->minlength.' caracteres.';
             }
 
-            if ($this->maxlength && strlen($this->value)>$this->maxlength) {
+            if ($this->maxlength && strlen($this->value) > $this->maxlength) {
                 return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->maxlength.' caracteres.';
             }
         }
 
+        // Contraintes custom
         foreach ($this->constraints as $constraint) {
             $err = $constraint($this->value);
             if ($err) {
@@ -259,14 +257,25 @@ abstract class Field
      */
     public function setValue($value, $default = 0)
     {
-        if ($value != $this->value && !$default)
+        if ($value != $this->value && !$default) {
             $this->valuechanged = true;
+        }
 
-        if (!($this->valuechanged && $this->readonly))
-            $this->value = $value;
+        if (!($this->valuechanged && $this->readonly)) {
+            if (is_string($value)) {
+                $this->value = $value;
+            }
+        }
 
-        if ($this->multiple && !is_array($this->value)) {
-            $this->value = explode(',', $this->value);
+        if ($this->multiple) {
+            if (is_array($value)) {
+                foreach ($value as $val) {
+                    if (!is_string($val)) {
+                        return;
+                    }
+                }
+                $this->value = $value;
+            }
         }
     }
 
