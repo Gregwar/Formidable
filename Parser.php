@@ -179,15 +179,19 @@ class Parser
                             $option = false;
                             break;
                         case '</form>':
-                            if (isset($_SESSION['csrf_token']))
-                                $secret=$_SESSION['csrf_token'];
-                            else {
-                                $secret = sha1(mt_rand().time().mt_rand());
-                                $_SESSION['csrf_token']=$secret;
-                            }
-                            $this->hash = sha1($secret);
+                            if (!isset($this->fields['csrf_token'])) {
+                                if (isset($_SESSION['csrf_token']))
+                                    $secret=$_SESSION['csrf_token'];
+                                else {
+                                    $secret = sha1(mt_rand().time().mt_rand());
+                                    $_SESSION['csrf_token']=$secret;
+                                }
+                                $this->hash = sha1($secret);
 
-                            $return = '<input type="hidden" name="csrf_token" value="'.$this->hash.'" /></form>';
+                                $return = '<input type="hidden" name="csrf_token" value="'.$this->hash.'" /></form>';
+                            } else {
+                                $return = '</form>';
+                            }
                         default:
                             $this->datas[$idx] .= $return;
                         }

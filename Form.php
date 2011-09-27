@@ -34,9 +34,9 @@ class Form implements \Iterator
     private $sources = array();
 
     /**
-     * Hash du formulaire
+     * Token de sécurité
      */
-    private $hash;
+    private $token;
 
     /**
      * Position courrante pour l'itération
@@ -95,12 +95,20 @@ class Form implements \Iterator
             $this->datas = $parser->getDatas();
             $this->fields = $parser->getFields();
             $this->sources = $parser->getSources();
-            $this->hash = $parser->getHash();
+            $this->token = $parser->getHash();
             $this->needJs = $parser->needJs();
             $this->head = $parser->getHead();
         } catch (ParserException $e) {
             self::fatal($e->getMessage());
         }
+    }
+
+    /**
+     * Obtenir le token
+     */
+    public function getToken()
+    {
+        return $this->token;
     }
 
     /**
@@ -301,7 +309,7 @@ class Form implements \Iterator
      */
     public function posted()
     {
-        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->hash) {
+        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->token) {
             $this->setValues($_POST, $_FILES);
             return true;
         } else {
