@@ -24,6 +24,16 @@ class Head
         $this->attributes[$name] = $value;
     }
 
+    public function has($name)
+    {
+        return isset($this->attributes[$name]);
+    }
+
+    public function get($name)
+    {
+        return $this->attributes[$name];
+    }
+
     public function getHTML()
     {
         $html = '<form';
