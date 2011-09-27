@@ -41,8 +41,10 @@ class Option extends Field
     public function push($name, $value)
     {
         if ($name == 'selected') {
-            $this->isSelected = true;
-            $this->parent->setValue($this->value);
+            $this->selected = true;
+            if (null !== $this->parent) {
+                $this->parent->setValue($this->value);
+            }
         } else {
             parent::push($name, $value);
         }
