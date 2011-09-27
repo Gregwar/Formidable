@@ -78,8 +78,8 @@ class FormTests extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getForm('test.html');
         $form->message = 'Setting a value';
-        $form->choices = 1;
-        $form->checkme = 1;
+        $form->choices = '1';
+        $form->checkme = '1';
 
         $html = "$form";
         $this->assertContains('Setting a value', $html);

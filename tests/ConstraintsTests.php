@@ -35,6 +35,23 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test d'envoi d'un array sur une valeur simple
+     */
+    public function testArray()
+    {
+        $form = $this->getForm('required.html');
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'name' => ''
+        );
+
+        $_POST['name'] = array('x');
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
      * Test le rendu d'un champ optionel et du test
      */
     public function testOptional()
