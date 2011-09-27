@@ -114,6 +114,7 @@ class Form implements \Iterator
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
         }
+
         return null;
     }
 
@@ -178,7 +179,7 @@ class Form implements \Iterator
      */
     public function addConstraint($name, $closure)
     {
-	$this->fields[$name]->addConstraint($closure);
+        $this->fields[$name]->addConstraint($closure);
     }
 
     /**
@@ -245,9 +246,9 @@ class Form implements \Iterator
         foreach ($this->fields as $name => $field) {
             if (!count($to_check) || isset($to_check[$name])) {
                 $error = $field->check();
-                
+
                 if ($error) {
-                     $errors[] = new Error($field, $error);
+                    $errors[] = new Error($field, $error);
                 }
             }
         }
@@ -323,9 +324,9 @@ class Form implements \Iterator
         if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->token) {
             $this->setValues($_POST, $_FILES);
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

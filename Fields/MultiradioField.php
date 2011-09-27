@@ -7,7 +7,7 @@ namespace Gregwar\DSD\Fields;
  *
  * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
-class MultiradioField extends Field 
+class MultiradioField extends Field
 {
     private $datas;
     private $source;
@@ -15,6 +15,7 @@ class MultiradioField extends Field
     public function check()
     {
         if (!$this->optional && ($this->value===false))
+
             return "Vous devez saisir une valeur pour ".$this->printName();
         return;
     }

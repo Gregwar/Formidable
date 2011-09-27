@@ -52,6 +52,7 @@ class FileField extends Field
     public function setValue($value)
     {
         if (!is_array($value))
+
             return;
 
         $this->datas = $value;
@@ -80,6 +81,7 @@ class FileField extends Field
                 return 'Vous devez fournir un fichier pour le champ '.$this->printName();
             }
         }
+
         return;
     }
 
@@ -91,6 +93,7 @@ class FileField extends Field
     public function save($filename)
     {
         if (null === $this->datas)
+
             return;
 
         @move_uploaded_file($this->datas['tmp_name'], $filename);

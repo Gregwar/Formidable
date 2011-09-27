@@ -248,11 +248,11 @@ class Parser
                                     $select = true;
                                 }
 
-                                if ($return instanceof Fields\Custom || 
+                                if ($return instanceof Fields\Custom ||
                                     $return instanceof FIelds\MulticheckboxField ||
                                     $return instanceof Fields\MultiradioField) {
                                         $this->sources[$return->getSource()] = $return;
-                                }
+                                    }
                             }
                         }
                     }
@@ -275,6 +275,7 @@ class Parser
     private function parseBalise($data)
     {
         $spaces = explode(' ', $data, 2);
+
         return $this->doParseBalise($spaces[0], $spaces[1]);
     }
 
@@ -325,7 +326,7 @@ class Parser
         case '/textarea':
             return '</textarea>';
             break;
-        case '/select': 
+        case '/select':
             return '</select>';
             break;
         case '/option':
@@ -336,17 +337,19 @@ class Parser
             break;
         default:
             if (!$data)
+
                 return "<$name>";
             else
+
                 return "<$name $data>";
             break;
         }
-	if (null !== $field) {
-	    $data = preg_replace_callback('#="([^"]+)"#mUsi', function($matches) {
-		    return '="'.urlencode($matches[1]).'"';   
-	    }, $data);
+        if (null !== $field) {
+            $data = preg_replace_callback('#="([^"]+)"#mUsi', function($matches) {
+                return '="'.urlencode($matches[1]).'"';
+            }, $data);
 
-	    $attributes = explode(' ', $data);
+            $attributes = explode(' ', $data);
 
             foreach ($attributes as $attribute) {
                 if (preg_match("#([^=]+)(=\"(.+)\"|)#muSi", $attribute, $match)) {

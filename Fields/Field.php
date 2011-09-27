@@ -85,7 +85,7 @@ abstract class Field
     }
 
     /**
-     * Obtenir un attribut 
+     * Obtenir un attribut
      */
     public function getAttribute($name)
     {
@@ -153,7 +153,7 @@ abstract class Field
         case 'mapping':
             $this->mapping = $value;
             break;
-	case 'prettyname':
+        case 'prettyname':
             $this->prettyname = $value;
             break;
         case 'readonly':
@@ -174,6 +174,7 @@ abstract class Field
     public function printName()
     {
         if ($this->prettyname)
+
             return $this->prettyname;
         return $this->name;
     }
@@ -197,16 +198,20 @@ abstract class Field
                 $err = $this->check();
                 if ($err) {
                     $this->value = $tmp;
+
                     return $err;
                 }
             }
             if (!$this->optional && $nodata)
+
                 return 'Vous devez saisir une valeur pour '.$this->printName();
             $this->value = $tmp;
+
             return;
         }
         if ($this->value === null || (is_string($this->value) && $this->value=="")) {
             if ($this->optional || $this->multiple)
+
                 return;
             else {
                 return 'Vous devez saisir une valeur pour '.$this->printName();
@@ -217,17 +222,21 @@ abstract class Field
                     return 'Le format du champ '.$this->printName().' est incorrect';
                 }
             }
-            if ($this->minlength && strlen($this->value)<$this->minlength)
+            if ($this->minlength && strlen($this->value)<$this->minlength) {
                 return 'Le champ '.$this->printName().' doit faire au moins '.$this->minlength.' caracteres.';
-            if ($this->maxlength && strlen($this->value)>$this->maxlength)
-                return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->maxlength.' caracteres.';
-	}
+            }
 
-	foreach ($this->constraints as $constraint) {
-	    $err = $constraint($this->value);
-	    if ($err) 
-		return $err;
-	}
+            if ($this->maxlength && strlen($this->value)>$this->maxlength) {
+                return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->maxlength.' caracteres.';
+            }
+        }
+
+        foreach ($this->constraints as $constraint) {
+            $err = $constraint($this->value);
+            if ($err) {
+                return $err;
+            }
+        }
     }
 
     public function getName()
@@ -252,10 +261,10 @@ abstract class Field
     {
         if ($value != $this->value && !$default)
             $this->valuechanged = true;
-        
+
         if (!($this->valuechanged && $this->readonly))
             $this->value = $value;
-        
+
         if ($this->multiple && !is_array($this->value)) {
             $this->value = explode(',', $this->value);
         }
@@ -299,7 +308,7 @@ abstract class Field
                     );
                     $others.="\");\n";
                 }
-            } 
+            }
 
             $prototype = $this->getHTMLForValue('', '[]');
 
@@ -327,7 +336,7 @@ abstract class Field
 
     public function addConstraint($closure)
     {
-	$this->constraints[] = $closure;
+        $this->constraints[] = $closure;
     }
 
     public function readOnly()

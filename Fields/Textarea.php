@@ -28,6 +28,7 @@ class Textarea extends Field
         $html.= ">";
         $html.= htmlspecialchars($this->value);
         $html.= "</textarea>\n";
+
         return $html;
     }
 }

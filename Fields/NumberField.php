@@ -7,7 +7,7 @@ namespace Gregwar\DSD\Fields;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class NumberField extends Field 
+class NumberField extends Field
 {
     /**
      * Valeur minimum
@@ -29,9 +29,11 @@ class NumberField extends Field
         switch ($name) {
             case 'min':
                 $this->min = $value;
+
                 return;
             case 'max':
                 $this->max = $value;
+
                 return;
         }
 
@@ -41,13 +43,16 @@ class NumberField extends Field
     public function check()
     {
         if ($this->optional && !$this->value)
+
             return;
 
         $err=parent::check();
         if ($err)
+
             return $err;
 
         if ($this->multiple && is_array($this->value))
+
             return;
 
         if (!is_numeric($this->value)) {
@@ -55,6 +60,7 @@ class NumberField extends Field
         }
         if ($this->min !== null) {
             if ($this->value < $this->min)
+
                 return 'Le champ '.$this->printName().' doit être au moins égal à '.$this->min;
         }
         if ($this->max !== null) {

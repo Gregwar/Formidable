@@ -87,6 +87,7 @@ class Entity
         $sql .= ' ('.implode(',', $values).')';
 
         mysql_query($sql);
+
         return mysql_insert_id();
     }
 

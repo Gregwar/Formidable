@@ -63,6 +63,7 @@ class MulticheckboxField extends Field
         foreach ($this->checked as $k=>$v) {
             $tmp[] = $k;
         }
+
         return $tmp;
     }
 
