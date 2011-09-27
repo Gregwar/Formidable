@@ -168,6 +168,32 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($form->check());
     }
 
+    /**
+     * Test de contrainte custom
+     */
+    public function testCaptcha()
+    {
+        $form = $this->getForm('captcha.html');
+        $html = "$form";
+
+        $this->assertContains('<img', $html);
+        $this->assertContains('code', $html);
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'code' => $form->get('code')->getCaptchaValue()
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $form = $this->getForm('captcha.html');
+        $html = "$form";
+        $_POST['code'] = 'xdz';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
     private function getForm($file)
     {
         return new Form(__DIR__.'/files/form/'.$file);
