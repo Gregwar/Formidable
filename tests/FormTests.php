@@ -32,6 +32,20 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Teste la manipulation des attributs
+     */
+    public function testAttributes()
+    {
+        $form = $this->getForm('attributes.html');
+        
+        $this->assertEquals('red rounded', $form->getAttribute('name', 'class'));
+        $this->assertEquals('Your name', $form->getAttribute('name', 'title'));
+
+        $form->setAttribute('name', 'title', 'Outside attribute');
+        $this->assertContains('title="Outside attribute"', "$form");
+    }
+
+    /**
      * Test l'obtention de valeurs par défaut
      */
     public function testGetValues()
