@@ -308,6 +308,14 @@ class Form implements \Iterator
     }
 
     /**
+     * Obtenir un champ
+     */
+    public function get($name)
+    {
+        return $this->fields[$name];
+    }
+
+    /**
      * Savoir si le formulaire a été posté
      */
     public function posted()
