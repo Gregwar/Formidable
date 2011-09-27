@@ -51,9 +51,9 @@ class FileField extends Field
 
     public function setValue($value)
     {
-        if (!is_array($value))
-
+        if (!is_array($value)) {
             return;
+        }
 
         $this->datas = $value;
     }
