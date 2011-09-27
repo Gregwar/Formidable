@@ -32,24 +32,6 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test le rendu d'un champ requis
-     */
-    public function testRequired()
-    {
-        $form = $this->getForm('required.html');
-        $this->assertContains('required=', "$form");
-    }
-
-    /**
-     * Test le rendu d'un champ optionel
-     */
-    public function testOptional()
-    {
-        $form = $this->getForm('optional.html');
-        $this->assertNotContains('required=', "$form");
-    }
-
-    /**
      * Test l'obtention de valeurs par défaut
      */
     public function testGetValues()
@@ -123,6 +105,49 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $_POST = array('csrf_token' => $form->getToken());
         $this->assertTrue($form->posted());
     }
+
+    /**
+     * Test le rendu d'un champ requis et du test
+     */
+    public function testRequired()
+    {
+        $form = $this->getForm('required.html');
+        $this->assertContains('required=', "$form");
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'name' => ''
+        );
+
+        $form->posted();
+        $this->assertNotEmpty($form->check());
+
+        $_POST['name'] = 'jack';
+        $form->posted();
+        $this->assertEmpty($form->check());
+    }
+
+    /**
+     * Test le rendu d'un champ optionel et du test
+     */
+    public function testOptional()
+    {
+        $form = $this->getForm('optional.html');
+        $this->assertNotContains('required=', "$form");
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'name' => ''
+        );
+
+        $form->posted();
+        $this->assertEmpty($form->check());
+
+        $_POST['name'] = 'jack';
+        $form->posted();
+        $this->assertEmpty($form->check());
+    }
+
 
     public function testOutIn()
     {
