@@ -49,6 +49,35 @@ class FormTests extends \PHPUnit_Framework_TestCase
     public function testSetMultipleValues()
     {
         $form = $this->getForm('test.html');
+
+        $form->setValues(array(
+            'message' => 'something',
+            'choices' => '1',
+            'color' => 'blue'
+        ));
+
+        $this->assertEquals('something', $form->message);
+        $this->assertEquals('1', $form->choices);
+        $this->assertEquals('blue', $form->color);
+    }
+
+    public function testCsrfTokenGeneration()
+    {
+        $form1 = $this->getForm('empty.html');
+        $form2 = $this->getForm('empty.html');
+
+        $this->assertEquals($form1->getToken(), $form2->getToken());
+    }
+
+    public function testCsrfTokenCheck()
+    {
+        $form = $this->getForm('empty.html');
+
+        $_POST = array();
+        $this->assertFalse($form->posted());
+
+        $_POST = array('csrf_token' => $form->getToken());
+        $this->assertTrue($form->posted());
     }
 
     public function testOutIn()
