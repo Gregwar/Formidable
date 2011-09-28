@@ -183,7 +183,7 @@ class Parser
                                 if (isset($_SESSION['csrf_token']))
                                     $secret = $_SESSION['csrf_token'];
                                 else {
-                                    $secret = sha1(mt_rand().time().mt_rand());
+                                    $secret = sha1(uniqid(mt_rand(), true));
                                     $_SESSION['csrf_token'] = $secret;
                                 }
                                 if ($this->head && $this->head->has('name')) {
