@@ -34,7 +34,7 @@ class Option extends Field
         $this->parent = $parent;
 
         if ($this->selected) {
-            $this->parent->setValue($this->value);
+            $this->parent->setValue($this->value, true);
         }
     }
 

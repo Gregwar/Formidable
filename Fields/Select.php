@@ -5,7 +5,7 @@ namespace Gregwar\DSD\Fields;
 /**
  * Une ComboBox
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Select extends Field
 {
@@ -19,16 +19,17 @@ class Select extends Field
         return count($this->options);
     }
 
-    public function addOption($opt,$pos=null)
+    public function addOption($option, $position = null)
     {
-        $opt->setParent($this);
-        if ($pos==null) {
-            $this->options[] = $opt;
+        $option->setParent($this);
+
+        if ($position == null) {
+            $this->options[] = $option;
         } else {
-            for ($i=$this->countOptions(); $i>$pos; $i--) {
+            for ($i = $this->countOptions(); $i > $position; $i--) {
                 $this->options[$i] = $this->options[$i-1];
             }
-            $this->options[$pos] = $opt;
+            $this->options[$position] = $option;
         }
     }
 
@@ -39,6 +40,10 @@ class Select extends Field
 
     public function check()
     {
+        if ($error = parent::check()) {
+            return $error;
+        }
+
         foreach ($this->options as $opt) {
             if ($this->value == $opt->getValue()) {
                 return;

@@ -16,14 +16,14 @@ class EmailField extends Field
 
     public function check()
     {
-        if ($this->optional && !$this->value)
-
+        if ($this->optional && !$this->value) {
             return;
+        }
 
-        $error = parent::check();
-        if ($error)
 
+        if ($error = parent::check()) {
             return $error;
+        }
 
         if (!($this->multiple && is_array($this->value)) && !filter_var($this->value, FILTER_VALIDATE_EMAIL)) {
             return 'Le champ '.$this->printName().' doit être une adresse e-mail valide';

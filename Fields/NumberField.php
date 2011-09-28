@@ -46,10 +46,9 @@ class NumberField extends Field
 
             return;
 
-        $err=parent::check();
-        if ($err)
-
-            return $err;
+        if ($error = parent::check()) {
+            return $error;
+        }
 
         if ($this->multiple && is_array($this->value))
 

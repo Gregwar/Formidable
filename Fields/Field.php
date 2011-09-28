@@ -127,7 +127,7 @@ abstract class Field
             $this->type = $value;
             break;
         case 'value':
-            $this->setValue($value);
+            $this->setValue($value, true);
             break;
         case 'optional':
             $this->optional = true;
@@ -155,7 +155,7 @@ abstract class Field
             $this->prettyname = $value;
             break;
         case 'readonly':
-            $this->readonly=true;
+            $this->readonly = true;
             $this->attributes['readonly'] = 'readonly';
             break;
         default:
@@ -257,18 +257,16 @@ abstract class Field
     /**
      * Définition de la valeur
      */
-    public function setValue($value, $default = 0)
+    public function setValue($value, $default = false)
     {
         if ($value != $this->value && !$default) {
             $this->valuechanged = true;
         }
 
-        if (!($this->valuechanged && $this->readonly)) {
-            if (is_string($value) || is_int($value) || is_float($value)) {
-                $this->value = (string)$value;
-            } else {
-                $this->value = null;
-            }
+        if (is_string($value) || is_int($value) || is_float($value)) {
+            $this->value = (string)$value;
+        } else {
+            $this->value = null;
         }
 
         if ($this->multiple) {
