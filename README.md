@@ -11,4 +11,4 @@ TODO
 
 * Ajouter des tests pour les source
 * Ajouter des tests pour les fichiers
-* Ajouter des tests pour le readme
+* Ajouter des tests pour les readonly
