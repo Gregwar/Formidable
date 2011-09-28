@@ -115,6 +115,21 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form2 = $this->getForm('empty.html');
 
         $this->assertEquals($form1->getToken(), $form2->getToken());
+
+        $form3 = $this->getForm('empty2.html');
+        $this->assertNotEquals($form1->getToken(), $form3->getToken());
+    }
+
+    /**
+     * Test que le secret généré est bien différent
+     */
+    public function testCsrfSecretGeneration()
+    {
+        $form1 = $this->getForm('empty.html');
+        $_SESSION['dsd_secret'] = null;
+        $form2 = $this->getForm('empty.html');
+
+        $this->assertNotEquals($form1->getToken(), $form2->getToken());
     }
 
     /**
