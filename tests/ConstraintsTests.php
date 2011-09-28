@@ -17,21 +17,17 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('required.html');
         $this->assertContains('required=', "$form");
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
+            'name' => 'jack'
+        ));
+
+        $this->assertRefuse($form, array(
             'name' => ''
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
-
-        $_POST['name'] = 'jack';
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
-
-        $_POST['name'] = '0';
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
+        $this->assertAccept($form, array(
+            'name' => '0'
+        ));
     }
 
     /**
@@ -41,14 +37,9 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getForm('required.html');
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
-            'name' => ''
-        );
-
-        $_POST['name'] = array('x');
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'name' => array('xyz')
+        ));
     }
 
     /**
@@ -59,17 +50,13 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('optional.html');
         $this->assertNotContains('required=', "$form");
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'name' => ''
-        );
+        ));
 
-        $form->posted();
-        $this->assertEmpty($form->check());
-
-        $_POST['name'] = 'jack';
-        $form->posted();
-        $this->assertEmpty($form->check());
+        $this->assertAccept($form, array(
+            'name' => 'Jack'
+        ));
     }
 
     /**
@@ -81,17 +68,13 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         
         $this->assertContains('maxlength', "$form");
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'nick' => str_repeat('x', 100)
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
-
-        $_POST['nick'] = str_repeat('x', 101);
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'nick' => str_repeat('x', 101)
+        ));
     }
 
     /**
@@ -103,17 +86,13 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         
         $this->assertNotContains('minlength', "$form");
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'nick' => str_repeat('x', 10)
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
-
-        $_POST['nick'] = str_repeat('x', 9);
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'nick' => str_repeat('x', 9)
+        ));
     }
 
     /**
@@ -125,17 +104,13 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
         $this->assertNotContains('regex', "$form");
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'nick' => 'hello'
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
-
-        $_POST['nick'] = 'he he';
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'nick' => 'hm hm'
+        ));
     }
 
     /**
@@ -148,21 +123,17 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertNotContains('min', "$form");
         $this->assertNotContains('max', "$form");
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
-            'num' => '7'
-        );
+        $this->assertAccept($form, array(
+            'num' => 7
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'num' => 3
+        ));
 
-        $_POST['num'] = '3';
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
-
-        $_POST['num'] = '13';
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'num' => 13
+        ));
     }
 
     /**
@@ -178,17 +149,13 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             }
         });
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'name' => 'Paul'
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
-
-        $_POST['name'] = 'Jack';
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'name' => 'Jack'
+        ));
     }
 
     /**
@@ -202,19 +169,16 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertContains('<img', $html);
         $this->assertContains('code', $html);
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'code' => $form->get('code')->getCaptchaValue()
-        );
-
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
+        ));
 
         $form = $this->getForm('captcha.html');
         $html = "$form";
-        $_POST['code'] = 'xdz';
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+
+        $this->assertRefuse($form, array(
+            'code' => 'xxx'
+        ));
     }
 
     /**
@@ -224,17 +188,13 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getForm('select.html');
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'city' => 'la'
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
-
-        $_POST['city'] = 'xk';
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'city' => 'xy'
+        ));
     }
 
     /**
@@ -248,25 +208,21 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertContains('<script', $html);
         $this->assertContains('<a', $html);
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertRefuse($form, array(
             'names' => ''
-        );
+        ));
 
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertAccept($form, array(
+            'names' => array('a', 'b')
+        ));
 
-        $_POST['names'] = array('a', 'b');
-        $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'names' => array(str_repeat('x', 25))
+        ));
 
-        $_POST['names'] = array(str_repeat('x', 25));
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
-
-        $_POST['names'] = array(array('a'), 'b');
-        $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertRefuse($form, array(
+            'names' => array(array('a', 'b'))
+        ));
     }
 
     /**
@@ -280,16 +236,33 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertContains('Jack', $html);
         $this->assertContains('selected=', $html);
 
-        $_POST = array(
-            'csrf_token' => $form->getToken(),
+        $this->assertAccept($form, array(
             'nom' => 'Jack',
             'color' => 'g'
-        );
+        ));
 
+        $this->assertRefuse($form, array(
+            'nom' => 'Jack',
+            'color' => 'y'
+        ));
+    }
+
+    /**
+     * Test qu'un formulaire accepte les données fournies
+     */
+    private function assertAccept($form, $data) {
+        $_POST = $data;
+        $_POST['csrf_token'] = $form->getToken();
         $this->assertTrue($form->posted());
         $this->assertEmpty($form->check());
+    }
 
-        $_POST['color'] = 'y';
+    /**
+     * Test qu'un formulaire rejette les données fournies
+     */
+    private function assertRefuse($form, $data) {
+        $_POST = $data;
+        $_POST['csrf_token'] = $form->getToken();
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
     }
