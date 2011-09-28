@@ -180,11 +180,11 @@ class Parser
                             break;
                         case '</form>':
                             if (!isset($this->fields['csrf_token'])) {
-                                if (isset($_SESSION['csrf_token']))
-                                    $secret = $_SESSION['csrf_token'];
+                                if (isset($_SESSION['dsd_secret']))
+                                    $secret = $_SESSION['dsd_secret'];
                                 else {
                                     $secret = sha1(uniqid(mt_rand(), true));
-                                    $_SESSION['csrf_token'] = $secret;
+                                    $_SESSION['dsd_secret'] = $secret;
                                 }
                                 if ($this->head && $this->head->has('name')) {
                                     $secret.= '/'.$this->head->get('name');
