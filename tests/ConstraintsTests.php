@@ -260,11 +260,36 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->posted());
         $this->assertEmpty($form->check());
 
-        $_POST['names'] = array('oooooooooooooooooooooooo');
+        $_POST['names'] = array(str_repeat('x', 25));
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
 
         $_POST['names'] = array(array('a'), 'b');
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test qu'on ne peut pas changer les readonly
+     */
+    public function testReadOnly()
+    {
+        $form = $this->getForm('readonly.html');
+        $html = "$form";
+
+        $this->assertContains('Jack', $html);
+        $this->assertContains('selected=', $html);
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'nom' => 'Jack',
+            'color' => 'g'
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['color'] = 'y';
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
     }
