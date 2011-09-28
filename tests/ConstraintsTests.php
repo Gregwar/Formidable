@@ -35,6 +35,23 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test d'envoi d'un array sur une valeur simple
+     */
+    public function testArray()
+    {
+        $form = $this->getForm('required.html');
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'name' => ''
+        );
+
+        $_POST['name'] = array('x');
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
      * Test le rendu d'un champ optionel et du test
      */
     public function testOptional()
@@ -61,6 +78,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     public function testMaxLength()
     {
         $form = $this->getForm('maxlength.html');
+        
+        $this->assertContains('maxlength', "$form");
 
         $_POST = array(
             'csrf_token' => $form->getToken(),
@@ -194,6 +213,58 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('captcha.html');
         $html = "$form";
         $_POST['code'] = 'xdz';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test de valeur postée n'étant pas dans un select
+     */
+    public function testSelectOut()
+    {
+        $form = $this->getForm('select.html');
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'city' => 'la'
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['city'] = 'xk';
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+    }
+
+    /**
+     * Test des multiples
+     */
+    public function testMultiple()
+    {
+        $form = $this->getForm('multiple.html');
+        $html = "$form";
+
+        $this->assertContains('<script', $html);
+        $this->assertContains('<a', $html);
+
+        $_POST = array(
+            'csrf_token' => $form->getToken(),
+            'names' => ''
+        );
+
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+
+        $_POST['names'] = array('a', 'b');
+        $this->assertTrue($form->posted());
+        $this->assertEmpty($form->check());
+
+        $_POST['names'] = array('oooooooooooooooooooooooo');
+        $this->assertTrue($form->posted());
+        $this->assertNotEmpty($form->check());
+
+        $_POST['names'] = array(array('a'), 'b');
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
     }
