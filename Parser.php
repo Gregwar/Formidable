@@ -372,6 +372,7 @@ class Parser
 
     /**
      * Clonage
+     * XXX: Ne marchera pas avec un <options>
      */
     public function __clone()
     {
@@ -380,7 +381,7 @@ class Parser
             $field = clone $field;
         }
         foreach ($this->sources as &$source) {
-            $source = $this->fields[$source->getName()];
+            $source = clone $source;
         }
         foreach ($this->datas as &$data) {
             if (is_object($data)) {

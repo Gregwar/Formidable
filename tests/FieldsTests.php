@@ -289,6 +289,40 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test du sourcage des <options>
+     */
+    public function testOptions()
+    {
+        $form = $this->getForm('options.html');
+
+        $html = "$form";
+
+        $this->assertNotContains('option', $html);
+        $this->assertNotContains('pretty', $html);
+        $this->assertNotContains('Cat', $html);
+
+        $form->source('animals', array(
+            '1' => 'Cat',
+            '2' => 'Dog', 
+            '3' => 'Zebra'
+        ));
+
+        $html = "$form";
+
+        $this->assertContains('option', $html);
+        $this->assertContains('pretty', $html);
+        $this->assertContains('Cat', $html);
+
+        $this->assertAccept($form, array(
+            'animal' => 2
+        ));
+
+        $this->assertRefuse($form, array(
+            'animal' => 4
+        ));
+    }
+
+    /**
      * Test qu'un formulaire accepte les données fournies
      */
     private function assertAccept($form, $data) {

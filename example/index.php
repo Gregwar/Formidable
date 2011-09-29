@@ -13,6 +13,11 @@ $form->addConstraint('prenom', function($value) {
     }
 });
 
+$form->source('animaux', array(
+    '3' => 'Zèbre',
+    '4' => 'Bonobo'
+));
+
 if ($form->posted()) {
     $errors = $form->check();
     if (!$errors) {

@@ -3,9 +3,9 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Des options sourcÃ©es
+ * Des options sourcées
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Options extends Field
 {
@@ -35,8 +35,7 @@ class Options extends Field
         if ($name == 'source') {
             $this->source = $value;
         } else {
-            $pushSave[$name] = $value;
-            parent::push($name, $value);
+            $this->pushSave[$name] = $value;
         }
     }
 
@@ -58,18 +57,20 @@ class Options extends Field
 
     public function source($options)
     {
-        foreach ($options as $key => $value) {
-            if (is_object($value)) {
-                $key = $value->getKey();
-                $value = $value->getValue();
+        foreach ($options as $key => $label) {
+            if (is_object($label)) {
+                $key = $label->getKey();
+                $label = $label->getValue();
             }
 
             $option = new Option();
+
             foreach ($this->pushSave as $name => $value) {
                 $option->push($name, $value);
             }
+
             $option->setValue($key);
-            $option->setLabel($value);
+            $option->setLabel($label);
 
             $this->parent->addOption($option, $this->position);
         }
