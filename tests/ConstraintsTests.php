@@ -169,8 +169,12 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertContains('<img', $html);
         $this->assertContains('code', $html);
 
+        $captchaValue = $form->get('code')->getCaptchaValue();
+
+        $this->assertNotContains($captchaValue, $html);
+
         $this->assertAccept($form, array(
-            'code' => $form->get('code')->getCaptchaValue()
+            'code' => $captchaValue
         ));
 
         $form = $this->getForm('captcha.html');
@@ -178,6 +182,25 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
         $this->assertRefuse($form, array(
             'code' => 'xxx'
+        ));
+    }
+
+    /**
+     * Test de non-réutilisabilité du CAPTCHA
+     */
+    public function testCaptchaNotReusable()
+    {
+        $form = $this->getForm('captcha.html');
+        $html = "$form";
+
+        $captchaValue = $form->get('code')->getCaptchaValue();
+
+        $this->assertAccept($form, array(
+            'code' => $captchaValue
+        ));
+
+        $this->assertRefuse($form, array(
+            'code' => $captchaValue
         ));
     }
 
