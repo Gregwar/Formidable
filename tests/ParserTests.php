@@ -120,12 +120,14 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException               Gregwar\DSD\ParserException
-     * @expectedExceptionMessage        <input> non typé
+     * Vérifie bien que l'input non typé devient un champ du type du fallback
      */
-    public function testUntypedInputError()
+    public function testUntypedInputFallback()
     {
-        $this->getParser('untyped_input.html');
+        $parser = $this->getParser('untyped_input.html');
+        $fields = $parser->getFields();
+
+        $this->assertInstanceOf('Gregwar\DSD\Fields\TextField', $fields['test']);
     }
 
     /**

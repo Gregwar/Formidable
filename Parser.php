@@ -41,6 +41,11 @@ closedir($dir);
 class Parser
 {
     /**
+     * Type par défaut (pour les <input> non typés)
+     */
+    public static $fallback = 'text';
+
+    /**
      * Objets constituant le formulaire
      */
     private $datas = array();
@@ -295,15 +300,16 @@ class Parser
             }
 
             if (!$type) {
-                throw new ParserException('<input> non typé');
-            } else {
-                if ($type=='submit') {
-                    return '<'.$name.' '.$data.'>';
-                }
-
-                $classname = sprintf('Gregwar\DSD\Fields\%sField', ucfirst(strtolower($type)));
-                $field = new $classname;
+                $type = self::$fallback;
             }
+           
+            if ($type === 'submit') {
+                return '<'.$name.' '.$data.'>';
+            }
+
+            $classname = sprintf('Gregwar\DSD\Fields\%sField', ucfirst(strtolower($type)));
+            $field = new $classname;
+
             break;
         case 'form':
             $field = new Head;
