@@ -294,7 +294,6 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     public function testOptions()
     {
         $form = $this->getForm('options.html');
-
         $html = "$form";
 
         $this->assertNotContains('option', $html);
@@ -319,6 +318,65 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
         $this->assertRefuse($form, array(
             'animal' => 4
+        ));
+    }
+
+    /**
+     * Test des multiradio
+     */
+    public function testMultiradio()
+    {
+        $form = $this->getForm('multiradio.html');
+        $html = "$form";
+
+        $this->assertNotContains('radio', $html);
+        $this->assertNotContains('pretty', $html);
+        $this->assertNotContains('Cat', $html);
+
+        $form->source('animals', array(
+            '1' => 'Cat',
+            '2' => 'Dog',
+            '3' => 'Zebra'
+        ));
+
+        $html = "$form";
+
+        $this->assertContains('radio', $html);
+        $this->assertContains('pretty', $html);
+        $this->assertContains('Cat', $html);
+
+        $this->assertAccept($form, array(
+            'animal' => '2'
+        ));
+
+        $this->assertRefuse($form, array(
+            'animal' => '4'
+        ));
+
+        $this->assertRefuse($form, array(
+            'animal' => ''
+        ));
+    }
+
+    /**
+     * Test de multiradio optionnel
+     */
+    public function testOptionalMultiradio()
+    {
+        $form = $this->getForm('multiradio_optional.html');
+
+        $form->source('animals', array(
+            '1' => 'Cat',
+            '2' => 'Dog',
+            '3' => 'Zebra'
+        ));
+
+        $this->assertAccept($form, array(
+            'animal' => '2'
+        ));
+
+        $this->assertAccept($form, array(
+            'animal' => ''
         ));
     }
 

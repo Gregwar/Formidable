@@ -5,28 +5,46 @@ namespace Gregwar\DSD\Fields;
 /**
  * Radios
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class MultiradioField extends Field
 {
-    private $datas;
+    /**
+     * Nom de la source
+     */
     private $source;
+
+    /**
+     * Radios
+     */
+    private $radios = array();
+
+    /**
+     * Labels des radios
+     */
+    private $labels = array();
+
+    /**
+     * Sauve du push
+     */
+    private $pushSave = array();
 
     public function check()
     {
-        if (!$this->optional && ($this->value===false))
-
-            return "Vous devez saisir une valeur pour ".$this->printName();
-        return;
+        if (!$this->optional && !$this->value)
+            return 'Vous devez cochez une des cases pour '.$this->printName();
     }
 
     public function push($var, $value)
     {
         switch ($var) {
+        case 'type':
+            break;
         case 'source':
             $this->source = $value;
             break;
         default:
+            $this->pushSave[$var] = $value;
             parent::push($var, $value);
             break;
         }
@@ -37,18 +55,34 @@ class MultiradioField extends Field
         return $this->source;
     }
 
-    public function source($d)
+    public function source($datas)
     {
-        $this->datas = $d;
+        foreach ($datas as $key => $label) {
+            $this->radios[] = $radio = new RadioField;
+            $radio->push('name', $this->getName());
+            $radio->setValue($key);
+
+            foreach ($this->pushSave as $var => $val) {
+                $radio->push($var, $val);
+            }
+            $this->labels[$key] = $label;
+        }
     }
 
     public function setValue($value)
     {
-        foreach ($this->datas as $name => $data)  {
-            if ($name == $value) {
-                $this->value = $name;
+        $set = false;
+
+        foreach ($this->radios as $radio) {
+            if ($radio->getValue() == $value) {
+                $radio->setChecked(true);
+                $set = true;
+            } else {
+                $radio->setChecked(false);
             }
         }
+
+        parent::setValue($set ? $value : null);
     }
 
     public function getValue()
@@ -60,18 +94,14 @@ class MultiradioField extends Field
     {
         $html = '';
 
-        if (is_array($this->datas)) {
-            foreach ($this->datas as $value => $label) {
-                if ($value == $this->value) {
-                    $checked = ' checked="checked"';
-                } else {
-                    $checked = '';
-                }
-
-                $html.= "<div class=\"".$this->getAttribute('class')."\">\n";
-                $html.= "<input type=\"radio\" name=\"".$this->name."\"$checked id=\"".$this->name."_$value\" value=\"".$value."\" />\n";
-                $html.= "<label for=\"".$this->name."_$value\">".$label."</label>\n";
-                $html.= "</div>\n";
+        if ($this->radios) {
+            foreach ($this->radios as $radio) {
+                $html.= '<div class="'.$this->getAttribute('class').'">';
+                $html.= '<label>';
+                $html.= $radio->getHTML();
+                $html.= $this->labels[$radio->getValue()];
+                $html.= '</label>';
+                $html.= '</div>';
             }
         }
 
