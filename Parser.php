@@ -369,4 +369,27 @@ class Parser
             return '';
         }
     }
+
+    /**
+     * Clonage
+     */
+    public function __clone()
+    {
+        $this->head = clone $this->head;
+        foreach ($this->fields as &$field) {
+            $field = clone $field;
+        }
+        foreach ($this->sources as &$source) {
+            $source = $this->fields[$source->getName()];
+        }
+        foreach ($this->datas as &$data) {
+            if (is_object($data)) {
+                if ($data instanceof Head) {
+                    $data = $this->getHead();
+                } else {
+                    $data = $this->fields[$data->getName()];
+                }
+            }
+        }
+    }
 }

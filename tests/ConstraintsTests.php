@@ -248,6 +248,24 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Teste le reset
+     */
+    public function testReset()
+    {
+        $form = $this->getForm('reset.html');
+
+        $this->assertEquals('Jack', $form->name);
+
+        $this->assertAccept($form, array(
+            'name' => 'Paul'
+        ));
+
+        $this->assertEquals('Paul', $form->name);
+        $form->reset();
+        $this->assertEquals('Jack', $form->name);
+    }
+
+    /**
      * Test qu'un formulaire accepte les données fournies
      */
     private function assertAccept($form, $data) {

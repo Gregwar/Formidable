@@ -54,6 +54,11 @@ class Form implements \Iterator
     private $needJs = false;
 
     /**
+     * Parser
+     */
+    private $parser;
+
+    /**
      * Chemin du fichier
      */
     private $path;
@@ -89,6 +94,14 @@ class Form implements \Iterator
     private function parse()
     {
         $parser = new Parser($this->content);
+        $this->setParsedDatas($parser);
+    }
+
+    /**
+     * Définit les données récupérées par le parser
+     */
+    private function setParsedDatas(Parser $parser) {
+        $this->parser = clone $parser;
 
         $this->datas = $parser->getDatas();
         $this->fields = $parser->getFields();
@@ -96,6 +109,14 @@ class Form implements \Iterator
         $this->token = $parser->getHash();
         $this->needJs = $parser->needJs();
         $this->head = $parser->getHead();
+    }
+
+    /**
+     * Remet à zéro le formulaire
+     */
+    public function reset()
+    {
+        $this->setParsedDatas($this->parser);
     }
 
     /**
