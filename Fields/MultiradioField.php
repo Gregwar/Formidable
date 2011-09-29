@@ -73,6 +73,10 @@ class MultiradioField extends Field
     {
         $set = false;
 
+        if (!is_string($value) && !is_float($value) && !is_int($value)) {
+            return;
+        }
+
         foreach ($this->radios as $radio) {
             if ($radio->getValue() == $value) {
                 $radio->setChecked(true);

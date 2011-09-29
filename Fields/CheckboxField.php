@@ -41,6 +41,16 @@ class CheckboxField extends Field
         $this->checked = ($value == $this->checkedValue);
     }
 
+    public function setChecked($checked) 
+    {
+        $this->checked = $checked;
+    }
+
+    public function isChecked()
+    {
+        return $this->checked;
+    }
+
     public function getValue()
     {
         return $this->checked ? $this->checkedValue : '';

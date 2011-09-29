@@ -5,13 +5,29 @@ namespace Gregwar\DSD\Fields;
 /**
  * Checkboxs
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class MulticheckboxField extends Field
 {
-    private $datas;
-    private $checked = array();
+    /**
+     * Nom de la source
+     */
     private $source;
+
+    /**
+     * Checkboxes
+     */
+    private $checkboxes = array();
+
+    /**
+     * Labels
+     */
+    private $labels = array();
+
+    /**
+     * Sauvegarde des push
+     */
+    private $pushSave = array();
 
     public function check()
     {
@@ -37,52 +53,68 @@ class MulticheckboxField extends Field
 
     public function source($datas)
     {
-        $this->datas = $datas;
-    }
+        foreach ($datas as $value => $label) {
+            $this->checkboxes[] = $checkbox = new CheckboxField;
+            $checkbox->push('name', $this->nameFor($value));
+            $checkbox->push('optional', null);
+            $checkbox->push('value', '1');
+            $this->labels[$this->nameFor($value)] = $label;
 
-    public function setValue($val)
-    {
-        $this->checked=array();
-        if (!is_array($val)) {
-            $tmp=explode(",",$val);
-            $val = array();
-            foreach ($tmp as $k=>$v) {
-                $val[$v] = "1";
+            foreach ($this->pushSave as $var => $val) {
+                $checkbox->push($var, $val);
             }
         }
-        foreach ($val as $k => $v) {
-            if (isset($this->datas[$k]) && $v=="1") {
-                $this->checked[$k]="1";
+    }
+
+    private function nameFor($name) 
+    {
+        return $this->getName().'['.$name.']';
+    }
+
+    public function setValue($values)
+    {
+        if (!is_array($values)) {
+            return;
+        }
+
+        $checked = array();
+
+        foreach ($values as $name) {
+            $checked[$this->nameFor($name)] = true;
+        }
+
+        foreach ($this->checkboxes as $checkbox) {
+            if (isset($checked[$checkbox->getName()])) {
+                $checkbox->setChecked(true);
+            } else {
+                $checkbox->setChecked(false);
             }
         }
     }
 
     public function getValue()
     {
-        $tmp = array();
-        foreach ($this->checked as $k=>$v) {
-            $tmp[] = $k;
+        $values = array();
+        foreach ($this->checkboxes as $checkbox) {
+            if ($checkbox->isChecked()) {
+                $values[] = $checkbox->getValue();
+            }
         }
-
-        return $tmp;
+        return $values;
     }
 
     public function getHTML()
     {
         $html = '';
 
-        if (is_array($this->datas)) {
-            foreach ($this->datas as $value => $label) {
-                if (isset($this->checked[$value])) {
-                    $checked = ' checked="checked"';
-                } else {
-                    $checked = '';
-                }
-
-                $html.= "<div class=\"".$this->getAttribute('class')."\">\n";
-                $html.= "<input type=\"checkbox\" name=\"".$this->name."[$value]\"$checked id=\"".$this->name."_$value\" value=\"1\" />\n";
-                $html.= "<label for=\"".$this->name."_$value\">".$label."</label>\n";
-                $html.= "</div>\n";
+        if ($this->checkboxes) {
+            foreach ($this->checkboxes as $checkbox) {
+                $html.= '<div class="'.$this->getAttribute('class').'" />';
+                $html.= '<label>';
+                $html.= $checkbox->getHTML();
+                $html.= $this->labels[$checkbox->getName()];
+                $html.= '</label>';
+                $html.= '</div>';
             }
         }
 

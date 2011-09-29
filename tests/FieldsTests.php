@@ -349,6 +349,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             'animal' => '2'
         ));
 
+        $this->assertContains('checked', "$form");
+
         $this->assertRefuse($form, array(
             'animal' => '4'
         ));
@@ -378,6 +380,47 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertAccept($form, array(
             'animal' => ''
         ));
+    }
+
+    /**
+     * Test du multicheckbox
+     */
+    public function testMultiCheckBox()
+    {
+        $form = $this->getForm('multicheckbox.html');
+        $html = "$form";
+
+        $this->assertNotContains('checkbox', $html);
+        $this->assertNotContains('pretty', $html);
+        $this->assertNotContains('Cat', $html);
+
+        $form->source('animals', array(
+            '1' => 'Cat',
+            '2' => 'Dog',
+            '3' => 'Zebra'
+        ));
+
+        $html = "$form";
+
+        $this->assertContains('checkbox', $html);
+        $this->assertContains('pretty', $html);
+        $this->assertContains('Cat',$html);
+
+        $this->assertAccept($form, array(
+            'animals' => array('1')
+        ));
+
+        $this->assertAccept($form, array(
+            'animals' => array('1', '3')
+        ));
+
+        $this->assertContains('checked', "$form");
+
+        $this->assertAccept($form, array(
+            'animals' => array()
+        ));
+
+        $this->assertNotContains('checked', "$form");
     }
 
     /**

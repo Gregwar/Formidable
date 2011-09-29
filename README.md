@@ -9,8 +9,5 @@ facilement
 TODO
 ----
 
-* Ajouter des tests pour les source
 * Ajouter des tests pour les fichiers
-* Ajouter des tests pour les multicheckbox et multiradio
-* Optimiser le <options> qui fait actuellement de terribles décallages
 * Tagger la v1.0 quand tout sera terminé
