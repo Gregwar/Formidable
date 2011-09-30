@@ -20,6 +20,13 @@ class CaptchaField extends Field
         $this->type = 'text';
     }
 
+    public function push($var, $value)
+    {
+        if ($var !== 'type') {
+            parent::push($var, $value);
+        }
+    }
+
     /**
      * Génère la valeur du CAPTCHA
      */

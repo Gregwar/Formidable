@@ -82,7 +82,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form->checkme = '1';
 
         $html = "$form";
-        $this->assertContains('Setting a value', $html);
+        $this->assertContains('value="Setting a value"', $html);
         $this->assertContains('selected=', $html);
         $this->assertContains('checked=', $html);
     }

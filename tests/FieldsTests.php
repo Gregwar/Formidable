@@ -168,6 +168,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
         $this->assertContains('<img', $html);
         $this->assertContains('code', $html);
+        $this->assertContains('type="text"', $html);
 
         $captchaValue = $form->get('code')->getCaptchaValue();
 
