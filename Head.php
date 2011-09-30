@@ -34,7 +34,7 @@ class Head
         return $this->attributes[$name];
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $html = '<form';
         foreach ($this->attributes as $name => $value) {

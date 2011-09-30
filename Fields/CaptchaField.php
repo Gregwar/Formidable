@@ -56,12 +56,12 @@ class CaptchaField extends Field
         unset($_SESSION["DSD_Captcha"]);
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $this->generate();
         $temp = $this->value;
         $this->value = '';
-        $input_html = parent::getHTML();
+        $input_html = parent::getHtml();
         $this->value = $temp;
 
         $captcha = new Captcha($this->captchaValue);

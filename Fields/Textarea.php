@@ -19,7 +19,7 @@ class Textarea extends Field
         $this->value .= $value;
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $html ='<textarea name="'.$this->name.'" ';
         foreach ($this->attributes as $name => $value) {

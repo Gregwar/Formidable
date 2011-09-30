@@ -232,13 +232,13 @@ class Form implements \Iterator
      */
     public function __toString()
     {
-        return $this->getHTML();
+        return $this->getHtml();
     }
 
     /**
      * Création du code HTML
      */
-    public function getHTML() {
+    public function getHtml() {
         $html = '';
 
         if ($this->needJs) {
@@ -249,7 +249,7 @@ class Form implements \Iterator
             if (is_string($d)) {
                 $html .= $d;
             } else {
-                $html .= $d->getHTML();
+                $html .= $d->getHtml();
             }
         }
 

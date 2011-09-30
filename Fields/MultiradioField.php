@@ -94,7 +94,7 @@ class MultiradioField extends Field
         return $this->value;
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $html = '';
 
@@ -102,7 +102,7 @@ class MultiradioField extends Field
             foreach ($this->radios as $radio) {
                 $html.= '<div class="'.$this->getAttribute('class').'">';
                 $html.= '<label>';
-                $html.= $radio->getHTML();
+                $html.= $radio->getHtml();
                 $html.= $this->labels[$radio->getValue()];
                 $html.= '</label>';
                 $html.= '</div>';

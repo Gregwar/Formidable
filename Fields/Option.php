@@ -60,7 +60,7 @@ class Option extends Field
         $this->label = $label;
     }
 
-    public function getHTML($selected)
+    public function getHtml($selected)
     {
         $html = '<option ';
         foreach ($this->attributes as $name => $value) {

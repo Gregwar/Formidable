@@ -282,7 +282,7 @@ abstract class Field
         }
     }
 
-    public function getHTMLForValue($given_value = '', $name_suffix = '')
+    public function getHtmlForValue($given_value = '', $name_suffix = '')
     {
         $html = '<input ';
         foreach ($this->attributes as $name => $value) {
@@ -299,10 +299,10 @@ abstract class Field
         return $html;
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         if (!$this->multiple) {
-            return $this->getHTMLForValue($this->value);
+            return $this->getHtmlForValue($this->value);
         } else {
             $rnd = sha1(mt_rand().time().mt_rand());
 
@@ -316,13 +316,13 @@ abstract class Field
                     $others.="DSD.addInput(\"$rnd\",\"";
                     $others.=str_replace(
                         array("\r", "\n"), array('', ''),
-                        addslashes($this->getHTMLForValue($value, '['.$id.']'))
+                        addslashes($this->getHtmlForValue($value, '['.$id.']'))
                     );
                     $others.="\");\n";
                 }
             }
 
-            $prototype = $this->getHTMLForValue('', '[]');
+            $prototype = $this->getHtmlForValue('', '[]');
 
             $html= '<span id="'.$rnd.'"></span>';
             $html.= '<script type="text/javascript">'.$others.'</script>';

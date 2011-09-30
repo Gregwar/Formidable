@@ -61,7 +61,7 @@ class CheckboxField extends Field
         return;
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $this->unsetAttribute('checked');
 
@@ -69,6 +69,6 @@ class CheckboxField extends Field
             $this->setAttribute('checked', 'checked');
         }
 
-        return parent::getHTML();
+        return parent::getHtml();
     }
 }

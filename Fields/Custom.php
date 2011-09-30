@@ -31,7 +31,7 @@ class Custom extends Field
         $this->src = $src;
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         return $this->src;
     }

@@ -103,7 +103,7 @@ class MulticheckboxField extends Field
         return $values;
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $html = '';
 
@@ -111,7 +111,7 @@ class MulticheckboxField extends Field
             foreach ($this->checkboxes as $checkbox) {
                 $html.= '<div class="'.$this->getAttribute('class').'" />';
                 $html.= '<label>';
-                $html.= $checkbox->getHTML();
+                $html.= $checkbox->getHtml();
                 $html.= $this->labels[$checkbox->getName()];
                 $html.= '</label>';
                 $html.= '</div>';

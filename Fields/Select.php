@@ -53,7 +53,7 @@ class Select extends Field
         return 'Vous devez choisur une valeur pour le champ '.$this->printName();
     }
 
-    public function getHTML()
+    public function getHtml()
     {
         $html = '<select name="'.$this->name.'" ';
         foreach ($this->attributes as $name => $value) {
@@ -62,9 +62,9 @@ class Select extends Field
         $html.= ">\n";
         foreach ($this->options as $option) {
             if ($option->getValue() == $this->value)
-                $html .= $option->getHTML(true);
+                $html .= $option->getHtml(true);
             else
-                $html .= $option->getHTML(false);
+                $html .= $option->getHtml(false);
         }
         $html .= "</select>\n";
 
