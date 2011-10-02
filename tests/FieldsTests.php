@@ -1,6 +1,15 @@
 <?php
 
 use Gregwar\DSD\Form;
+use Gregwar\DSD\FormContext;
+
+class Mock_FileField extends \Gregwar\DSD\Fields\FileField
+{
+    public function save($filename)
+    {
+        return sha1(file_get_contents($this->datas['tmp_name']));
+    }
+}
 
 /**
  * Tests des contraintes
@@ -444,11 +453,47 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test du type file
+     */
+    public function testFile()
+    {
+        $context = new FormContext;
+        $context->registerType('file', '\Mock_FileField');
+        $form = $context->getForm(__DIR__.'/files/form/upload.html');
+        $file = __DIR__.'/files/upload/test.txt';
+        $hash = sha1(file_get_contents($file));
+
+        $this->assertContains('file', "$form");
+        $this->assertContains('multipart', "$form");
+
+        $this->assertAccept($form, array(), array(
+            'attachement' => array(
+                'size' => filesize($file),
+                'tmp_name' => $file,
+                'name' => 'test.txt'
+            )
+        ));
+
+        $this->assertEquals($hash, $form->attachement->save(null));
+        $this->assertEquals('test.txt', $form->get('attachement')->fileName());
+
+        $file = __DIR__.'/files/upload/long.txt';
+        $this->assertRefuse($form, array(), array(
+            'attachement' => array(
+                'size' => filesize($file),
+                'tmp_name' => $file,
+                'name' => 'long.txt'
+            )
+        ));
+    }
+
+    /**
      * Test qu'un formulaire accepte les données fournies
      */
-    private function assertAccept($form, $data) {
+    private function assertAccept($form, $data, $files = array()) {
         $_POST = $data;
         $_POST['csrf_token'] = $form->getToken();
+        $_FILES = $files;
         $this->assertTrue($form->posted());
         $this->assertEmpty($form->check());
     }
@@ -456,9 +501,10 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     /**
      * Test qu'un formulaire rejette les données fournies
      */
-    private function assertRefuse($form, $data) {
+    private function assertRefuse($form, $data, $files = array()) {
         $_POST = $data;
         $_POST['csrf_token'] = $form->getToken();
+        $_FILES = $files;
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
     }

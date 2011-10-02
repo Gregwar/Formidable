@@ -12,22 +12,17 @@ class FileField extends Field
     /**
      * Données du fichier
      */
-    protected $datas = null;
+    protected $datas;
 
     /**
      * Taille maximum
      */
-    protected $maxsize = null;
+    protected $maxsize;
 
     /**
      * Type de fichier
      */
-    protected $filetype = null;
-
-    /**
-     * Utilisé pour les limitations de dimensions
-     */
-    protected $image = null;
+    protected $filetype;
 
     /**
      * Type de champ
