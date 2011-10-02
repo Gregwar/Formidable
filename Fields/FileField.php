@@ -92,9 +92,9 @@ class FileField extends Field
 
     public function save($filename)
     {
-        if (null === $this->datas)
-
+        if (null === $this->datas) {
             return;
+        }
 
         @move_uploaded_file($this->datas['tmp_name'], $filename);
     }
