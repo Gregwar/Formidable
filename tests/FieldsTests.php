@@ -114,6 +114,25 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test du champ hidden
+     */
+    public function testHidden()
+    {
+        $form = $this->getForm('hidden.html');
+
+        $this->assertContains('hidden', "$form");
+        $this->assertContains('123', "$form");
+
+        $this->assertAccept($form, array(
+            'cache' => '123'
+        ));
+
+        $this->assertRefuse($form, array(
+            'cache' => str_repeat('x', 25)
+        ));
+    }
+
+    /**
      * Test de min="" et max=""
      */
     public function testMinMax()
