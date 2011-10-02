@@ -82,6 +82,14 @@ class FormContext
     protected $parserClass = '\Gregwar\DSD\Parser';
 
     /**
+     * Enregistrer un type
+     */
+    public function registerType($type, $class)
+    {
+        $this->typeClasses[$type] = $class;
+    }
+
+    /**
      * Obtenir le Parser
      */
     public function getParser($content)

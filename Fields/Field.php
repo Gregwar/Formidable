@@ -124,7 +124,6 @@ abstract class Field
             $this->name = $value;
             break;
         case 'type':
-            $this->type = $value;
             break;
         case 'value':
             $this->setValue($value, true);

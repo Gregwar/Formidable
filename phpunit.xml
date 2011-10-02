@@ -15,6 +15,7 @@
         <testsuite name="DSD Test Suite">
             <file>./tests/ParserTests.php</file>
             <file>./tests/FormTests.php</file>
+            <file>./tests/FormContextTests.php</file>
             <file>./tests/FieldsTests.php</file>
         </testsuite>
     </testsuites>
