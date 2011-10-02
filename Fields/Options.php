@@ -12,23 +12,23 @@ class Options extends Field
     /**
      * Nom de la source d'alimentation
      */
-    private $source;
+    protected $source;
 
     /**
      * Champ select correspondant
      */
-    private $parent;
+    protected $parent;
 
     /**
      * Position des options dans le parent
      */
-    private $position;
+    protected $position;
 
     /**
      * Sauvegarde les donnÃ©es poussÃ©es pour les rÃ©percuter plus
      * tard sur les options
      */
-    private $pushSave = array();
+    protected $pushSave = array();
 
     public function push($name, $value)
     {

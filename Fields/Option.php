@@ -12,17 +12,17 @@ class Option extends Field
     /**
      * Select parent
      */
-    private $parent;
+    protected $parent;
 
     /**
      * Séléctionnée ?
      */
-    private $selected = false;
+    protected $selected = false;
 
     /**
      * Label
      */
-    private $label;
+    protected $label;
 
     public function __construct()
     {

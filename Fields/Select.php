@@ -12,7 +12,7 @@ class Select extends Field
     /**
      * Options (enfants)
      */
-    private $options = array();
+    protected $options = array();
 
     public function countOptions()
     {

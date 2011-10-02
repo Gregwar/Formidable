@@ -12,17 +12,17 @@ class CheckboxField extends Field
     /**
      * La case est t-elle cochÃ©e ?
      */
-    private $checked = false;
+    protected $checked = false;
 
     /**
      * Valeur pour la checker
      */
-    private $checkedValue = '1';
+    protected $checkedValue = '1';
 
-    public function __construct()
-    {
-        $this->type = 'checkbox';
-    }
+    /**
+     * Type du champ
+     */
+    protected $type = 'checkbox';
 
     public function push($name, $value)
     {

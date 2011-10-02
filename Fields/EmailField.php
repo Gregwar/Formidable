@@ -9,10 +9,10 @@ namespace Gregwar\DSD\Fields;
  */
 class EmailField extends Field
 {
-    public function __construct()
-    {
-        $this->type = 'email';
-    }
+    /**
+     * Type du champ
+     */
+    protected $type = 'email';
 
     public function check()
     {

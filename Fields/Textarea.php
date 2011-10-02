@@ -3,16 +3,16 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * ReprÃ©sente une balise <textarea>
+ * Représente une balise <textarea>
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Textarea extends Field
 {
-    public function __construct()
-    {
-        $this->type = '';
-    }
+    /**
+     * Type du champ
+     */
+    protected $type = '';
 
     public function addValue($value)
     {

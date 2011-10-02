@@ -12,22 +12,22 @@ class MultiradioField extends Field
     /**
      * Nom de la source
      */
-    private $source;
+    protected $source;
 
     /**
      * Radios
      */
-    private $radios = array();
+    protected $radios = array();
 
     /**
      * Labels des radios
      */
-    private $labels = array();
+    protected $labels = array();
 
     /**
      * Sauve du push
      */
-    private $pushSave = array();
+    protected $pushSave = array();
 
     public function check()
     {

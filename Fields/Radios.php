@@ -12,12 +12,12 @@ class Radios extends Field
     /**
      * Enfants
      */
-    private $radios = array();
+    protected $radios = array();
 
     /**
      * La valeur est t-elle correcte ?
      */
-    private $value_set = false;
+    protected $valueSet = false;
 
     public function addRadio(RadioField $radio)
     {
@@ -36,7 +36,7 @@ class Radios extends Field
 
         foreach ($this->radios as $radio) {
             if ($radio->getValue() == $value) {
-                $this->value_set = true;
+                $this->valueSet = true;
                 $radio->setChecked(true);
             } else {
                 $radio->setChecked(false);
@@ -51,7 +51,7 @@ class Radios extends Field
 
     public function check()
     {
-        if (!$this->optional && !$this->value_set) {
+        if (!$this->optional && !$this->valueSet) {
             return 'Vous devez cocher une case pour '.$this->radios[0]->printName();
         }
     }

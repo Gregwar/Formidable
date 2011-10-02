@@ -9,8 +9,15 @@ namespace Gregwar\DSD\Fields;
  */
 class Custom extends Field
 {
-    private $src;
-    private $source;
+    /**
+     * Nom de la source
+     */
+    protected $source;
+
+    /**
+     * Données
+     */
+    protected $data;
 
     public function push($name, $value)
     {
@@ -26,14 +33,14 @@ class Custom extends Field
         return $this->source;
     }
 
-    public function source($src)
+    public function source($data)
     {
-        $this->src = $src;
+        $this->data = $data;
     }
 
     public function getHtml()
     {
-        return $this->src;
+        return $this->data;
     }
 
     public function check()

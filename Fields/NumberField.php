@@ -10,19 +10,19 @@ namespace Gregwar\DSD\Fields;
 class NumberField extends Field
 {
     /**
+     * Type du champ
+     */
+    protected $type = 'text';
+
+    /**
      * Valeur minimum
      */
-    private $min = null;
+    protected $min = null;
 
     /**
      * Valeur maximum
      */
-    private $max = null;
-
-    public function __construct()
-    {
-        $this->type = 'text';
-    }
+    protected $max = null;
 
     public function push($name, $value)
     {

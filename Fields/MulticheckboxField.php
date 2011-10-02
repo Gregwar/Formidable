@@ -12,22 +12,22 @@ class MulticheckboxField extends Field
     /**
      * Nom de la source
      */
-    private $source;
+    protected $source;
 
     /**
      * Checkboxes
      */
-    private $checkboxes = array();
+    protected $checkboxes = array();
 
     /**
      * Labels
      */
-    private $labels = array();
+    protected $labels = array();
 
     /**
      * Sauvegarde des push
      */
-    private $pushSave = array();
+    protected $pushSave = array();
 
     public function check()
     {
@@ -66,7 +66,7 @@ class MulticheckboxField extends Field
         }
     }
 
-    private function nameFor($name) 
+    protected function nameFor($name) 
     {
         return $this->getName().'['.$name.']';
     }

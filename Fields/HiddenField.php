@@ -3,20 +3,19 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Champs cachÃ©
+ * Champs caché
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class HiddenField extends Field
 {
-    public function __construct()
-    {
-        $this->type = 'hidden';
-        $this->optional = true;
-    }
+    /**
+     * Type du champ
+     */
+    protected $type = 'hidden';
 
-    public function check()
-    {
-        return;
-    }
+    /**
+     * Optionel par défaut
+     */
+    protected $optional = true;
 }

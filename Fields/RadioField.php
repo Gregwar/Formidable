@@ -11,17 +11,17 @@ class RadioField extends Field
     /**
      * La case est t-elle cochée ?
      */
-    private $checked = false;
+    protected $checked = false;
 
     /**
      * Radios parent
      */
-    private $parent;
+    protected $parent;
 
-    public function __construct()
-    {
-        $this->type = 'radio';
-    }
+    /**
+     * Type du champ
+     */
+    protected $type = 'radio';
 
     public function setParent($parent)
     {

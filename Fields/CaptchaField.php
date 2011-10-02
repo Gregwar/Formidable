@@ -13,12 +13,15 @@ use Gregwar\DSD\Captcha\Captcha;
  */
 class CaptchaField extends Field
 {
+    /**
+     * Valeur du CAPTCHA
+     */
     protected $captchaValue = '';
 
-    public function __construct()
-    {
-        $this->type = 'text';
-    }
+    /**
+     * Type du champ (texte)
+     */
+    protected $type = 'text';
 
     public function push($var, $value)
     {
@@ -30,7 +33,7 @@ class CaptchaField extends Field
     /**
      * Génère la valeur du CAPTCHA
      */
-    private function generate()
+    protected function generate()
     {
         $chars = str_split('0123456789abcdefghijkmnpqrstuvwxyz');
 

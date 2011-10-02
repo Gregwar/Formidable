@@ -12,27 +12,27 @@ class FileField extends Field
     /**
      * Données du fichier
      */
-    private $datas = null;
+    protected $datas = null;
 
     /**
      * Taille maximum
      */
-    private $maxsize = null;
+    protected $maxsize = null;
 
     /**
      * Type de fichier
      */
-    private $filetype = null;
+    protected $filetype = null;
 
     /**
      * Utilisé pour les limitations de dimensions
      */
-    private $image = null;
+    protected $image = null;
 
-    public function __construct()
-    {
-        $this->type = 'file';
-    }
+    /**
+     * Type de champ
+     */
+    protected $type = 'file';
 
     public function push($var, $value)
     {

@@ -3,14 +3,14 @@
 namespace Gregwar\DSD\Fields;
 
 /**
- * Champ text
+ * Champ texte
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class TextField extends Field
 {
-    public function __construct()
-    {
-        $this->type = 'text';
-    }
+    /**
+     * Type du champ
+     */
+    protected $type = 'text';
 }

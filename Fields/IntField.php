@@ -11,10 +11,10 @@ require_once(__DIR__.'/NumberField.php');
  */
 class IntField extends NumberField
 {
-    public function __construct()
-    {
-        $this->type = 'text';
-    }
+    /**
+     * Type de champ
+     */
+    protected $type = 'text';
 
     public function check()
     {
