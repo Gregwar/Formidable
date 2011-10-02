@@ -12,17 +12,17 @@ class Entity
     /**
      * Table SQL
      */
-    private $table;
+    protected $table;
 
     /**
      * Champs
      */
-    private $datas = array();
+    protected $datas = array();
 
     /**
      * Conditions
      */
-    private $conditions;
+    protected $conditions;
 
     /**
      * Construction et accès aux données

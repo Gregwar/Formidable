@@ -9,7 +9,7 @@ namespace Gregwar\DSD\Captcha;
  */
 class Captcha
 {
-    private $value;
+    protected $value;
 
     public function __construct($value)
     {
@@ -85,7 +85,7 @@ class Captcha
         return ob_get_clean();
     }
 
-    private function bilinearInterpolate($x, $y, $nw, $ne, $sw, $se) {
+    protected function bilinearInterpolate($x, $y, $nw, $ne, $sw, $se) {
         $r0 = (int)($nw >> 16) & 0xff;
         $g0 = (int)($nw >>  8) & 0xff;
         $b0 = (int)($nw      ) & 0xff;
@@ -117,7 +117,7 @@ class Captcha
         return ($r << 16) | ($g << 8) | $b;
     }
 
-    private function getCol($image, $x, $y)
+    protected function getCol($image, $x, $y)
     {
         $L = imagesx($image);
         $H = imagesy($image);
