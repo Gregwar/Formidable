@@ -3,6 +3,7 @@
 namespace Gregwar\DSD;
 
 require_once(__DIR__.'/Parser.php');
+require_once(__DIR__.'/FormContext.php');
 require_once(__DIR__.'/Entity.php');
 require_once(__DIR__.'/Error.php');
 
@@ -16,55 +17,66 @@ class Form implements \Iterator
     /**
      * Contenu (code HTML du formulaire)
      */
-    private $content;
+    protected $content;
 
     /**
      * Objets et chaîne de caractères représentant le formulaire DSD
      */
-    private $datas = array();
+    protected $datas = array();
 
     /**
      * Champs, indexés par nom
      */
-    private $fields = array();
+    protected $fields = array();
 
     /**
      * Sources d'information
      */
-    private $sources = array();
+    protected $sources = array();
 
     /**
      * Token de sécurité
      */
-    private $token;
+    protected $token;
 
     /**
      * Position courrante pour l'itération
      */
-    private $position = 0;
+    protected $position = 0;
 
     /**
      * En-tête
      */
-    private $head = null;
+    protected $head = null;
 
     /**
      * Besoin de Js ?
      */
-    private $needJs = false;
+    protected $needJs = false;
 
     /**
      * Parser
      */
-    private $parser;
+    protected $parser;
+
+    /**
+     * Contexte
+     */
+    protected $context;
 
     /**
      * Chemin du fichier
      */
-    private $path;
+    protected $path;
 
-    public function __construct($pathOrContent = '', array $vars = array())
+    public function __construct($pathOrContent = '', array $vars = array(), $context = null)
     {
+        if (null === $context) {
+            $this->context = FormContext::getDefault();
+        } else {
+            $this->context = $context;
+        }
+
         if (isset($pathOrContent)) {
             if (strlen($pathOrContent) > 100 || strpos($pathOrContent, "\n") !== false) {
                 $this->content = $pathOrContent;
@@ -91,16 +103,16 @@ class Form implements \Iterator
     /**
      * Parse le contenu du formulaire pour construire les objets
      */
-    private function parse()
+    protected function parse()
     {
-        $parser = new Parser($this->content);
+        $parser = $this->context->getParser($this->content);
         $this->setParsedDatas($parser);
     }
 
     /**
      * Définit les données récupérées par le parser
      */
-    private function setParsedDatas(Parser $parser) {
+    protected function setParsedDatas(Parser $parser) {
         $this->parser = clone $parser;
 
         $this->datas = $parser->getDatas();

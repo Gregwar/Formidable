@@ -8,32 +8,6 @@ namespace Gregwar\DSD;
 require_once(__DIR__.'/ParserException.php');
 
 /**
- * Inclusion des types
- */
-require_once(__DIR__.'/Head.php');
-require_once(__DIR__.'/Fields/Field.php');
-require_once(__DIR__.'/Fields/Textarea.php');
-require_once(__DIR__.'/Fields/Radios.php');
-require_once(__DIR__.'/Fields/Select.php');
-require_once(__DIR__.'/Fields/Option.php');
-require_once(__DIR__.'/Fields/Options.php');
-require_once(__DIR__.'/Fields/Custom.php');
-
-/**
- * Inclusion de Fields/xxxField.php
- */
-
-$fields_dir = __DIR__.'/Fields';
-
-$dir = opendir($fields_dir);
-while ($file = readdir($dir)) {
-    if (substr($file, -9) == 'Field.php') {
-        require_once($fields_dir.'/'.$file);
-    }
-}
-closedir($dir);
-
-/**
  * Parse un formulaire pour DSD
  *
  * @author Grégoire Passault <g.passault@gmail.com>
@@ -44,6 +18,11 @@ class Parser
      * Type par défaut (pour les <input> non typés)
      */
     public static $fallback = 'text';
+
+    /**
+     * Contexte à utiliser
+     */
+    private $context;
 
     /**
      * Objets constituant le formulaire
@@ -80,8 +59,14 @@ class Parser
      */
     private $currentLine = 1;
 
-    public function __construct($content)
+    public function __construct($content, $context = null)
     {
+        if (null === $context) {
+            $this->context = FormContext::getDefault();
+        } else {
+            $this->context = $context;
+        }
+
         $this->parse($content);
     }
 
@@ -229,7 +214,7 @@ class Parser
                                 $idx += 2;
 
                                 if (!isset($this->fields[$return->getName()])) {
-                                    $this->fields[$return->getName()] = new Fields\Radios;
+                                    $this->fields[$return->getName()] = $this->context->getObject('radios');
                                 }
                                 $this->fields[$return->getName()]->addRadio($return);
                             } else {
@@ -253,11 +238,9 @@ class Parser
                                     $select = true;
                                 }
 
-                                if ($return instanceof Fields\Custom ||
-                                    $return instanceof FIelds\MulticheckboxField ||
-                                    $return instanceof Fields\MultiradioField) {
-                                        $this->sources[$return->getSource()] = $return;
-                                    }
+                                if ($return->getSource()) {
+                                    $this->sources[$return->getSource()] = $return;
+                                }
                             }
                         }
                     }
@@ -287,7 +270,7 @@ class Parser
     /**
      * Parser une balise
      */
-    public static function doParseBalise(&$name, &$data)
+    public function doParseBalise(&$name, &$data)
     {
         $field = null;
 
@@ -307,27 +290,16 @@ class Parser
                 return '<'.$name.' '.$data.'>';
             }
 
-            $classname = sprintf('Gregwar\DSD\Fields\%sField', ucfirst(strtolower($type)));
-            $field = new $classname;
+            $field = $this->context->getField($type);
 
             break;
         case 'form':
-            $field = new Head;
-            break;
         case 'textarea':
-            $field = new Fields\Textarea;
-            break;
         case 'select':
-            $field = new Fields\Select;
-            break;
         case 'option':
-            $field = new Fields\Option;
-            break;
         case 'options':
-            $field=new Fields\Options;
-            break;
         case 'custom':
-            $field = new FIelds\Custom;
+            $field = $this->context->getObject($name);
             break;
         case '/textarea':
             return '</textarea>';

@@ -49,4 +49,9 @@ class Head
     {
         return false;
     }
+
+    public function getSource()
+    {
+        return null;
+    }
 }
