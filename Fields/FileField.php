@@ -61,7 +61,7 @@ class FileField extends Field
     public function check()
     {
         if ($this->hasData()) {
-            if (null !== $this->maxsize && $this->datas["size"] > $this->maxsize) {
+            if (null !== $this->maxsize && $this->datas['size'] > $this->maxsize) {
                 return 'La taille du fichier envoyé pour le champ '.$this->printName().
                        ' ne doit pas excéder '.$this->sizePrettyize($this->maxsize);
             }
@@ -87,7 +87,7 @@ class FileField extends Field
 
     public function hasData()
     {
-        return (null !== $this->datas && isset($this->datas['size']) && $this->datas['size']!=0);
+        return (null !== $this->datas && isset($this->datas['size']) && $this->datas['size'] != 0);
     }
 
     public function save($filename)
@@ -110,7 +110,7 @@ class FileField extends Field
 
     public function prettySize()
     {
-        return $this->sizePrettyize($this->datas["size"]);
+        return $this->sizePrettyize($this->datas['size']);
     }
 
     public function sizePrettyize($size)
