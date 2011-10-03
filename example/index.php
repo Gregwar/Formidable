@@ -5,7 +5,6 @@ include(__DIR__.'/../Form.php');
 include('person.php');
 
 $form = new Gregwar\DSD\Form('forms/demoform.html');
-$errors = array();
 
 $form->addConstraint('prenom', function($value) {
     if ($value[0] == 'P') {
@@ -18,13 +17,9 @@ $form->source('animaux', array(
     '4' => 'Bonobo'
 ));
 
-if ($form->posted()) {
-    $errors = $form->check();
-    if (!$errors) {
-        $person = $form->getDatas(new Person);
-        var_dump($person);
-    }
-}
+$errors = $form->handle(function($datas) {
+    print_r($datas);
+});
 
 ?>
 <!DOCTYPE html>

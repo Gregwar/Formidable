@@ -297,7 +297,9 @@ abstract class Field
         }
         $html.= 'type="'.$this->type.'" ';
         $html.= 'name="'.$this->name.$name_suffix.'" ';
-        $html.= 'value="'.htmlspecialchars($given_value).'" ';
+        if ($given_value) {
+            $html.= 'value="'.htmlspecialchars($given_value).'" ';
+        }
         $html.= '/>';
 
         return $html;

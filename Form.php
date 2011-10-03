@@ -363,6 +363,26 @@ class Form implements \Iterator
     }
 
     /**
+     * Gérer un formulaire, fonction raccourcie
+     */
+    public function handle($callback = null)
+    {
+        if ($this->posted()) {
+            $errors = $this->check();
+
+            if (!$errors) {
+                if (null !== $callback) {
+                    $callback($this->getDatas());
+                }
+            } else {
+                return $errors;
+            }
+        }
+
+        return array();
+    }
+
+    /**
      * Permet d'itérer sur les champs
      */
 

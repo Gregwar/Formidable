@@ -118,6 +118,17 @@ class Entity
         mysql_query($sql);
     }
 
+    public function dump()
+    {
+        $string = '';
+        
+        foreach ($this->datas as $k => $v) {
+            $string.= $k.': '.$v."\n";
+        }
+
+        return $string;
+    }
+
     public static function error($sql, $msg)
     {
         echo "<span style='font-family: Courier;'>";
