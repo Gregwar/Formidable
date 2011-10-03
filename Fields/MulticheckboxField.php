@@ -54,7 +54,7 @@ class MulticheckboxField extends Field
     public function source($datas)
     {
         foreach ($datas as $value => $label) {
-            $this->checkboxes[] = $checkbox = new CheckboxField;
+            $this->checkboxes[$value] = $checkbox = new CheckboxField;
             $checkbox->push('name', $this->nameFor($value));
             $checkbox->push('optional', null);
             $checkbox->push('value', '1');
@@ -95,9 +95,9 @@ class MulticheckboxField extends Field
     public function getValue()
     {
         $values = array();
-        foreach ($this->checkboxes as $checkbox) {
+        foreach ($this->checkboxes as $key => $checkbox) {
             if ($checkbox->isChecked()) {
-                $values[] = $checkbox->getValue();
+                $values[] = $key;
             }
         }
         return $values;
