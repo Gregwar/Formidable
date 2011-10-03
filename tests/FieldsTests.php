@@ -3,7 +3,10 @@
 use Gregwar\DSD\Form;
 use Gregwar\DSD\FormContext;
 
-class Mock_FileField extends \Gregwar\DSD\Fields\FileField
+/**
+ * Type "file" qui retourne le hash du fichier au lieu de le sauver réellement
+ */
+class FileField_NoSave extends \Gregwar\DSD\Fields\FileField
 {
     public function save($filename)
     {
@@ -458,7 +461,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     public function testFile()
     {
         $context = new FormContext;
-        $context->registerType('file', '\Mock_FileField');
+        $context->registerType('file', '\FileField_NoSave');
         $form = $context->getForm(__DIR__.'/files/form/upload.html');
         $file = __DIR__.'/files/upload/test.txt';
         $hash = sha1(file_get_contents($file));
@@ -483,6 +486,32 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
                 'size' => filesize($file),
                 'tmp_name' => $file,
                 'name' => 'long.txt'
+            )
+        ));
+    }
+
+    /**
+     * Teste que le filetype="image" marche
+     */
+    public function testFileImage()
+    {
+        $form = $this->getForm('upload_image.html');
+
+        $file = __DIR__.'/files/upload/image.jpg';
+        $this->assertAccept($form, array(), array(
+            'photo' => array(
+                'size' => filesize($file),
+                'tmp_name' => $file,
+                'name' => 'image.jpg'
+            )
+        ));
+
+        $file = __DIR__.'/files/upload/test.txt';
+        $this->assertRefuse($form, array(), array(
+            'photo' => array(
+                'size' => filesize($file),
+                'tmp_name' => $file,
+                'name' => 'test.txt'
             )
         ));
     }
