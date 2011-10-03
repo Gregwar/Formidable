@@ -55,4 +55,9 @@ class Radios extends Field
             return 'Vous devez cocher une case pour '.$this->radios[0]->printName();
         }
     }
+
+    public function __clone()
+    {
+        $this->radios = array();
+    }
 }

@@ -42,7 +42,15 @@ class Options extends Field
     public function setParent($parent)
     {
         $this->parent = $parent;
-        $this->position = $this->parent->countOptions();
+
+        if (null === $this->position) {
+            $this->position = $this->parent->countOptions();
+        }
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
     }
 
     public function check()

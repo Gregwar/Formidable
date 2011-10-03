@@ -215,6 +215,7 @@ class Parser
 
                                 if (!isset($this->fields[$return->getName()])) {
                                     $this->fields[$return->getName()] = $this->context->getObject('radios');
+                                    $this->fields[$return->getName()]->setName($return->getName());
                                 }
                                 $this->fields[$return->getName()]->addRadio($return);
                             } else {
@@ -344,23 +345,40 @@ class Parser
 
     /**
      * Clonage
-     * XXX: Ne marchera pas avec un <options>
      */
     public function __clone()
     {
+        // Clonage de la tête
         $this->head = clone $this->head;
+
+        // Clonage des champs
         foreach ($this->fields as &$field) {
             $field = clone $field;
         }
+
+        // Clonages des sources
         foreach ($this->sources as &$source) {
-            $source = clone $source;
+            if ($source instanceof Fields\Options) {
+                $name = $source->getParent()->getName();
+                $source = clone $source;
+                $source->setParent($this->fields[$name]);
+            } else {
+                $source = $this->fields[$source->getName()];
+            }
         }
+
+        // "Réparation" des références dans les datas
         foreach ($this->datas as &$data) {
             if (is_object($data)) {
                 if ($data instanceof Head) {
                     $data = $this->getHead();
                 } else {
-                    $data = $this->fields[$data->getName()];
+                    if ($data instanceof Fields\RadioField) {
+                        $data = clone $data;
+                        $this->fields[$data->getName()]->addRadio($data);
+                    } else {
+                        $data = $this->fields[$data->getName()];
+                    }
                 }
             }
         }
