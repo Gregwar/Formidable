@@ -33,6 +33,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             'name' => 'jack'
         ));
 
+        $this->assertEquals('jack', $form->name);
+
         $this->assertRefuse($form, array(
             'name' => ''
         ));
@@ -65,10 +67,14 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertAccept($form, array(
             'name' => ''
         ));
+ 
+        $this->assertEquals('', $form->name);
 
         $this->assertAccept($form, array(
             'name' => 'Jack'
         ));
+
+        $this->assertEquals('Jack', $form->name);
     }
 
     /**
@@ -247,6 +253,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             'city' => 'la'
         ));
 
+        $this->assertEquals('la', $form->city);
+
         $this->assertRefuse($form, array(
             'city' => 'xy'
         ));
@@ -380,6 +388,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertAccept($form, array(
             'animal' => '2'
         ));
+
+        $this->assertEquals('2', $form->animal);
 
         $this->assertContains('checked', "$form");
 
@@ -517,6 +527,28 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
                 'name' => 'test.txt'
             )
         ));
+    }
+
+    /**
+     * Test de l'échappement des données
+     */
+    public function testEscaping()
+    {
+        $form = $this->getForm('escape.html');
+
+        $this->assertAccept($form, array(
+            'name' => 'a"b',
+            'text' => 'a',
+        ));
+
+        $this->assertContains('&quot;', "$form");
+
+        $this->assertAccept($form, array(
+            'name' => 'a',
+            'text' => 'a"b',
+        ));
+
+        $this->assertContains('&quot;', "$form");
     }
 
     /**
