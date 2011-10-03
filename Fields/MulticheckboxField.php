@@ -79,7 +79,7 @@ class MulticheckboxField extends Field
 
         $checked = array();
 
-        foreach ($values as $name) {
+        foreach ($values as $name => $one) {
             $checked[$this->nameFor($name)] = true;
         }
 

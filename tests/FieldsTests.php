@@ -439,11 +439,11 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertContains('Cat',$html);
 
         $this->assertAccept($form, array(
-            'animals' => array('1')
+            'animals' => array('1' => '1')
         ));
 
         $this->assertAccept($form, array(
-            'animals' => array('1', '3')
+            'animals' => array('1' => '1', '3' => '1')
         ));
 
         $this->assertContains('checked', "$form");
