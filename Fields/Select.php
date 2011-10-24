@@ -50,7 +50,7 @@ class Select extends Field
             }
         }
 
-        return 'Vous devez choisur une valeur pour le champ '.$this->printName();
+        return 'Vous devez choisir une valeur pour le champ '.$this->printName();
     }
 
     public function getHtml()
@@ -59,7 +59,12 @@ class Select extends Field
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
-        $html.= ">\n";
+	$html.= ">\n";
+
+	if ($this->optional) {
+	    $html .= '<option value=""></option>';
+	}
+
         foreach ($this->options as $option) {
             if ($option->getValue() == $this->value)
                 $html .= $option->getHtml(true);

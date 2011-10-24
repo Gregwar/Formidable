@@ -530,6 +530,43 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Teste le type date
+     */
+    public function testDate()
+    {
+	$form = $this->getForm('date.html');
+	$html = "$form";
+
+	$this->assertContains('select', $html);
+	$this->assertContains(date('Y'), $html);
+
+	$this->assertAccept($form, array(
+	    'date' => array(
+		'day' => 25,
+		'month' => 2,
+		'year' => date('Y')-5
+	    )
+	));
+
+	$this->assertRefuse($form, array(
+	    'date' => array(
+		'day' => 25,
+		'month' => 55,
+		'year' => date('Y')-5
+	    )
+	));
+
+
+	$this->assertRefuse($form, array(
+	    'date' => array(
+		'day' => '',
+		'month' => 2,
+		'year' => date('Y')-5
+	    )
+	));
+    }
+
+    /**
      * Test de l'échappement des données
      */
     public function testEscaping()

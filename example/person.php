@@ -10,4 +10,6 @@ class Person
     public $age;
 
     public $sexe;
+
+    public $date_naissance;
 }

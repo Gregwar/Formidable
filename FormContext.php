@@ -60,7 +60,8 @@ class FormContext
         'hidden' => '\Gregwar\DSD\Fields\HiddenField',
         'multicheckbox' => '\Gregwar\DSD\Fields\MulticheckboxField',
         'multiradio' => '\Gregwar\DSD\Fields\MultiradioField',
-        'password' => '\Gregwar\DSD\Fields\PasswordField'
+	'password' => '\Gregwar\DSD\Fields\PasswordField',
+	'date' => '\Gregwar\DSD\Fields\DateField',
     );
 
     /**
