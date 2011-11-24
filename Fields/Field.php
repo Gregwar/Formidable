@@ -354,6 +354,10 @@ abstract class Field
 
     public function addConstraint($closure)
     {
+        if (!$closure instanceof \Closure) {
+            throw new \InvalidArgumentException('L\'argument de addConstraint() doit être une \Closure');
+        }
+
         $this->constraints[] = $closure;
     }
 

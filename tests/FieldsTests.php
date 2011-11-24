@@ -196,6 +196,17 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test du typehint
+     * @expectedException       \InvalidArgumentException
+     */
+    public function testCustomConstraintType()
+    {
+        $form = $this->getForm('custom.html');
+
+        $form->addConstraint('name', 'meeeh');
+    }
+
+    /**
      * Test de contrainte custom
      */
     public function testCaptcha()
