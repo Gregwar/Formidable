@@ -176,7 +176,7 @@ class Form implements \Iterator
     {
         foreach ($this->fields as $field) {
             if (is_object($field)) {
-                if ($mapping = $field->getMappingName() && !$field->readOnly()) {
+                if (($mapping = $field->getMappingName()) && !$field->readOnly()) {
                     if (is_array($entity)) {
                         if (isset($entity[$mapping])) {
                             $field->setValue($entity[$mapping], 1);
