@@ -296,7 +296,11 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
         $this->assertRefuse($form, array(
             'names' => array(array('a', 'b'))
-        ));
+	));
+
+	$form->names = array('xxx');
+	$html = "$form";
+	$this->assertContains('xxx', $html);
     }
 
     /**

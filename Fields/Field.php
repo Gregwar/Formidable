@@ -185,7 +185,7 @@ abstract class Field
             return 'Le champ '.$this->printName().' est en lecture seule et ne doit pas changer';
         }
 
-        if ($this->multiple && is_array($this->value)) {
+	if ($this->multiple && is_array($this->value)) {
             $nodata = implode('', $this->value) === '';
 
             if (!$this->optional && $nodata) {
@@ -202,7 +202,7 @@ abstract class Field
                     return $error;
                 }
             }
-            $this->value = $value;
+            $this->value = $values;
 
             return;
         }
@@ -273,7 +273,7 @@ abstract class Field
             $this->value = null;
         }
 
-        if ($this->multiple) {
+	if ($this->multiple) {
             $this->value = null;
             if (is_array($value)) {
                 foreach ($value as $val) {
@@ -281,7 +281,7 @@ abstract class Field
                         return;
                     }
                 }
-                $this->value = $value;
+		$this->value = $value;
             }
         }
     }
@@ -309,20 +309,20 @@ abstract class Field
     {
         if (!$this->multiple) {
             return $this->getHtmlForValue($this->value);
-        } else {
+	} else {
             $rnd = sha1(mt_rand().time().mt_rand());
 
-            if (!is_array($this->value) || !$this->value) {
+	    if (!is_array($this->value) || !$this->value) {
                 $this->value = array('');
             }
 
             $others = '';
-            if ($this->multiple && is_array($this->value)) {
+	    if ($this->multiple && is_array($this->value)) {
                 foreach ($this->value as $id => $value) {
                     $others.="DSD.addInput(\"$rnd\",\"";
                     $others.=str_replace(
                         array("\r", "\n"), array('', ''),
-                        addslashes($this->getHtmlForValue($value, '['.$id.']'))
+                        addslashes($this->getHtmlForValue($value, '[]'))
                     );
                     $others.="\");\n";
                 }
