@@ -1,0 +1,23 @@
+{
+    "name": "gregwar/dsd",
+    "description": "DSD, the pragmatic forms library",
+    "keywords": ["forms", "fields", "input", "html"],
+    "homepage": "https://gregwar.com/DSD/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Grégoire Passault",
+            "email": "g.passault@gmail.com",
+            "homepage": "http://www.gregwar.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "target-dir": "Gregwar/DSD",
+    "autoload": {
+        "psr-0": {
+            "Gregwar\\DSD": ""
+        }
+    }
+}
