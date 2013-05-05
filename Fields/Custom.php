@@ -19,7 +19,7 @@ class Custom extends Field
      */
     protected $data;
 
-    public function push($name, $value)
+    public function push($name, $value = null)
     {
         if ($name == 'source') {
             $this->source = $value;

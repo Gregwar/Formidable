@@ -23,7 +23,7 @@ class CaptchaField extends Field
      */
     protected $type = 'text';
 
-    public function push($var, $value)
+    public function push($var, $value = null)
     {
         if ($var !== 'type') {
             parent::push($var, $value);

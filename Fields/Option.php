@@ -38,7 +38,7 @@ class Option extends Field
         }
     }
 
-    public function push($name, $value)
+    public function push($name, $value = null)
     {
         if ($name == 'selected') {
             $this->selected = true;

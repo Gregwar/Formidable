@@ -32,7 +32,7 @@ class RadioField extends Field
         }
     }
 
-    public function push($name, $value)
+    public function push($name, $value = null)
     {
         if ($name == 'checked') {
             $this->checked = true;

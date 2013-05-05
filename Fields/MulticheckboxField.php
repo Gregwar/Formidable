@@ -34,14 +34,14 @@ class MulticheckboxField extends Field
         return;
     }
 
-    public function push($var, $val)
+    public function push($var, $value = null)
     {
         switch ($var) {
         case 'source':
-            $this->source = $val;
+            $this->source = $value;
             break;
         default:
-            parent::push($var,$val);
+            parent::push($var, $value);
             break;
         }
     }
@@ -71,7 +71,7 @@ class MulticheckboxField extends Field
         return $this->getName().'['.$name.']';
     }
 
-    public function setValue($values)
+    public function setValue($values, $default = false)
     {
         if (!is_array($values)) {
             return;

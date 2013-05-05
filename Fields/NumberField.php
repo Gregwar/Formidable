@@ -24,7 +24,7 @@ class NumberField extends Field
      */
     protected $max = null;
 
-    public function push($name, $value)
+    public function push($name, $value = null)
     {
         switch ($name) {
             case 'min':

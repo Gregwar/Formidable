@@ -29,7 +29,7 @@ class FileField extends Field
      */
     protected $type = 'file';
 
-    public function push($var, $value)
+    public function push($var, $value = null)
     {
         switch ($var) {
         case 'maxsize':
@@ -44,7 +44,7 @@ class FileField extends Field
         }
     }
 
-    public function setValue($value)
+    public function setValue($value, $default = false)
     {
         if (!is_array($value)) {
             return;

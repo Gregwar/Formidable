@@ -30,7 +30,7 @@ class Radios extends Field
         $radio->setParent($this);
     }
 
-    public function setValue($value)
+    public function setValue($value, $default = false)
     {
         $this->value = $value;
 

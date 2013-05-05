@@ -35,7 +35,7 @@ class MultiradioField extends Field
             return 'Vous devez cochez une des cases pour '.$this->printName();
     }
 
-    public function push($var, $value)
+    public function push($var, $value = null)
     {
         switch ($var) {
         case 'type':
@@ -69,7 +69,7 @@ class MultiradioField extends Field
         }
     }
 
-    public function setValue($value)
+    public function setValue($value, $default = false)
     {
         $set = false;
 

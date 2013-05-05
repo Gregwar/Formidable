@@ -24,7 +24,7 @@ class CheckboxField extends Field
      */
     protected $type = 'checkbox';
 
-    public function push($name, $value)
+    public function push($name, $value = null)
     {
         if ($name === 'checked') {
             $this->checked = true;
@@ -36,7 +36,7 @@ class CheckboxField extends Field
         }
     }
 
-    public function setValue($value)
+    public function setValue($value, $default = false)
     {
         $this->checked = ($value == $this->checkedValue);
     }

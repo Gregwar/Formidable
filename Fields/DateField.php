@@ -19,7 +19,7 @@ class DateField extends Field
      */
     private $fields;
 
-    public function push($var, $value)
+    public function push($var, $value = null)
     {
 	if ($var == 'name' || $var == 'optional' || $var == 'mapping') {
 	    parent::push($var, $value);
@@ -28,21 +28,21 @@ class DateField extends Field
 	}
     }
 
-    public function setValue($val)
+    public function setValue($value, $default = false)
     {
-	if (is_string($val)) {
-	    $val = new \DateTime($val);
+	if (is_string($value)) {
+	    $value = new \DateTime($value);
 	}
 
-	if ($val instanceof \DateTime) {
-	    $val = array(
-		'day' => $val->format('d'),
-		'month' => $val->format('m'),
-		'year' => $val->format('Y')
+	if ($value instanceof \DateTime) {
+	    $value = array(
+		'day' => $value->format('d'),
+		'month' => $value->format('m'),
+		'year' => $value->format('Y')
 	    );
 	}
 
-	$this->value = $val;
+	$this->value = $value;
     }
 
     public function getValue()
@@ -110,8 +110,8 @@ class DateField extends Field
 
     private function proxyPush($target)
     {
-	foreach ($this->pushSave as $var => $val) {
-	    $target->push($var, $val);
+	foreach ($this->pushSave as $var => $value) {
+	    $target->push($var, $value);
 	}
     }
 
