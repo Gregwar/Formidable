@@ -250,7 +250,8 @@ class Form implements \Iterator
     /**
      * Création du code HTML
      */
-    public function getHtml() {
+    public function getHtml()
+    {
         $html = '';
 
         if ($this->needJs) {

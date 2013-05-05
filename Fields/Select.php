@@ -66,10 +66,11 @@ class Select extends Field
 	}
 
         foreach ($this->options as $option) {
-            if ($option->getValue() == $this->value)
-                $html .= $option->getHtml(true);
-            else
-                $html .= $option->getHtml(false);
+            if ($option->getValue() == $this->value) {
+                $html .= $option->getOptionHtml(true);
+            } else {
+                $html .= $option->getOptionHtml(false);
+            }
         }
         $html .= "</select>\n";
 
