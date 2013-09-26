@@ -165,14 +165,14 @@ class Parser
                             break;
                         case '</form>':
                             if (!isset($this->fields['csrf_token'])) {
-                                if (isset($_SESSION['formidable_secret']))
+                                if (isset($_SESSION['formidable_secret'])) {
                                     $secret = $_SESSION['formidable_secret'];
-                                else {
+                                } else {
                                     $secret = sha1(uniqid(mt_rand(), true));
                                     $_SESSION['formidable_secret'] = $secret;
                                 }
                                 if ($this->head && $this->head->has('name')) {
-                                    $secret.= '/'.$this->head->get('name');
+                                    $secret .= '/'.$this->head->get('name');
                                 }
                                 $this->hash = sha1($secret);
 
