@@ -416,7 +416,7 @@ class Form implements \Iterator
     /**
      * Gérer un formulaire, fonction raccourcie
      */
-    public function handle($callback = null)
+    public function handle($callback = null, $errorsCallback = null)
     {
         $this->parse();
 
@@ -428,6 +428,9 @@ class Form implements \Iterator
                     $callback($this->getDatas());
                 }
             } else {
+                if (null !== $errorsCallback) {
+                    $errorsCallback($errors);
+                }
                 return $errors;
             }
         }
