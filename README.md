@@ -65,6 +65,23 @@ $form->addConstraint('name', function($value) {
 });
 ```
 
+## Types
+
+The following input types are supported:
+
+* `text`
+* `number`, see `min` and `max` attributes
+* `integer`, see `min` and `max` attributes
+* `file`
+* `checkbox`
+* `radio`
+* `hidden`
+* `password`
+* `captcha`, will automatically generate an image
+* `date`, will generate three selects, and return a `DateTime` as data
+
+Moreover, the textareas and select are supported
+
 ## Attributes
 
 Note that some attributes are not HTML-valid, like `maxlength`:
@@ -90,7 +107,7 @@ Here is the list of available attributes:
 An additional CSRF token is automatically inserted in the form and checked
 when it's submitted. Thus, all your forms will be secured.
 
-## Languages
+!## Languages
 
 The language for the errors can be set with `setLanguage()`:
 
