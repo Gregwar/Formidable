@@ -79,6 +79,7 @@ The following input types are supported:
 * `password`
 * `captcha`, will automatically generate an image
 * `date`, will generate three selects, and return a `DateTime` as data
+* `multiradio` and `multicheckbox` (see the source section)
 
 Moreover, the textareas and select are supported
 
@@ -120,3 +121,33 @@ $form->setLanguage(new Gregwar\Formidable\French);
 
 Check that your language is supported in the `Language` directory, don't hesitate
 to participate!
+
+## Source
+
+You can use the sourcing system to populate dynamically a `select`, a `multiradio` or
+a `multicheckbox`:
+
+```html
+    <input type="multicheckbox" name="colours" source="colours" />
+```
+
+Then populate it with `source`:
+
+```php
+<?php
+$form->source('colours', array('red', 'yellow', 'blue'));
+```
+
+This will be rendered by some checkboxes.
+
+You can do it this way with `select`:
+
+```html
+    <select name="colour">
+        <options source="colours" />
+        <option value="other">Other</option>
+    </select>
+```
+
+And then source it with the same method
+
