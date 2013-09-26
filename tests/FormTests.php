@@ -126,10 +126,12 @@ class FormTests extends \PHPUnit_Framework_TestCase
     public function testCsrfSecretGeneration()
     {
         $form1 = $this->getForm('empty.html');
+        $token1 = $form1->getToken();
         $_SESSION['formidable_secret'] = null;
         $form2 = $this->getForm('empty.html');
+        $token2 = $form2->getToken();
 
-        $this->assertNotEquals($form1->getToken(), $form2->getToken());
+        $this->assertNotEquals($token1, $token2);
     }
 
     /**

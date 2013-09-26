@@ -15,6 +15,11 @@ class Form implements \Iterator
     protected $content;
 
     /**
+     * Parsed
+     */
+    protected $parsed = false;
+
+    /**
      * Objets et chaîne de caractères représentant le formulaire Formidable
      */
     protected $datas = array();
@@ -79,7 +84,6 @@ class Form implements \Iterator
                 $this->path = $pathOrContent;
                 $this->getContent($vars);
             }
-            $this->parse();
         }
     }
 
@@ -94,9 +98,11 @@ class Form implements \Iterator
     /**
      * Obtenir le contenu du formulaire
      */
-    public function getContent($vars = array()) {
-        foreach ($vars as $k=>$v)
-            $$k = $v ;
+    public function getContent($vars = array())
+    {
+        foreach ($vars as $k=>$v) {
+            $$k = $v;
+        }
 
         ob_start();
         include($this->path);
@@ -108,14 +114,18 @@ class Form implements \Iterator
      */
     protected function parse()
     {
-        $parser = $this->context->getParser($this->content);
-        $this->setParsedDatas($parser);
+        if (!$this->parsed) {
+            $this->parsed = true;
+            $parser = $this->context->getParser($this->content);
+            $this->setParsedDatas($parser);
+        }
     }
 
     /**
      * Définit les données récupérées par le parser
      */
-    protected function setParsedDatas(Parser $parser) {
+    protected function setParsedDatas(Parser $parser)
+    {
         $this->parser = clone $parser;
 
         $this->datas = $parser->getDatas();
@@ -131,6 +141,8 @@ class Form implements \Iterator
      */
     public function reset()
     {
+        $this->parse();
+
         $this->setParsedDatas($this->parser);
     }
 
@@ -139,6 +151,8 @@ class Form implements \Iterator
      */
     public function getToken()
     {
+        $this->parse();
+
         return $this->token;
     }
 
@@ -147,6 +161,8 @@ class Form implements \Iterator
      */
     public function getField($name)
     {
+        $this->parse();
+
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
         }
@@ -159,6 +175,8 @@ class Form implements \Iterator
      */
     public function setValues($values, array $files = array())
     {
+        $this->parse();
+
         foreach ($this->fields as $name => $field) {
             if (isset($values[$name])) {
                 $field->setValue($values[$name]);
@@ -177,6 +195,8 @@ class Form implements \Iterator
      */
     public function setDatas($entity)
     {
+        $this->parse();
+
         foreach ($this->fields as $field) {
             if (is_object($field)) {
                 if (($mapping = $field->getMappingName()) && !$field->readOnly()) {
@@ -199,6 +219,8 @@ class Form implements \Iterator
      */
     public function setValue($name, $value)
     {
+        $this->parse();
+
         $this->fields[$name]->setValue($value, 1);
     }
 
@@ -207,6 +229,8 @@ class Form implements \Iterator
      */
     public function getValue($name)
     {
+        $this->parse();
+
         return $this->fields[$name]->getValue();
     }
 
@@ -215,6 +239,8 @@ class Form implements \Iterator
      */
     public function addConstraint($name, $closure)
     {
+        $this->parse();
+
         $this->fields[$name]->addConstraint($closure);
     }
 
@@ -223,6 +249,8 @@ class Form implements \Iterator
      */
     public function setAttribute($name, $attr_name, $value)
     {
+        $this->parse();
+
         $this->fields[$name]->setAttribute($attr_name, $value);
     }
 
@@ -231,6 +259,8 @@ class Form implements \Iterator
      */
     public function getAttribute($name, $attr_name)
     {
+        $this->parse();
+
         return $this->fields[$name]->getAttribute($attr_name);
     }
 
@@ -239,6 +269,8 @@ class Form implements \Iterator
      */
     public function setOptionClass($select, $val, $class)
     {
+        $this->parse();
+
         $this->fields[$select]->setOptionClass($val, $class);
     }
 
@@ -255,6 +287,7 @@ class Form implements \Iterator
      */
     public function getHtml()
     {
+        $this->parse();
         $html = '';
 
         if ($this->needJs) {
@@ -277,11 +310,13 @@ class Form implements \Iterator
      */
     public function check()
     {
-        $to_check = array_flip(func_get_args());
+        $this->parse();
+
+        $toCheck = array_flip(func_get_args());
         $errors = array();
 
         foreach ($this->fields as $name => $field) {
-            if (!count($to_check) || isset($to_check[$name])) {
+            if (!count($toCheck) || isset($toCheck[$name])) {
                 $error = $field->check();
 
                 if ($error) {
@@ -298,6 +333,8 @@ class Form implements \Iterator
      */
     public function source($source, $data)
     {
+        $this->parse();
+
         $this->sources[$source]->source($data);
     }
 
@@ -306,6 +343,8 @@ class Form implements \Iterator
      */
     public function getDatas($tableOrEntity = null)
     {
+        $this->parse();
+
         if (gettype($tableOrEntity) == 'string') {
             $entity = new Entity($tableOrEntity);
         } else {
@@ -334,6 +373,8 @@ class Form implements \Iterator
      */
     public function __get($name)
     {
+        $this->parse();
+
         return $this->getValue($name);
     }
 
@@ -342,6 +383,8 @@ class Form implements \Iterator
      */
     public function __set($var, $val)
     {
+        $this->parse();
+
         $this->setValue($var, $val);
     }
 
@@ -350,6 +393,8 @@ class Form implements \Iterator
      */
     public function get($name)
     {
+        $this->parse();
+
         return $this->fields[$name];
     }
 
@@ -358,6 +403,8 @@ class Form implements \Iterator
      */
     public function posted()
     {
+        $this->parse();
+
         if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->token) {
             $this->setValues($_POST, $_FILES);
             return true;
@@ -371,6 +418,8 @@ class Form implements \Iterator
      */
     public function handle($callback = null)
     {
+        $this->parse();
+
         if ($this->posted()) {
             $errors = $this->check();
 
@@ -392,26 +441,36 @@ class Form implements \Iterator
 
     public function rewind()
     {
+        $this->parse();
+
         $this->position = 0;
     }
 
     public function next()
     {
+        $this->parse();
+
         $this->position++;
     }
 
     public function current()
     {
+        $this->parse();
+
         return ($this->fields[$this->position]);
     }
 
     public function valid()
     {
+        $this->parse();
+
         return isset($this->fields[$this->position]);
     }
 
     public function key()
     {
+        $this->parse();
+
         return $this->fields[$this->position]->getName();
     }
 }

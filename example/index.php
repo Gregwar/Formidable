@@ -5,6 +5,8 @@ include('person.php');
 
 $form = new Gregwar\Formidable\Form('forms/demoform.html');
 
+// $form->setLanguage(new Gregwar\Formidable\Language\French);
+
 $form->addConstraint('firstname', function($value) {
     if ($value[0] == 'P') {
         return 'The firstname should not begin with a P!';
