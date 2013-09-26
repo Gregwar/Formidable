@@ -1,6 +1,8 @@
 # Formidable
 
-Formidable is a PHP library to handles forms.
+Formidable is a PHP library to handles forms. It parses an HTML
+form and allow you to manipulate it from your PHP code, and then
+render it.
 
 ## How does it work?
 
@@ -88,7 +90,7 @@ Moreover, the textareas and select are supported
 Note that some attributes are not HTML-valid, like `maxlength`:
 
 ```html
-    <input type="text" name="name" maxlength="10" />
+<input type="text" name="name" maxlength="10" />
 ```
 
 It will not be rendered in the HTML form, but will be used to check integrity.
