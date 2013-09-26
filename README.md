@@ -108,7 +108,7 @@ Here is the list of available attributes:
 An additional CSRF token is automatically inserted in the form and checked
 when it's submitted. Thus, all your forms will be secured.
 
-!## Languages
+## Languages
 
 The language for the errors can be set with `setLanguage()`:
 
