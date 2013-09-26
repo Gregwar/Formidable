@@ -1,12 +1,12 @@
 <?php
 
-use Gregwar\DSD\Form;
-use Gregwar\DSD\FormContext;
+use Gregwar\Formidable\Form;
+use Gregwar\Formidable\FormContext;
 
 /**
  * Type "file" qui retourne le hash du fichier au lieu de le sauver réellement
  */
-class FileField_NoSave extends \Gregwar\DSD\Fields\FileField
+class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
 {
     public function save($filename)
     {

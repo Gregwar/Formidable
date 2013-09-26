@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD;
+namespace Gregwar\Formidable;
 
 /**
  * Inclusion des types
@@ -43,44 +43,44 @@ class FormContext
     /**
      * Classe du formulaire
      */
-    protected $formClass = '\Gregwar\DSD\Form';
+    protected $formClass = '\Gregwar\Formidable\Form';
 
     /**
      * Résolution des types de champs
      */
     protected $typeClasses = array(
-        'text' => '\Gregwar\DSD\Fields\TextField',
-        'email' => '\Gregwar\DSD\Fields\EmailField',
-        'number' => '\Gregwar\DSD\Fields\NumberField',
-        'int' => '\Gregwar\DSD\Fields\IntField',
-        'file' => '\Gregwar\DSD\Fields\FileField',
-        'radio' => '\Gregwar\DSD\Fields\RadioField',
-        'checkbox' => '\Gregwar\DSD\Fields\CheckboxField',
-        'captcha' => '\Gregwar\DSD\Fields\CaptchaField',
-        'hidden' => '\Gregwar\DSD\Fields\HiddenField',
-        'multicheckbox' => '\Gregwar\DSD\Fields\MulticheckboxField',
-        'multiradio' => '\Gregwar\DSD\Fields\MultiradioField',
-	'password' => '\Gregwar\DSD\Fields\PasswordField',
-	'date' => '\Gregwar\DSD\Fields\DateField',
+        'text' => '\Gregwar\Formidable\Fields\TextField',
+        'email' => '\Gregwar\Formidable\Fields\EmailField',
+        'number' => '\Gregwar\Formidable\Fields\NumberField',
+        'int' => '\Gregwar\Formidable\Fields\IntField',
+        'file' => '\Gregwar\Formidable\Fields\FileField',
+        'radio' => '\Gregwar\Formidable\Fields\RadioField',
+        'checkbox' => '\Gregwar\Formidable\Fields\CheckboxField',
+        'captcha' => '\Gregwar\Formidable\Fields\CaptchaField',
+        'hidden' => '\Gregwar\Formidable\Fields\HiddenField',
+        'multicheckbox' => '\Gregwar\Formidable\Fields\MulticheckboxField',
+        'multiradio' => '\Gregwar\Formidable\Fields\MultiradioField',
+	'password' => '\Gregwar\Formidable\Fields\PasswordField',
+	'date' => '\Gregwar\Formidable\Fields\DateField',
     );
 
     /**
      * Classe pour les objets
      */
     private $objectClasses = array(
-        'form' => '\Gregwar\DSD\Head',
-        'textarea' => '\Gregwar\DSD\Fields\Textarea',
-        'options' => '\Gregwar\DSD\Fields\Options',
-        'option' => '\Gregwar\DSD\Fields\Option',
-        'radios' => '\Gregwar\DSD\Fields\Radios',
-        'select' => '\Gregwar\DSD\Fields\Select',
-        'custom' => '\Gregwar\DSD\Fields\Custom'
+        'form' => '\Gregwar\Formidable\Head',
+        'textarea' => '\Gregwar\Formidable\Fields\Textarea',
+        'options' => '\Gregwar\Formidable\Fields\Options',
+        'option' => '\Gregwar\Formidable\Fields\Option',
+        'radios' => '\Gregwar\Formidable\Fields\Radios',
+        'select' => '\Gregwar\Formidable\Fields\Select',
+        'custom' => '\Gregwar\Formidable\Fields\Custom'
     );
 
     /**
      * Classe du Parser
      */
-    protected $parserClass = '\Gregwar\DSD\Parser';
+    protected $parserClass = '\Gregwar\Formidable\Parser';
 
     /**
      * Enregistrer un type

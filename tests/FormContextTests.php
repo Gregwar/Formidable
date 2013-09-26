@@ -1,9 +1,9 @@
 <?php
 
-use Gregwar\DSD\FormContext;
+use Gregwar\Formidable\FormContext;
 
 /**
- * Tests du context de formulaires DSD
+ * Tests du context de formulaires Formidable
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -28,7 +28,7 @@ class FormContextTests extends \PHPUnit_Framework_TestCase
     public function testContextCustomType()
     {
         $context = new FormContext;
-        $context->registerType('testing', '\Gregwar\DSD\Fields\TextField');
+        $context->registerType('testing', '\Gregwar\Formidable\Fields\TextField');
 
         $form = $context->getForm(__DIR__.'/files/context/testing.html');
         $html = "$form";

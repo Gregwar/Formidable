@@ -1,10 +1,10 @@
 <?php
 
-namespace Gregwar\DSD\Fields;
+namespace Gregwar\Formidable\Fields;
 
 include(__DIR__.'/../Captcha/Captcha.php');
 
-use Gregwar\DSD\Captcha\Captcha;
+use Gregwar\Formidable\Captcha\Captcha;
 
 /**
  * Champ de type CAPTCHA
@@ -41,7 +41,7 @@ class CaptchaField extends Field
             $this->captchaValue .= $chars[array_rand($chars)];
         }
 
-        $_SESSION['DSD_Captcha'] = $this->captchaValue;
+        $_SESSION['Formidable_Captcha'] = $this->captchaValue;
     }
 
     public function getCaptchaValue()
@@ -53,10 +53,10 @@ class CaptchaField extends Field
     {
         $this->value = strtolower($this->value);
 
-        if (!isset($_SESSION['DSD_Captcha']) || $_SESSION['DSD_Captcha']!=$this->value) {
+        if (!isset($_SESSION['Formidable_Captcha']) || $_SESSION['Formidable_Captcha']!=$this->value) {
             return 'La valeur du code visuel n\'est pas la bonne';
         }
-        unset($_SESSION["DSD_Captcha"]);
+        unset($_SESSION["Formidable_Captcha"]);
     }
 
     public function getHtml()
@@ -69,7 +69,7 @@ class CaptchaField extends Field
 
         $captcha = new Captcha($this->captchaValue);
 
-        $html = '<img src="'.$captcha->inline().'" class="DSD_Captcha" alt="Code visuel" ><br />'.$input_html;
+        $html = '<img src="'.$captcha->inline().'" class="Formidable_Captcha" alt="Code visuel" ><br />'.$input_html;
 
         return $html;
     }

@@ -4,7 +4,7 @@
  * Registers an autoload for all the classes
  */
 spl_autoload_register(function ($className) {
-    $namespace = 'Gregwar\\DSD';
+    $namespace = 'Gregwar\\Formidable';
 
     if (strpos($className, $namespace) === 0) {
         $className = str_replace($namespace, '', $className);

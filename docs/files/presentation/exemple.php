@@ -1,7 +1,7 @@
 <?php
 // exemple.php
-include('DSD/Form.php');
+include('Formidable/Form.php');
 
-$form = new Gregwar\DSD\Form('form.html');
+$form = new Gregwar\Formidable\Form('form.html');
 
 echo $form;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD;
+namespace Gregwar\Formidable;
 
 require_once(__DIR__.'/Parser.php');
 require_once(__DIR__.'/FormContext.php');
@@ -8,7 +8,7 @@ require_once(__DIR__.'/Entity.php');
 require_once(__DIR__.'/Error.php');
 
 /**
- * Classe principale de DSD
+ * Classe principale de Formidable
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -20,7 +20,7 @@ class Form implements \Iterator
     protected $content;
 
     /**
-     * Objets et chaîne de caractères représentant le formulaire DSD
+     * Objets et chaîne de caractères représentant le formulaire Formidable
      */
     protected $datas = array();
 
@@ -255,7 +255,7 @@ class Form implements \Iterator
         $html = '';
 
         if ($this->needJs) {
-            $html.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/dsd.js').'</script>';
+            $html.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/formidable.js').'</script>';
         }
 
         foreach ($this->datas as $d) {

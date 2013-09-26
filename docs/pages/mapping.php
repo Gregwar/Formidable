@@ -1,7 +1,7 @@
 <h2>Le mapping</h2>
 <div class="text">
 <p>
-    Une fois les données d'un formulaire récupérées, il est assez pratique de pouvoir les exploiter à travers des objets et des tableaux de données dans <b>PHP</b>. <b>DSD</b> vous permet d'accomplir l'intéraction entre votre formulaire et vos objets à l'aide de son <b>mapping</b>.
+    Une fois les données d'un formulaire récupérées, il est assez pratique de pouvoir les exploiter à travers des objets et des tableaux de données dans <b>PHP</b>. <b>Formidable</b> vous permet d'accomplir l'intéraction entre votre formulaire et vos objets à l'aide de son <b>mapping</b>.
 </p>
 <p>
     Le <b>mapping</b> consiste simplement à renseigner les attributs <code>mapping</code> de votre formulaire&nbsp;:

@@ -4,7 +4,7 @@ include(__DIR__.'/../Form.php');
 
 include('person.php');
 
-$form = new Gregwar\DSD\Form('forms/demoform.html');
+$form = new Gregwar\Formidable\Form('forms/demoform.html');
 
 $form->addConstraint('prenom', function($value) {
     if ($value[0] == 'P') {
@@ -26,10 +26,10 @@ $errors = $form->handle(function($datas) {
 <html>
     <meta charset="utf-8" />
     <head>
-        <title>DSD Demo</title>
+        <title>Formidable Demo</title>
     </head> 
     <body>
-        <h1>DSD Demo</h1>
+        <h1>Formidable Demo</h1>
         <?php if ($errors) { ?>
             <div style="color:red">
                 <h2>Erreurs de validation</h1>

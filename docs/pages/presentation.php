@@ -1,7 +1,7 @@
 <h2>C'est quoi ?</h2>
 <div class="text">
 <p>
-    <b>DSD</b>, pour <b>Dual Side Definition</b> est une bibliothèque <b>PHP</b> de gestion de formulaires basée sur le concept suivant&nbsp;: vous écrivez votre formulaire entièrement en <b>HTML</b>, en y ajoutant des informations permettant de vérifier des contraintes, et pouvez le manipuler avec <b>PHP</b>. Les avantages sont :
+    <b>Formidable</b>, pour <b>Dual Side Definition</b> est une bibliothèque <b>PHP</b> de gestion de formulaires basée sur le concept suivant&nbsp;: vous écrivez votre formulaire entièrement en <b>HTML</b>, en y ajoutant des informations permettant de vérifier des contraintes, et pouvez le manipuler avec <b>PHP</b>. Les avantages sont :
 </p>
 <ul>
     <li>Une gestion simplifiée du traitement des requêtes <b>POST</b></li>
@@ -19,7 +19,7 @@ Un exemple sera plus parlant qu'un long discours, imaginez le formulaire suivant
 </p>
 <?php echo highlight('presentation/form.html', 'html5'); ?>
 <p>
-Une fois passée dans <b>DSD</b> à l'aide d'un code tel que :
+Une fois passée dans <b>Formidable</b> à l'aide d'un code tel que :
 </p>
 <?php echo highlight('presentation/exemple.php'); ?>
 <p>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD\Captcha;
+namespace Gregwar\Formidable\Captcha;
 
 /**
  * Génération d'un Captcha

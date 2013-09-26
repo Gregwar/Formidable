@@ -1,9 +1,9 @@
 <?php
 
-use Gregwar\DSD\Form;
+use Gregwar\Formidable\Form;
 
 /**
- * Tests des formulaires DSD
+ * Tests des formulaires Formidable
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -20,7 +20,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que DSD devine bien s'il doit inclure ou interpreter le contenu
+     * Test que Formidable devine bien s'il doit inclure ou interpreter le contenu
      */
     public function testGuessPathOrContent()
     {
@@ -126,7 +126,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     public function testCsrfSecretGeneration()
     {
         $form1 = $this->getForm('empty.html');
-        $_SESSION['dsd_secret'] = null;
+        $_SESSION['formidable_secret'] = null;
         $form2 = $this->getForm('empty.html');
 
         $this->assertNotEquals($form1->getToken(), $form2->getToken());
@@ -178,7 +178,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que la sortie redonnée à DSD redonne la même sortie
+     * Test que la sortie redonnée à Formidable redonne la même sortie
      */
     public function testOutIn()
     {

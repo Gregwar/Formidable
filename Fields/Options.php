@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD\Fields;
+namespace Gregwar\Formidable\Fields;
 
 /**
  * Des options sourcées

@@ -2,14 +2,14 @@
 <h3>Création de formulaires</h3>
 <div class="text">
 <p>
-    Afin d'utiliser <b>DSD</b>, vous devez tout d'abord créer un formulaire simple en <b>HTML</b>. Si vous travaillez avec des graphistes ou intégrateurs à partir d'une page déjà découpée, vous pouvez couper/colelr votre formulaire dans un sous-fichier que vous placerez par exemple dans un dossier <code>forms/</code> de votre site web.
+    Afin d'utiliser <b>Formidable</b>, vous devez tout d'abord créer un formulaire simple en <b>HTML</b>. Si vous travaillez avec des graphistes ou intégrateurs à partir d'une page déjà découpée, vous pouvez couper/colelr votre formulaire dans un sous-fichier que vous placerez par exemple dans un dossier <code>forms/</code> de votre site web.
 </p>
 <p>
     Prenons par exemple le formulaire suivant&nbsp;:
 </p>
 <?php echo highlight('utilisation/form1.html', 'html5'); ?>
 <p>
-    Vous pouvez alors obtenir une instance de votre formulaire en <b>PHP</b> en instanciant un formulaire <b>DSD</b>&nbsp;:
+    Vous pouvez alors obtenir une instance de votre formulaire en <b>PHP</b> en instanciant un formulaire <b>Formidable</b>&nbsp;:
 </p>
 <?php echo highlight('utilisation/form1.php'); ?>
 </div>
@@ -21,7 +21,7 @@
 </p>
 <?php echo highlight('utilisation/interaction.php'); ?>
 <p>
-    <b>DSD</b> retrouve tous ses petits, ces interactions marcheront avec les champs de type <code>text</code>, mais aussi avec les <code>radio</code> en cochant la bonne case, <code>select</code> en séléctionnant la bonne option ou encore <code>checkbox</code> en cochant la case si nécéssaire.
+    <b>Formidable</b> retrouve tous ses petits, ces interactions marcheront avec les champs de type <code>text</code>, mais aussi avec les <code>radio</code> en cochant la bonne case, <code>select</code> en séléctionnant la bonne option ou encore <code>checkbox</code> en cochant la case si nécéssaire.
 </p>
 <p>
     Notez également que les valeurs seront automatiquement échappées à l'aide de <code>htmlspecialchars</code> pour éviter les injections de code <b>XSS</b>.
@@ -35,27 +35,27 @@
 </p>
 <?php echo highlight('utilisation/posted.php'); ?>
 <p>
-    <b>DSD</b> testera également si le jeton <b>CSRF</b> est valide. Votre formulaire est donc sécurisé sans avoir rien à faire !
+    <b>Formidable</b> testera également si le jeton <b>CSRF</b> est valide. Votre formulaire est donc sécurisé sans avoir rien à faire !
 </p>
 <p>
     <em>Note&nbsp;: la génération du jeton <b>CSRF</b> utilise également le nom du formulaire si il existe (l'attribut <code>name</code> de la balise <code>form</code>)</em>
 </p>
 <p>
-    En apellant cette fonction, <b>DSD</b> définira automatiquement la valeur des champs avec les données postées, et remplira ainsi directement et automatiquement le formulaire, si des erreurs de validations surviennent par la suite, l'utilisateur n'aura alors pas à re-saisir toutes les données.
+    En apellant cette fonction, <b>Formidable</b> définira automatiquement la valeur des champs avec les données postées, et remplira ainsi directement et automatiquement le formulaire, si des erreurs de validations surviennent par la suite, l'utilisateur n'aura alors pas à re-saisir toutes les données.
 </p>
 </div>
 
 <h3>Vérifier les contraintes</h3>
 <div class="text">
 <p>
-    Un des avantages d'utiliser <b>DSD</b> est également de pouvoir vérifier facilement les contraintes imposées au formulaire coté serveur.
+    Un des avantages d'utiliser <b>Formidable</b> est également de pouvoir vérifier facilement les contraintes imposées au formulaire coté serveur.
 </p>
 <p>
     Pour ce faire, utilisez la fonction <code>check()</code> sur votre formulaire, cette dernière retourne toutes les erreurs de votre formulaire&nbsp;:
 </p>
 <?php echo highlight('utilisation/check.php'); ?>
 <p>
-    Notez que <code>check()</code> ne retourne pas un tableau de chaînes de caractères, mais des instances de <code>Gregwar\DSD\Error</code>, qui vous permettent également de connaître les champs sur lesquels il y a eu des erreurs lors de la validation.
+    Notez que <code>check()</code> ne retourne pas un tableau de chaînes de caractères, mais des instances de <code>Gregwar\Formidable\Error</code>, qui vous permettent également de connaître les champs sur lesquels il y a eu des erreurs lors de la validation.
 </p>
 <p>
     La présence des champs est testée, sauf si ils sont marqués de l'attribut <code>optional</code>. Si le champs est de type <code>int</code>, <code>email</code> ou <code>number</code> son format est vérifié.
@@ -85,7 +85,7 @@
 <h3>Gérer l'upload de fichiers</h3>
 <div class="text">
 <p>
-    Les champs de type <code>file</code> sont traités spécialement par <b>DSD</b>. La valeur retournée par l'accesseur sur un fichier n'est pas une valeur mais l'instance d'un objet sur lequel vous pouvez apeller la fonction <code>save()</code>&nbsp;:
+    Les champs de type <code>file</code> sont traités spécialement par <b>Formidable</b>. La valeur retournée par l'accesseur sur un fichier n'est pas une valeur mais l'instance d'un objet sur lequel vous pouvez apeller la fonction <code>save()</code>&nbsp;:
 </p>
 <?php echo highlight('utilisation/file.php'); ?>
 </div>
@@ -93,7 +93,7 @@
 <h3>Mettre un code visuel (CAPTCHA)</h3>
 <div class="text">
 <p>
-    <b>DSD</b> fournit un champs de type <code>captcha</code> nativement qui vous permettra de sécuriser un formulaire très facilement !
+    <b>Formidable</b> fournit un champs de type <code>captcha</code> nativement qui vous permettra de sécuriser un formulaire très facilement !
 </p>
 </div>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD;
+namespace Gregwar\Formidable;
 
 /**
  * En cas d'erreur au moment de parser

@@ -1,10 +1,10 @@
 <?php
 
-use Gregwar\DSD\Parser;
-use Gregwar\DSD\ParserException;
+use Gregwar\Formidable\Parser;
+use Gregwar\Formidable\ParserException;
 
 /**
- * Tests du parser DSD
+ * Tests du parser Formidable
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -36,15 +36,15 @@ class ParserTests extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(9, count($fields));
 
-        $this->assertInstanceOf('Gregwar\DSD\Fields\TextField', $fields['name']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\EmailField', $fields['email']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\PasswordField', $fields['pass']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\FileField', $fields['picture']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\HiddenField', $fields['cache']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\IntField', $fields['age']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\Select', $fields['choices']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\Radios', $fields['radio']);
-        $this->assertInstanceOf('Gregwar\DSD\Fields\Textarea', $fields['area']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\TextField', $fields['name']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\EmailField', $fields['email']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\PasswordField', $fields['pass']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\FileField', $fields['picture']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\HiddenField', $fields['cache']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\IntField', $fields['age']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\Select', $fields['choices']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\Radios', $fields['radio']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\Textarea', $fields['area']);
     }
 
     /**
@@ -111,8 +111,8 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException               Gregwar\DSD\ParserException
-     * @expectedExceptionMessage        Le formulaire DSD doit avoir une balise <form>
+     * @expectedException               Gregwar\Formidable\ParserException
+     * @expectedExceptionMessage        Le formulaire Formidable doit avoir une balise <form>
      */
     public function testFormTagPresence()
     {
@@ -127,11 +127,11 @@ class ParserTests extends \PHPUnit_Framework_TestCase
         $parser = $this->getParser('untyped_input.html');
         $fields = $parser->getFields();
 
-        $this->assertInstanceOf('Gregwar\DSD\Fields\TextField', $fields['test']);
+        $this->assertInstanceOf('Gregwar\Formidable\Fields\TextField', $fields['test']);
     }
 
     /**
-     * @expectedException               Gregwar\DSD\ParserException
+     * @expectedException               Gregwar\Formidable\ParserException
      * @expectedExceptionMessage        <option> en dehors d'un <select>
      */
     public function testOptionOutOfSelectException()

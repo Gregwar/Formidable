@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD;
+namespace Gregwar\Formidable;
 
 /**
  * Mapping très basique avec la base de données

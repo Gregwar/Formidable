@@ -1,8 +1,8 @@
 {
-    "name": "gregwar/dsd",
-    "description": "DSD, the pragmatic forms library",
+    "name": "gregwar/formidable",
+    "description": "Formidable, the pragmatic forms library",
     "keywords": ["forms", "fields", "input", "html"],
-    "homepage": "https://gregwar.com/DSD/",
+    "homepage": "https://gregwar.com/Formidable/",
     "license": "MIT",
     "authors": [
         {
@@ -14,10 +14,10 @@
     "require": {
         "php": ">=5.3.0"
     },
-    "target-dir": "Gregwar/DSD",
+    "target-dir": "Gregwar/Formidable",
     "autoload": {
         "psr-0": {
-            "Gregwar\\DSD": ""
+            "Gregwar\\Formidable": ""
         }
     }
 }

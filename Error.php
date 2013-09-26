@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD;
+namespace Gregwar\Formidable;
 
 /**
  * Erreur sur un champ

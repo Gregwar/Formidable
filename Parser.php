@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD;
+namespace Gregwar\Formidable;
 
 /**
  * Inclusion de l'exception
@@ -8,7 +8,7 @@ namespace Gregwar\DSD;
 require_once(__DIR__.'/ParserException.php');
 
 /**
- * Parse un formulaire pour DSD
+ * Parse un formulaire pour Formidable
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -119,7 +119,7 @@ class Parser
     }
 
     /**
-     * Parse le formulaire et construit les objets DSD
+     * Parse le formulaire et construit les objets Formidable
      *
      * @param string $content le contenu du code du formulaire
      */
@@ -170,11 +170,11 @@ class Parser
                             break;
                         case '</form>':
                             if (!isset($this->fields['csrf_token'])) {
-                                if (isset($_SESSION['dsd_secret']))
-                                    $secret = $_SESSION['dsd_secret'];
+                                if (isset($_SESSION['formidable_secret']))
+                                    $secret = $_SESSION['formidable_secret'];
                                 else {
                                     $secret = sha1(uniqid(mt_rand(), true));
-                                    $_SESSION['dsd_secret'] = $secret;
+                                    $_SESSION['formidable_secret'] = $secret;
                                 }
                                 if ($this->head && $this->head->has('name')) {
                                     $secret.= '/'.$this->head->get('name');
@@ -252,7 +252,7 @@ class Parser
         }
 
         if (null === $this->getHead()) {
-            throw new ParserException('Le formulaire DSD doit avoir une balise <form>');
+            throw new ParserException('Le formulaire Formidable doit avoir une balise <form>');
         }
     }
 

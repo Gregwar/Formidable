@@ -1,16 +1,16 @@
 /*
- * dsd.js
+ * formidable.js
  * -----------
- * This is part of the DSD Project
+ * This is part of the Formidable Project
  */
 
-if (!DSD) {
-    var DSD = {
+if (!Formidable) {
+    var Formidable = {
         addInput: function(id, code) {
             var n = Math.random();
             span = document.createElement('span');
             span.id = n;
-            span.innerHTML = code + '<a href="javascript:DSD.removeInput(\''+n+'\');">Enlever</a><br />';
+            span.innerHTML = code + '<a href="javascript:Formidable.removeInput(\''+n+'\');">Enlever</a><br />';
             document.getElementById(id).appendChild(span);
         },
         removeInput : function(id) {

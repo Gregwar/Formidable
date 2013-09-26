@@ -1,6 +1,6 @@
 <?php
 
-namespace Gregwar\DSD\Fields;
+namespace Gregwar\Formidable\Fields;
 
 /**
  * Classe parente des champs
@@ -319,7 +319,7 @@ abstract class Field
             $others = '';
 	    if ($this->multiple && is_array($this->value)) {
                 foreach ($this->value as $id => $value) {
-                    $others.="DSD.addInput(\"$rnd\",\"";
+                    $others.="Formidable.addInput(\"$rnd\",\"";
                     $others.=str_replace(
                         array("\r", "\n"), array('', ''),
                         addslashes($this->getHtmlForValue($value, '[]'))
@@ -332,7 +332,7 @@ abstract class Field
 
             $html= '<span id="'.$rnd.'"></span>';
             $html.= '<script type="text/javascript">'.$others.'</script>';
-            $html.= "<a href=\"javascript:DSD.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">Ajouter</a>";
+            $html.= "<a href=\"javascript:Formidable.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">Ajouter</a>";
 
             return $html;
         }

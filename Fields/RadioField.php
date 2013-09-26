@@ -1,5 +1,5 @@
 <?php
-namespace Gregwar\DSD\Fields;
+namespace Gregwar\Formidable\Fields;
 
 /**
  * Un champ radio

@@ -16,13 +16,13 @@ include('current.php');
 <html>
     <head>
 	<meta charset="utf-8" />
-	<title>DSD - <?php echo $pages[$current]; ?></title>
+	<title>Formidable - <?php echo $pages[$current]; ?></title>
 	<link type="text/css" media="screen" rel="stylesheet" href="style.css" />
 	<link href='http://fonts.googleapis.com/css?family=Questrial' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Julee' rel='stylesheet' type='text/css'>
     </head>
     <body>
-	<h1>DSD</h1>
+	<h1>Formidable</h1>
 	<?php include('menu.php'); ?>	
 	<div class="content">
 	    <?php include('pages/'.$current.'.php'); ?>
