@@ -128,7 +128,7 @@ You can use the sourcing system to populate dynamically a `select`, a `multiradi
 a `multicheckbox`:
 
 ```html
-    <input type="multicheckbox" name="colours" source="colours" />
+<input type="multicheckbox" name="colours" source="colours" />
 ```
 
 Then populate it with `source`:
@@ -143,10 +143,10 @@ This will be rendered by some checkboxes.
 You can do it this way with `select`:
 
 ```html
-    <select name="colour">
-        <options source="colours" />
-        <option value="other">Other</option>
-    </select>
+<select name="colour">
+    <options source="colours" />
+    <option value="other">Other</option>
+</select>
 ```
 
 And then source it with the same method
