@@ -223,7 +223,7 @@ echo $form->colour, "\n";
 // red
 
 // Sets the color to blue
-$form->colout = 'blue';
+$form->colour = 'blue';
 
 echo $form;
 /* Will display:
