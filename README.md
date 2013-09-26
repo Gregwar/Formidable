@@ -12,7 +12,7 @@ First, you have to write your code in HTML, for instance:
 <!-- forms/example.html -->
 <form method="post">
     Enter your name: 
-    <input type="text" name="firstname" /><br />
+    <input type="text" name="name" /><br />
     <input type="submit" />
 </form>
 ```
@@ -23,8 +23,11 @@ In your PHP code, give your form to Formidable:
 
 ```php
 <?php
+session_start();
 include('formidable/autoload.php');
 
+// Formidable will parse the form and use it to check integrity
+// on the server-side
 $form = new Gregwar\Formidable\Form('forms/example.html');
 
 $form->handle(function() {
@@ -49,16 +52,54 @@ You can then use the Formidable API to play with your form:
 <?php
 
 // Will set the value of the field
-$form->firstname = "Bob";
+$form->name = "Bob";
 
 // Will get the value of the field
-$firstname = $form->firstname;
+$name = $form->name;
 
-// Adds a constraint on the firstname
-$form->addConstraint('firstname', function($value) {
+// Adds a constraint on the name
+$form->addConstraint('name', function($value) {
     if (strlen($value) < 10) {
-        return 'Your firstname should be at least 10 characters!';
+        return 'Your name should be at least 10 characters!';
     }
 });
 ```
 
+## Attributes
+
+Note that some attributes are not HTML-valid, like `maxlength`:
+
+```html
+    <input type="text" name="name" maxlength="10" />
+```
+
+It will not be rendered in the HTML form, but will be used to check integrity.
+
+Here is the list of available attributes:
+
+* `minlength`: the minimum length of the value
+* `maxlength`: the maximum length of the value
+* `regex`: the regexp that the value should respect
+* `min` (for numbers): the minimum value
+* `max` (for numbers): the maximum value
+* `optional`: tell that the field is not required
+* `readonly`: the field is readonly and should not be modifier
+
+## CSRF protection
+
+An additional CSRF token is automatically inserted in the form and checked
+when it's submitted. Thus, all your forms will be secured.
+
+## Languages
+
+The language for the errors can be set with `setLanguage()`:
+
+```php
+<?php
+
+// Will set the language to french for errors
+$form->setLanguage(new Gregwar\Formidable\French);
+```
+
+Check that your language is supported in the `Language` directory, don't hesitate
+to participate!
