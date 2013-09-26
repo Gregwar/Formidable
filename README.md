@@ -29,7 +29,7 @@ Or downloading it:
 * [Download .zip](https://github.com/Gregwar/Formidable/archive/master.zip)
 * [Download .tar.gz](https://github.com/Gregwar/Formidable/archive/master.tar.gz)
 
-### Step 1: Write your form in HTML
+### Step 2: Write your form in HTML
 
 First, you have to write your code in HTML, for instance:
 
@@ -42,7 +42,7 @@ First, you have to write your code in HTML, for instance:
 </form>
 ```
 
-### Step 2: Give it to Formidable
+### Step 3: Give it to Formidable
 
 In your PHP code, give your form to Formidable:
 
@@ -69,7 +69,7 @@ echo $form;
 
 Simple, right?
 
-### Step 3: Enjoy your form
+### Step 4: Enjoy your form
 
 You can then use the Formidable API to play with your form:
 
