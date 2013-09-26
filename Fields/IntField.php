@@ -2,8 +2,6 @@
 
 namespace Gregwar\Formidable\Fields;
 
-require_once(__DIR__.'/NumberField.php');
-
 /**
  * Entier
  *
@@ -33,7 +31,7 @@ class IntField extends NumberField
         }
 
         if ((int)($this->value) != $this->value) {
-            return 'Le champ '.$this->printName().' doit être un entier';
+            return $this->language->translate('integer', $this->printName());
         }
 
         return;

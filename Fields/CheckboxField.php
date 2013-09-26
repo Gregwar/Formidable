@@ -3,24 +3,24 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Champ de type checkbox
+ * Checkbox field
  *
  * @author GrÃ©goire Passault <g.passault@gmail.com>
  */
 class CheckboxField extends Field
 {
     /**
-     * La case est t-elle cochÃ©e ?
+     * Is the box checked?
      */
     protected $checked = false;
 
     /**
-     * Valeur pour la checker
+     * Value to send to check the box
      */
     protected $checkedValue = '1';
 
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = 'checkbox';
 

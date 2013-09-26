@@ -55,16 +55,16 @@ class NumberField extends Field
             return;
 
         if (!is_numeric($this->value)) {
-            return 'Le champ '.$this->printName().' doit être un nombre';
+            return $this->language->translate('number', $this->printName());
         }
         if ($this->min !== null) {
-            if ($this->value < $this->min)
-
-                return 'Le champ '.$this->printName().' doit être au moins égal à '.$this->min;
+            if ($this->value < $this->min) {
+                return $this->language->translate('number_min', $this->printName(), $this->min);
+            }
         }
         if ($this->max !== null) {
             if ($this->value > $this->max) {
-                return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->max;
+                return $this->language->translate('number_max', $this->printName(), $this->max);
             }
         }
     }

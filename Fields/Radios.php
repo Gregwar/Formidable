@@ -52,7 +52,7 @@ class Radios extends Field
     public function check()
     {
         if (!$this->optional && !$this->valueSet) {
-            return 'Vous devez cocher une case pour '.$this->radios[0]->printName();
+            return $this->language->translate('should_check', $this->radios[0]->printName());
         }
     }
 

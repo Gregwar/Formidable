@@ -2,24 +2,22 @@
 
 namespace Gregwar\Formidable\Fields;
 
-include(__DIR__.'/../Captcha/Captcha.php');
-
 use Gregwar\Formidable\Captcha\Captcha;
 
 /**
- * Champ de type CAPTCHA
+ * Captcha field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class CaptchaField extends Field
 {
     /**
-     * Valeur du CAPTCHA
+     * Captcha value
      */
     protected $captchaValue = '';
 
     /**
-     * Type du champ (texte)
+     * Field type (text)
      */
     protected $type = 'text';
 
@@ -31,7 +29,7 @@ class CaptchaField extends Field
     }
 
     /**
-     * Génère la valeur du CAPTCHA
+     * Generates the captcha code
      */
     protected function generate()
     {
@@ -54,7 +52,7 @@ class CaptchaField extends Field
         $this->value = strtolower($this->value);
 
         if (!isset($_SESSION['Formidable_Captcha']) || $_SESSION['Formidable_Captcha']!=$this->value) {
-            return 'La valeur du code visuel n\'est pas la bonne';
+            return $this->language->translate('bad_captcha');
         }
         unset($_SESSION["Formidable_Captcha"]);
     }

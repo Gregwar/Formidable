@@ -2,11 +2,6 @@
 
 namespace Gregwar\Formidable;
 
-require_once(__DIR__.'/Parser.php');
-require_once(__DIR__.'/FormContext.php');
-require_once(__DIR__.'/Entity.php');
-require_once(__DIR__.'/Error.php');
-
 /**
  * Classe principale de Formidable
  *
@@ -72,7 +67,7 @@ class Form implements \Iterator
     public function __construct($pathOrContent = '', array $vars = array(), $context = null)
     {
         if (null === $context) {
-            $this->context = FormContext::getDefault();
+            $this->context = new Context;
         } else {
             $this->context = $context;
         }

@@ -57,15 +57,14 @@ class FileField extends Field
     {
         if ($this->hasData()) {
             if (null !== $this->maxsize && $this->datas['size'] > $this->maxsize) {
-                return 'La taille du fichier envoyé pour le champ '.$this->printName().
-                       ' ne doit pas excéder '.$this->sizePrettyize($this->maxsize);
+                return $this->language->translate('file_size_too_big', $this->printName(), $this->sizePrettyize($this->maxsize));
             }
             if (null !== $this->filetype) {
                 switch ($this->filetype) {
                 case 'image':
                     $size = @getimagesize($this->datas['tmp_name']);
                     if (!$size || !$size[0] || !$size[1]) {
-                        return 'Le fichier fourni dans le champ '.$this->printName().' doit être une image (JPEG, GIF, PNG...)';
+                        return $this->language->translate('file_image', $this->printName());
                     }
                 default:
                     break;
@@ -73,7 +72,7 @@ class FileField extends Field
             }
         } else {
             if (!$this->optional) {
-                return 'Vous devez fournir un fichier pour le champ '.$this->printName();
+                return $this->language->translate('file_required', $this->printName());
             }
         }
 

@@ -31,8 +31,9 @@ class MultiradioField extends Field
 
     public function check()
     {
-        if (!$this->optional && !$this->value)
-            return 'Vous devez cochez une des cases pour '.$this->printName();
+        if (!$this->optional && !$this->value) {
+            return $this->language->translate('should_check', $this->printName());
+        }
     }
 
     public function push($var, $value = null)

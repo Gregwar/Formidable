@@ -3,50 +3,29 @@
 namespace Gregwar\Formidable;
 
 /**
- * Inclusion des types
- */
-require_once(__DIR__.'/Head.php');
-require_once(__DIR__.'/Fields/Field.php');
-require_once(__DIR__.'/Fields/Textarea.php');
-require_once(__DIR__.'/Fields/Radios.php');
-require_once(__DIR__.'/Fields/Select.php');
-require_once(__DIR__.'/Fields/Option.php');
-require_once(__DIR__.'/Fields/Options.php');
-require_once(__DIR__.'/Fields/Custom.php');
-
-/**
- * Inclusion de Fields/xxxField.php
- */
-
-$fields_dir = __DIR__.'/Fields';
-
-$dir = opendir($fields_dir);
-while ($file = readdir($dir)) {
-    if (substr($file, -9) == 'Field.php') {
-        require_once($fields_dir.'/'.$file);
-    }
-}
-closedir($dir);
-
-/**
- * Contexte de formulaire
+ * Form context
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class FormContext
+class Context
 {
     /**
-     * Contexte par défaut
+     * Language instance
      */
-    public static $defaultContext = null;
+    protected $language = null;
 
     /**
-     * Classe du formulaire
+     * Form clas
      */
     protected $formClass = '\Gregwar\Formidable\Form';
 
     /**
-     * Résolution des types de champs
+     * Parser class
+     */
+    protected $parserClass = '\Gregwar\Formidable\Parser';
+
+    /**
+     * Field types
      */
     protected $typeClasses = array(
         'text' => '\Gregwar\Formidable\Fields\TextField',
@@ -65,7 +44,7 @@ class FormContext
     );
 
     /**
-     * Classe pour les objets
+     * Objects types
      */
     private $objectClasses = array(
         'form' => '\Gregwar\Formidable\Head',
@@ -78,65 +57,62 @@ class FormContext
     );
 
     /**
-     * Classe du Parser
-     */
-    protected $parserClass = '\Gregwar\Formidable\Parser';
-
-    /**
-     * Enregistrer un type
+     * Register a type
      */
     public function registerType($type, $class)
     {
         $this->typeClasses[$type] = $class;
     }
 
+    protected function inject($object)
+    {
+        if ($object instanceof Language\LanguageAware) {
+            $object->setLanguage($this->language);
+        }
+
+        return $object;
+    }
+
     /**
-     * Obtenir le Parser
+     * Get a parser
      */
     public function getParser($content)
     {
         $parserClass = $this->parserClass;
-        return new $parserClass($content, $this);
+
+        return $this->inject(new $parserClass($content, $this));
     }
 
     /**
-     * Obtenir une tête
-     */
-    public function getHead()
-    {
-        return new $this->headClass;
-    }
-
-    /**
-     * Obtenir un champs du type donné
+     * Get a field of a given type
      */
     public function getField($name)
     {
-        return new $this->typeClasses[$name];
+        return $this->inject(new $this->typeClasses[$name]);
     }
 
     /**
-     * Obtenir une balise
+     * Get an object
      */
     public function getObject($name)
     {
-        return new $this->objectClasses[$name];
+        return $this->inject(new $this->objectClasses[$name]);
     }
 
     /**
-     * Obtenir un formulaire pour ce contexte
+     * Get a form in this context
      */
     public function getForm($pathOrContent, array $vars = array()) {
         $formClass = $this->formClass;
-        return new $formClass($pathOrContent, $vars, $this);
+
+        return $this->inject(new $formClass($pathOrContent, $vars, $this));
     }
 
-    public static function getDefault()
+    /**
+     * Constructs the context
+     */
+    public function __construct()
     {
-        if (null === self::$defaultContext) {
-            self::$defaultContext = new self;
-        }
-
-        return self::$defaultContext;
+        $this->language = new Language\English;
     }
 }

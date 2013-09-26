@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Champ de type custom
+ * Custom field type
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Custom extends Field
 {
     /**
-     * Nom de la source
+     * Source name
      */
     protected $source;
 
     /**
-     * Données
+     * Data
      */
     protected $data;
 

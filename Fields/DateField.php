@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Champ date
+ * Date field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class DateField extends Field
 {
     /**
-     * Sauvegarde du push
+     * Push save
      */
     private $pushSave = array();
 
     /**
-     * Sous-champs
+     * Sub-field
      */
     private $fields;
 
@@ -69,8 +69,8 @@ class DateField extends Field
 	    }
 	}
 
-	if ((!$this->optional && $filled==0)||($filled>0 && $filled<count($this->fields))) {
-	    return 'La date '.$this->printName().' n\'est pas correcte';
+        if ((!$this->optional && $filled==0)||($filled>0 && $filled<count($this->fields))) {
+            return $this->language->translate('bad_date', $this->printName());
 	}
     }
 
@@ -85,7 +85,8 @@ class DateField extends Field
 
     private function createSelect($name, $options)
     {
-	$select = new Select;
+        $select = new Select;
+        $select->setLanguage($this->language);
 	$select->push('name', $this->name.'['.$name.']');
 
 	if ($this->value && $this->value[$name]) {

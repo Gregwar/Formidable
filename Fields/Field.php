@@ -2,82 +2,84 @@
 
 namespace Gregwar\Formidable\Fields;
 
+use Gregwar\Formidable\Language\LanguageAware;
+
 /**
- * Classe parente des champs
+ * Parent class for fields
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-abstract class Field
+abstract class Field extends LanguageAware
 {
     /**
-     * Type du champ (à placer dans le type="")
+     * Field type for the HTML code
      */
     protected $type = 'text';
 
     /**
-     * Nom du champ
+     * Field name
      */
     protected $name;
 
     /**
-     * Code HTML supplémentaire
+     * HTML attributes
      */
     protected $attributes = array();
 
     /**
-     * Valeur du champ
+     * Field value
      */
     protected $value = false;
 
     /**
-     * Le champ est t-il optionnel ?
+     * Is this field optional ?
      */
     protected $optional = false;
 
     /**
-     * Expression régulière à respecter
+     * Regular expression
      */
     protected $regex;
 
     /**
-     * Dimensions à respecter
+     * Text size
      */
     protected $minlength;
     protected $maxlength;
 
     /**
-     * Nom "joli" (pour les messages d'erreur)
+     * Pretty name, for error messages
      */
     protected $prettyname;
 
     /**
-     * Lecture seule ?
+     * Is this field read only?
      */
     protected $readonly = false;
 
     /**
-     * La valeur a t-elle changé ?
+     * Is the value changed?
      */
     protected $valuechanged = false;
 
     /**
-     * Contraintes
+     * Constraints on the field
      */
     protected $constraints = array();
 
     /**
-     * Plusieurs valeurs ?
+     * Multiple values ?
      */
     protected $multiple = false;
     protected $multipleChange = '';
 
     /**
-     * Donnée de mapping pour l'entité
+     * Data for the mapping
      */
     protected $mapping;
 
     /**
-     * Définir un attribut
+     * Define an attribute
      */
     public function setAttribute($name, $value)
     {
@@ -85,7 +87,7 @@ abstract class Field
     }
 
     /**
-     * Obtenir un attribut
+     * Get an attribute
      */
     public function getAttribute($name)
     {
@@ -97,7 +99,7 @@ abstract class Field
     }
 
     /**
-     * A t-il l'attribut $name ?
+     * Does this has the attribute $name ?
      */
     public function hasAttribute($name)
     {
@@ -105,7 +107,7 @@ abstract class Field
     }
 
     /**
-     * Enlever l'attribut
+     * Remove the attribute $name
      */
     public function unsetAttribute($name)
     {
@@ -113,7 +115,7 @@ abstract class Field
     }
 
     /**
-     * Fonction apellée par le dispatcher
+     * Function called by the dispatcher
      */
     public function push($name, $value = null)
     {
@@ -177,19 +179,19 @@ abstract class Field
     }
 
     /**
-     * Test des contraintes
+     * Constraints check
      */
     public function check()
     {
         if ($this->valuechanged && $this->readonly) {
-            return 'Le champ '.$this->printName().' est en lecture seule et ne doit pas changer';
+            return $this->language->translate('read_only', $this->printName());
         }
 
 	if ($this->multiple && is_array($this->value)) {
             $nodata = implode('', $this->value) === '';
 
             if (!$this->optional && $nodata) {
-                return 'Vous devez saisir une valeur pour '.$this->printName();
+                return $this->language->translate('value_required', $this->printName());
             }
 
             // Répectution du test sur chaque partie
@@ -209,23 +211,23 @@ abstract class Field
 
         if (null === $this->value || '' === $this->value) {
             if (!$this->optional) {
-                return 'Vous devez saisir une valeur pour '.$this->printName();
+                return $this->language->translate('value_required', $this->printName());
             }
         } else {
             // Expressions régulière
             if ($this->regex) {
                 if (!preg_match('/'.$this->regex.'/mUsi', $this->value)) {
-                    return 'Le format du champ '.$this->printName().' est incorrect';
+                    return $this->language->translate('bad_format', $this->printName());
                 }
             }
 
             // Longueur minimum et maximum
             if ($this->minlength && strlen($this->value) < $this->minlength) {
-                return 'Le champ '.$this->printName().' doit faire au moins '.$this->minlength.' caracteres.';
+                return $this->language->translate('at_least', $this->printName(), $this->minlength);
             }
 
             if ($this->maxlength && strlen($this->value) > $this->maxlength) {
-                return 'Le champ '.$this->printName().' ne doit pas dépasser '.$this->maxlength.' caracteres.';
+                return $this->language->translate('not_more', $this->printName(), $this->maxlength);
             }
         }
 
@@ -332,7 +334,7 @@ abstract class Field
 
             $html= '<span id="'.$rnd.'"></span>';
             $html.= '<script type="text/javascript">'.$others.'</script>';
-            $html.= "<a href=\"javascript:Formidable.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">Ajouter</a>";
+            $html.= "<a href=\"javascript:Formidable.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">".$this->language->translate('add')."</a>";
 
             return $html;
         }
@@ -355,7 +357,7 @@ abstract class Field
     public function addConstraint($closure)
     {
         if (!$closure instanceof \Closure) {
-            throw new \InvalidArgumentException('L\'argument de addConstraint() doit être une \Closure');
+            throw new \InvalidArgumentException('addConstraint() argument should be a \Closure');
         }
 
         $this->constraints[] = $closure;

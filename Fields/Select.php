@@ -50,7 +50,7 @@ class Select extends Field
             }
         }
 
-        return 'Vous devez choisir une valeur pour le champ '.$this->printName();
+        return $this->language->translate('should_choose', $this->printName());
     }
 
     public function getHtml()

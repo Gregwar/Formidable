@@ -1,7 +1,6 @@
 <?php
 session_start(); // required for CSRF
-include(__DIR__.'/../Form.php');
-
+include(__DIR__.'/../autoload.php');
 include('person.php');
 
 $form = new Gregwar\Formidable\Form('forms/demoform.html');

@@ -3,11 +3,6 @@
 namespace Gregwar\Formidable;
 
 /**
- * Inclusion de l'exception
- */
-require_once(__DIR__.'/ParserException.php');
-
-/**
  * Parse un formulaire pour Formidable
  *
  * @author Grégoire Passault <g.passault@gmail.com>
@@ -62,7 +57,7 @@ class Parser
     public function __construct($content, $context = null)
     {
         if (null === $context) {
-            $this->context = FormContext::getDefault();
+            $this->context = new Context;
         } else {
             $this->context = $context;
         }

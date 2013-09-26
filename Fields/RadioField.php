@@ -1,4 +1,5 @@
 <?php
+
 namespace Gregwar\Formidable\Fields;
 
 /**
@@ -62,6 +63,6 @@ class RadioField extends Field
 
     public function check()
     {
-        throw new \Exception('Un champ radio ne peut pas être vérifié');
+        throw new \Exception('A radio field should not be checked');
     }
 }
