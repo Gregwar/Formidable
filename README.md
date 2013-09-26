@@ -205,3 +205,20 @@ You can do it this way with `select`:
 
 And then source it with the same method
 
+## Creating form
+
+You can create form from a file or from a string, this will be detected automatically:
+
+```php
+<?php
+$form = new Gregwar\Formidable\Form('<form method="post">
+    <select name="colour">
+        <option value="blue">Blue</option>
+        <option selected value="red">Red</option>
+        <option value="green">Green</option>
+    </select>
+    </form>');
+
+echo $form->colour, "\n";
+// Red
+```
