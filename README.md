@@ -6,6 +6,29 @@ render it.
 
 ## How does it work?
 
+### Step 1: Download & install Formidable
+
+Via composer:
+
+```json
+{
+    "require": {
+        "gregwar/formidable": "dev-master"
+    }
+}
+```
+
+Or with a clone of the repository:
+
+```bash
+git clone https://github.com/Gregwar/Formidable.git
+```
+
+Or downloading it:
+
+* [Download .zip](https://github.com/Gregwar/Formidable/archive/master.zip)
+* [Download .tar.gz](https://github.com/Gregwar/Formidable/archive/master.tar.gz)
+
 ### Step 1: Write your form in HTML
 
 First, you have to write your code in HTML, for instance:
