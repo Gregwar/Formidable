@@ -1,30 +1,30 @@
 <form method="post" name="demo">
-    Prénom :<br />
-    <input type="text" name="prenom" mapping="prenom" /><br />
+    First name:<br />
+    <input type="text" name="firstname" mapping="firstname" /><br />
 
-    Séries télés préférés :<br />
+    You favourites TV shows:<br />
     <input type="multicheckbox" name="series" source="series" />
 
-    Age :<br />
+    Age:<br />
     <input type="int" value="" name="age" mapping="age" /><br />
 
     E-mail :<br />
-    <input type="email" name="email" optional mapping="email" prettyname="Adresse e-mail" /><br />
+    <input type="email" name="email" optional mapping="email" prettyname="e-mail address" /><br />
 
-    Sexe :<br />
-    <label><input type="radio" name="sexe" value="h" mapping="sexe" /> Homme</label><br />
-    <label><input type="radio" name="sexe" value="f" /> Femme</label><br />
+    Gender:<br />
+    <label><input type="radio" name="gender" value="h" mapping="gender" /> Homme</label><br />
+    <label><input type="radio" name="gender" value="f" /> Femme</label><br />
 
-    Date de naissance:<br />
-    <input type="date" name="date" optional mapping="date_naissance" /><br />
+    Birthday:<br />
+    <input type="date" name="date" optional mapping="birthday" /><br />
 
-    Photo :<br />
+    Photo:<br />
     <input type="file" filetype="image" name="photo" optional /><br />
 
-    Choisissez des animaux :<br />
-    <input type="multicheckbox" source="animaux" name="animaux" mapping="animaux" />
+    Choose some animals:<br />
+    <input type="multicheckbox" source="animals" name="animals" mapping="animals" />
 
-    Code visuel :<br />
+    CAPTCHA:<br />
     <input type="captcha" name="code" />
 
     <hr />

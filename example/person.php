@@ -5,11 +5,11 @@
  */
 class Person 
 {
-    public $prenom;
+    public $firstname;
 
     public $age;
 
-    public $sexe;
+    public $gender;
 
-    public $date_naissance;
+    public $birthday;
 }

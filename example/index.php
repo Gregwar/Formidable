@@ -5,14 +5,14 @@ include('person.php');
 
 $form = new Gregwar\Formidable\Form('forms/demoform.html');
 
-$form->addConstraint('prenom', function($value) {
+$form->addConstraint('firstname', function($value) {
     if ($value[0] == 'P') {
-	return 'Le prénom ne doit pas commencer par un P !';
+        return 'The firstname should not begin with a P!';
     }
 });
 
-$form->source('animaux', array(
-    '3' => 'Zèbre',
+$form->source('animals', array(
+    '3' => 'Zebra',
     '4' => 'Bonobo'
 ));
 
@@ -31,7 +31,7 @@ $errors = $form->handle(function($datas) {
         <h1>Formidable Demo</h1>
         <?php if ($errors) { ?>
             <div style="color:red">
-                <h2>Erreurs de validation</h1>
+                <h2>Validations error</h1>
                 <ul>
                 <?php foreach ($errors as $error) { ?>
                     <li><?php echo $error; ?></li>
