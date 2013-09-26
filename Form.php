@@ -84,6 +84,14 @@ class Form implements \Iterator
     }
 
     /**
+     * Sets the language
+     */
+    public function setLanguage(Language\Language $language)
+    {
+        $this->context->setLanguage($language);
+    }
+
+    /**
      * Obtenir le contenu du formulaire
      */
     public function getContent($vars = array()) {

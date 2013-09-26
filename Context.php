@@ -7,13 +7,8 @@ namespace Gregwar\Formidable;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class Context
+class Context extends Language\LanguageAware
 {
-    /**
-     * Language instance
-     */
-    protected $language = null;
-
     /**
      * Form clas
      */
