@@ -127,6 +127,7 @@ Here is the list of available attributes:
 * `max` (for numbers): the maximum value
 * `optional`: tell that the field is not required
 * `readonly`: the field is readonly and should not be modifier
+* `value`: the default value for the field
 
 ## API
 
