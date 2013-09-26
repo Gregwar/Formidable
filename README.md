@@ -128,10 +128,38 @@ Here is the list of available attributes:
 * `optional`: tell that the field is not required
 * `readonly`: the field is readonly and should not be modifier
 
+## API
+
+You can call these method on your `$form` object:
+
+* `posted()`: return true if the form was posted
+* `check()`: check the form and return an array of validity errors
+* `handle($callback, $errorCallback)`, this shortcut method call posted
+  and check(), and will call `$callback` if the form is valid, `$errorCallback`
+  else
+* `setAttribute($field, $attr, $value)`: sets an extra attribute on a field
+* `getAttribute($field, $attr)`: gets an extra attribute on a field
+* `source($source, $values)`: feed a source (see the "Source" section)
+* `addConstraint($field, $callback)`: adds a custom constraint on a field, the 
+  `callback` will be called with the field value and should return false if no
+  problem, or an error string 
+* `setValue($field, $value)`: set the value of a field
+* `getValue($field)`: gets the value of a field
+* `setValues(array $values)`: set the values for some fields
+* `getValues()`: get the values of all fields
+
 ## CSRF protection
 
 An additional CSRF token is automatically inserted in the form and checked
 when it's submitted. Thus, all your forms will be secured.
+
+The presence and validity of CSRF token is used to check that a form was 
+posted when calling `posted` method (it's used internally in `handle`)
+
+If you specify the `name` attribute in the `form`, the CSRF token will be 
+different for this specific form, this will allow Formidable to make the
+difference of which form is submitted if there is multiple form on the same
+page.
 
 ## Languages
 

@@ -171,6 +171,22 @@ class Form implements \Iterator
     }
 
     /**
+     * Get the values
+     */
+    public function getValues()
+    {
+        $this->parse();
+
+        $values = array();
+        
+        foreach ($this->fields as $name => $field) {
+            $values[$name] = $field->getValue();
+        }
+
+        return $values;
+    }
+
+    /**
      * Définir les valeurs
      */
     public function setValues($values, array $files = array())
@@ -193,7 +209,7 @@ class Form implements \Iterator
     /**
      * Définir les valeurs par noms du mapping
      */
-    public function setDatas($entity)
+    public function setData($entity)
     {
         $this->parse();
 
@@ -341,7 +357,7 @@ class Form implements \Iterator
     /**
      * Transformation des données en un objet
      */
-    public function getDatas($tableOrEntity = null)
+    public function getData($tableOrEntity = null)
     {
         $this->parse();
 
