@@ -69,7 +69,7 @@ echo $form;
 
 Simple, right?
 
-### Step 4: Enjoy your form
+### Step 4: Enjoy the magic
 
 You can then use the Formidable API to play with your form:
 
@@ -94,11 +94,20 @@ You can also try to change your form and add constraint directly in
 the HTML code:
 
 ```html
-<input type="text" name="name" minlength="10" /><br />
+<input type="text" name="name" minlength="10" />
 ```
 
 This will force the text to be at least 10 characters long when the
 server-side constraints will be checked.
+
+Want a CAPTCHA to secure your form? No problem:
+
+```html
+<input type="captcha" name="code" />
+```
+
+This will generate an image and an input field on the client-side, and use
+session on the server-side to check that the code is correct.
 
 ## Types
 
