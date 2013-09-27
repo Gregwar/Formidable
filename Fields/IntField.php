@@ -31,7 +31,7 @@ class IntField extends NumberField
         }
 
         if ((int)($this->value) != $this->value) {
-            return $this->language->translate('integer', $this->printName());
+            return array('integer', $this->printName());
         }
 
         return;

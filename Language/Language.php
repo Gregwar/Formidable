@@ -8,7 +8,11 @@ class Language
     
     protected function getFormat($slug)
     {
-        return $this->messages[$slug];
+        if (isset($this->messages[$slug])) {
+            return $this->messages[$slug];
+        } else {
+            return $slug;
+        }
     }
 
     public function translate($slug)
@@ -17,5 +21,12 @@ class Language
         $args[0] = $this->getFormat($slug);
         
         return call_user_func_array('sprintf', $args);
+    }
+
+    public function translateArray(array $params)
+    {
+        $params[0] = $this->getFormat($params[0]);
+
+        return call_user_func_array('sprintf', $params);
     }
 }

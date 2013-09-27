@@ -50,7 +50,7 @@ class Select extends Field
             }
         }
 
-        return $this->language->translate('should_choose', $this->printName());
+        return array('should_choose', $this->printName());
     }
 
     public function getHtml()

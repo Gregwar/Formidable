@@ -13,4 +13,9 @@ class LanguageAware
     {
         $this->language = $language;
     }
+
+    public function getLanguage()
+    {
+        return $this->language;
+    }
 }

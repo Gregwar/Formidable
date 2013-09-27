@@ -55,16 +55,16 @@ class NumberField extends Field
             return;
 
         if (!is_numeric($this->value)) {
-            return $this->language->translate('number', $this->printName());
+            return array('number', $this->printName());
         }
         if ($this->min !== null) {
             if ($this->value < $this->min) {
-                return $this->language->translate('number_min', $this->printName(), $this->min);
+                return array('number_min', $this->printName(), $this->min);
             }
         }
         if ($this->max !== null) {
             if ($this->value > $this->max) {
-                return $this->language->translate('number_max', $this->printName(), $this->max);
+                return array('number_max', $this->printName(), $this->max);
             }
         }
     }

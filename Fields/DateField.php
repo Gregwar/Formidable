@@ -70,7 +70,7 @@ class DateField extends Field
 	}
 
         if ((!$this->optional && $filled==0)||($filled>0 && $filled<count($this->fields))) {
-            return $this->language->translate('bad_date', $this->printName());
+            return array('bad_date', $this->printName());
 	}
     }
 

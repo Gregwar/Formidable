@@ -184,14 +184,14 @@ abstract class Field extends LanguageAware
     public function check()
     {
         if ($this->valuechanged && $this->readonly) {
-            return $this->language->translate('read_only', $this->printName());
+            return array('read_only', $this->printName());
         }
 
 	if ($this->multiple && is_array($this->value)) {
             $nodata = implode('', $this->value) === '';
 
             if (!$this->optional && $nodata) {
-                return $this->language->translate('value_required', $this->printName());
+                return array('value_required', $this->printName());
             }
 
             // Répectution du test sur chaque partie
@@ -211,23 +211,23 @@ abstract class Field extends LanguageAware
 
         if (null === $this->value || '' === $this->value) {
             if (!$this->optional) {
-                return $this->language->translate('value_required', $this->printName());
+                return array('value_required', $this->printName());
             }
         } else {
             // Expressions régulière
             if ($this->regex) {
                 if (!preg_match('/'.$this->regex.'/mUsi', $this->value)) {
-                    return $this->language->translate('bad_format', $this->printName());
+                    return array('bad_format', $this->printName());
                 }
             }
 
             // Longueur minimum et maximum
             if ($this->minlength && strlen($this->value) < $this->minlength) {
-                return $this->language->translate('at_least', $this->printName(), $this->minlength);
+                return array('at_least', $this->printName(), $this->minlength);
             }
 
             if ($this->maxlength && strlen($this->value) > $this->maxlength) {
-                return $this->language->translate('not_more', $this->printName(), $this->maxlength);
+                return array('not_more', $this->printName(), $this->maxlength);
             }
         }
 

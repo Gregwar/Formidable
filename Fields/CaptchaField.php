@@ -52,7 +52,7 @@ class CaptchaField extends Field
         $this->value = strtolower($this->value);
 
         if (!isset($_SESSION['Formidable_Captcha']) || $_SESSION['Formidable_Captcha']!=$this->value) {
-            return $this->language->translate('bad_captcha');
+            return array('bad_captcha');
         }
         unset($_SESSION["Formidable_Captcha"]);
     }
