@@ -49,7 +49,7 @@ In your PHP code, give your form to Formidable:
 ```php
 <?php
 session_start();
-include('formidable/autoload.php');
+include('vendor/autoload.php');
 
 // Formidable will parse the form and use it to check integrity
 // on the server-side
@@ -89,6 +89,16 @@ $form->addConstraint('name', function($value) {
     }
 });
 ```
+
+You can also try to change your form and add constraint directly in
+the HTML code:
+
+```html
+<input type="text" name="name" minlength="10" /><br />
+```
+
+This will force the text to be at least 10 characters long when the
+server-side constraints will be checked.
 
 ## Types
 
