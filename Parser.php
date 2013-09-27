@@ -22,7 +22,7 @@ class Parser
     /**
      * Objects in the form
      */
-    private $datas = array();
+    private $data = array();
 
     /**
      * Sources
@@ -68,9 +68,9 @@ class Parser
     /**
      * Form components
      */
-    public function getDatas()
+    public function getData()
     {
-        return $this->datas;
+        return $this->data;
     }
 
     /**
@@ -133,8 +133,8 @@ class Parser
                 $this->currentLine++;
             }
 
-            if (!isset($this->datas[$idx])) {
-                $this->datas[] = '';
+            if (!isset($this->data[$idx])) {
+                $this->data[] = '';
             }
 
             if (!$balise) {
@@ -143,9 +143,9 @@ class Parser
                     $buffer = '';
                 } else {
                     if ($textarea || $option) {
-                        $this->datas[$idx-1]->addValue($char);
+                        $this->data[$idx-1]->addValue($char);
                     } else if (!$select) {
-                        $this->datas[$idx] .= $char;
+                        $this->data[$idx] .= $char;
                     }
                 }
             } else {
@@ -181,31 +181,31 @@ class Parser
                                 $return = '</form>';
                             }
                         default:
-                            $this->datas[$idx] .= $return;
+                            $this->data[$idx] .= $return;
                         }
 
                         if ($textarea) {
-                            $this->datas[$idx-1]->addValue($return);
+                            $this->data[$idx-1]->addValue($return);
                         }
                     } else {
                         $this->needJs = $this->needJs || $return->needJs();
                         if ($return instanceof Fields\Options) {
-                            if (!$this->datas[$idx-1] instanceof Fields\Select) {
+                            if (!$this->data[$idx-1] instanceof Fields\Select) {
                                 throw new ParserException('<option> en dehors d\'un <select>');
                             }
                             $this->sources[$return->getSource()] = $return;
-                            $return->setParent($this->datas[$idx-1]);
+                            $return->setParent($this->data[$idx-1]);
                         } else {
                             if ($return instanceof Fields\Option) {
                                 $option = true;
 
-                                if (!$this->datas[$idx-1] instanceof Fields\Select) {
+                                if (!$this->data[$idx-1] instanceof Fields\Select) {
                                     throw new ParserException('<option> en dehors d\'un <select>');
                                 } else {
-                                    $this->datas[$idx-1]->addOption($return);
+                                    $this->data[$idx-1]->addOption($return);
                                 }
                             } else if ($return instanceof Fields\RadioField) {
-                                $this->datas[] = $return;
+                                $this->data[] = $return;
                                 $idx += 2;
 
                                 if (!isset($this->fields[$return->getName()])) {
@@ -214,7 +214,7 @@ class Parser
                                 }
                                 $this->fields[$return->getName()]->addRadio($return);
                             } else {
-                                $this->datas[] = $return;
+                                $this->data[] = $return;
                                 if ($return instanceof Head) {
                                     $this->head = $return;
                                 } else {
@@ -363,7 +363,7 @@ class Parser
         }
 
         // Getting data references
-        foreach ($this->datas as &$data) {
+        foreach ($this->data as &$data) {
             if (is_object($data)) {
                 if ($data instanceof Head) {
                     $data = $this->getHead();

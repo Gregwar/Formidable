@@ -17,7 +17,7 @@ class Form implements \Iterator
     /**
      * Objects & strings
      */
-    protected $datas = array();
+    protected $data = array();
 
     /**
      * Fields by name
@@ -113,17 +113,17 @@ class Form implements \Iterator
     protected function parse()
     {
         $parser = $this->factory->getParser($this->content);
-        $this->setParsedDatas($parser);
+        $this->setParsedData($parser);
     }
 
     /**
      * Gt data from the parser
      */
-    protected function setParsedDatas(Parser $parser)
+    protected function setParsedData(Parser $parser)
     {
         $this->parser = clone $parser;
 
-        $this->datas = $parser->getDatas();
+        $this->data = $parser->getData();
         $this->fields = $parser->getFields();
         $this->sources = $parser->getSources();
         $this->token = $parser->getHash();
@@ -136,7 +136,7 @@ class Form implements \Iterator
      */
     public function reset()
     {
-        $this->setParsedDatas($this->parser);
+        $this->setParsedData($this->parser);
     }
 
     /**
@@ -280,7 +280,7 @@ class Form implements \Iterator
             $html.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/formidable.js').'</script>';
         }
 
-        foreach ($this->datas as $d) {
+        foreach ($this->data as $d) {
             if (is_string($d)) {
                 $html .= $d;
             } else {
@@ -395,7 +395,7 @@ class Form implements \Iterator
 
             if (!$errors) {
                 if (null !== $callback) {
-                    $callback($this->getDatas());
+                    $callback($this->getData());
                 }
             } else {
                 if (null !== $errorsCallback) {
