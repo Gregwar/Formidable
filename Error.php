@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable;
 
 /**
- * Erreur sur un champ
+ * Error on a field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Error
 {
     /**
-     * Champ correspondant
+     * Field name
      */
     private $field;
 
     /**
-     * Message de l'erreur
+     * Error message
      */
     private $message;
 
@@ -25,13 +25,16 @@ class Error
         $this->message = $message;
     }
 
+    /**
+     * Gets the message
+     */
     public function __toString()
     {
         return $this->message;
     }
 
     /**
-     * Obtenir le champs
+     * Get the field
      */
     public function getField()
     {

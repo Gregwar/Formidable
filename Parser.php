@@ -3,24 +3,24 @@
 namespace Gregwar\Formidable;
 
 /**
- * Parse un formulaire pour Formidable
+ * Parses a Formidable form
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Parser
 {
     /**
-     * Type par défaut (pour les <input> non typés)
+     * Default type (for untyped inputs)
      */
     public static $fallback = 'text';
 
     /**
-     * Contexte à utiliser
+     * Context
      */
     private $context;
 
     /**
-     * Objets constituant le formulaire
+     * Objects in the form
      */
     private $datas = array();
 
@@ -30,7 +30,7 @@ class Parser
     private $sources = array();
 
     /**
-     * Champs
+     * Fields
      */
     private $fields = array();
 
@@ -40,17 +40,17 @@ class Parser
     private $hash = '';
 
     /**
-     * Besoin de JS ?
+     * Does we need js?
      */
     private $needJs = false;
 
     /**
-     * En-tête du formulaire
+     * Form header
      */
     private $head = null;
 
     /**
-     * Ligne du fichier en cours de lecture
+     * Current line
      */
     private $currentLine = 1;
 
@@ -66,7 +66,7 @@ class Parser
     }
 
     /**
-     * Composants du formulaire
+     * Form components
      */
     public function getDatas()
     {
@@ -74,7 +74,7 @@ class Parser
     }
 
     /**
-     * Champs, mappés par leur nom
+     * Fields mapped by name
      */
     public function getFields()
     {
@@ -90,7 +90,7 @@ class Parser
     }
 
     /**
-     * Le hash CSRF
+     * CSRF hash
      */
     public function getHash()
     {
@@ -98,7 +98,7 @@ class Parser
     }
 
     /**
-     * Obtenir l'en-tête
+     * Gets the head
      */
     public function getHead()
     {
@@ -106,7 +106,7 @@ class Parser
     }
 
     /**
-     * Besoin de JS ?
+     * Does we need js?
      */
     public function needJs()
     {
@@ -114,7 +114,7 @@ class Parser
     }
 
     /**
-     * Parse le formulaire et construit les objets Formidable
+     * Parses the form and build Formidable objects
      *
      * @param string $content le contenu du code du formulaire
      */
@@ -151,7 +151,7 @@ class Parser
             } else {
                 if ($char == '>') {
                     $balise = false;
-                    $return = $this->parseBalise($buffer);
+                    $return = $this->parseTag($buffer);
                     if (!is_object($return)) {
                         switch ($return) {
                         case '</textarea>':
@@ -252,21 +252,21 @@ class Parser
     }
 
     /**
-     * Parser une balise
+     * Parses a tag
      *
      * @param string $data le contenu de la balise
      */
-    private function parseBalise($data)
+    private function parseTag($data)
     {
         $spaces = explode(' ', $data, 2);
 
-        return $this->doParseBalise($spaces[0], $spaces[1]);
+        return $this->doParseTag($spaces[0], $spaces[1]);
     }
 
     /**
-     * Parser une balise
+     * Parses a tag
      */
-    public function doParseBalise(&$name, &$data)
+    public function doParseTag(&$name, &$data)
     {
         $field = null;
 
@@ -343,15 +343,15 @@ class Parser
      */
     public function __clone()
     {
-        // Clonage de la tête
+        // Cloning head
         $this->head = clone $this->head;
 
-        // Clonage des champs
+        // Cloning fields
         foreach ($this->fields as &$field) {
             $field = clone $field;
         }
 
-        // Clonages des sources
+        // Cloning sources
         foreach ($this->sources as &$source) {
             if ($source instanceof Fields\Options) {
                 $name = $source->getParent()->getName();
@@ -362,7 +362,7 @@ class Parser
             }
         }
 
-        // "Réparation" des références dans les datas
+        // Getting data references
         foreach ($this->datas as &$data) {
             if (is_object($data)) {
                 if ($data instanceof Head) {

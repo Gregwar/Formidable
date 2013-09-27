@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable;
 
 /**
- * Mapping très basique avec la base de données
+ * Basic mapping for SQL, deprecated
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Entity
 {
     /**
-     * Table SQL
+     * SQL table
      */
     protected $table;
 
     /**
-     * Champs
+     * Fields
      */
     protected $datas = array();
 
@@ -25,7 +25,7 @@ class Entity
     protected $conditions;
 
     /**
-     * Construction et accès aux données
+     * Constructing and accessing data
      */
     public function __construct($tableName)
     {

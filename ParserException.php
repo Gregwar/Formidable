@@ -3,7 +3,7 @@
 namespace Gregwar\Formidable;
 
 /**
- * En cas d'erreur au moment de parser
+ * Raised by the parser on error
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */

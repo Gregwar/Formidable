@@ -3,14 +3,14 @@
 namespace Gregwar\Formidable;
 
 /**
- * En-tête du formulaire (<form>)
+ * Form header (<form>)
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Head
 {
     /**
-     * Attributs
+     * Attributes
      */
     private $attributes = array();
 

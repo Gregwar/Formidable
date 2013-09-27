@@ -3,54 +3,55 @@
 namespace Gregwar\Formidable;
 
 /**
- * Classe principale de Formidable
+ * A formidable Form
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Form implements \Iterator
 {
     /**
-     * Contenu (code HTML du formulaire)
+     * HTML contents of the form
      */
     protected $content;
 
     /**
-     * Parsed
+     * Is the fomr parsed
      */
     protected $parsed = false;
 
     /**
-     * Objets et chaîne de caractères représentant le formulaire Formidable
+     * Objects & strings
      */
     protected $datas = array();
 
     /**
-     * Champs, indexés par nom
+     * Fields by name
      */
     protected $fields = array();
 
     /**
-     * Sources d'information
+     * Information sources
      */
     protected $sources = array();
 
     /**
-     * Token de sécurité
+     *
+     * Security token
      */
     protected $token;
 
     /**
-     * Position courrante pour l'itération
+     * Current position for iterator
      */
     protected $position = 0;
 
     /**
-     * En-tête
+     * Form header
      */
     protected $head = null;
 
     /**
-     * Besoin de Js ?
+     * Does we need js?
      */
     protected $needJs = false;
 
@@ -65,7 +66,7 @@ class Form implements \Iterator
     protected $context;
 
     /**
-     * Chemin du fichier
+     * File path
      */
     protected $path;
 
@@ -96,7 +97,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtenir le contenu du formulaire
+     * Get the form contents
      */
     public function getContent($vars = array())
     {
@@ -110,7 +111,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Parse le contenu du formulaire pour construire les objets
+     * Parses the form contents to build objects
      */
     protected function parse()
     {
@@ -122,7 +123,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définit les données récupérées par le parser
+     * Gt data from the parser
      */
     protected function setParsedDatas(Parser $parser)
     {
@@ -137,7 +138,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Remet à zéro le formulaire
+     * Resets the form
      */
     public function reset()
     {
@@ -147,7 +148,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtenir le token
+     * Get the security token
      */
     public function getToken()
     {
@@ -157,7 +158,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtenir un champ par nom
+     * Get a field by name
      */
     public function getField($name)
     {
@@ -171,7 +172,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Get the values
+     * Get all the values
      */
     public function getValues()
     {
@@ -187,7 +188,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définir les valeurs
+     * Define the values
      */
     public function setValues($values, array $files = array())
     {
@@ -207,7 +208,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définir les valeurs par noms du mapping
+     * Define the values using mapping
      */
     public function setData($entity)
     {
@@ -231,7 +232,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définir la valeur d'un champ
+     * Defines a field value
      */
     public function setValue($name, $value)
     {
@@ -241,7 +242,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtention de la valeur d'un champ
+     * Gets a field value
      */
     public function getValue($name)
     {
@@ -251,7 +252,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Ajouter une contrainte à un champ
+     * Add a constraint on a field
      */
     public function addConstraint($name, $closure)
     {
@@ -261,7 +262,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définir la valeur d'un attribut
+     * Defines an attribute value
      */
     public function setAttribute($name, $attr_name, $value)
     {
@@ -271,7 +272,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtenir un attribut sur un champ
+     * Get a field attribute
      */
     public function getAttribute($name, $attr_name)
     {
@@ -281,7 +282,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définir la classe d'un champ option
+     * Sets the class of an option field
      */
     public function setOptionClass($select, $val, $class)
     {
@@ -291,7 +292,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Conversion en HTML
+     * Convert to HTML
      */
     public function __toString()
     {
@@ -299,7 +300,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Création du code HTML
+     * Convert to HTML
      */
     public function getHtml()
     {
@@ -322,7 +323,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Checker les erreurs
+     * Error checking
      */
     public function check()
     {
@@ -345,7 +346,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Sourcer un champ avec des valeurs
+     * Values sourcing
      */
     public function source($source, $data)
     {
@@ -355,7 +356,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Transformation des données en un objet
+     * Gets the data using mapping
      */
     public function getData($tableOrEntity = null)
     {
@@ -385,7 +386,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtention de la valeur d'un champ
+     * Get a field's value
      */
     public function __get($name)
     {
@@ -395,7 +396,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Définition de la valeur d'un champ
+     * Set a field value
      */
     public function __set($var, $val)
     {
@@ -405,7 +406,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Obtenir un champ
+     * Get a field
      */
     public function get($name)
     {
@@ -415,7 +416,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Savoir si le formulaire a été posté
+     * Check if the form was posted
      */
     public function posted()
     {
@@ -430,7 +431,7 @@ class Form implements \Iterator
     }
 
     /**
-     * Gérer un formulaire, fonction raccourcie
+     * Check a form, helper function
      */
     public function handle($callback = null, $errorsCallback = null)
     {
@@ -455,9 +456,8 @@ class Form implements \Iterator
     }
 
     /**
-     * Permet d'itérer sur les champs
+     * Iterator methods
      */
-
     public function rewind()
     {
         $this->parse();
