@@ -3,11 +3,11 @@
 namespace Gregwar\Formidable;
 
 /**
- * Form context
+ * Form factory
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class Context extends Language\LanguageAware
+class Factory extends Language\LanguageAware
 {
     /**
      * Form clas
@@ -95,7 +95,7 @@ class Context extends Language\LanguageAware
     }
 
     /**
-     * Get a form in this context
+     * Get a form in this factory
      */
     public function getForm($pathOrContent, array $vars = array()) {
         $formClass = $this->formClass;
@@ -104,7 +104,7 @@ class Context extends Language\LanguageAware
     }
 
     /**
-     * Constructs the context
+     * Constructs the factory
      */
     public function __construct()
     {

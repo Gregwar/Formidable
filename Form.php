@@ -56,21 +56,21 @@ class Form implements \Iterator
     protected $parser;
 
     /**
-     * Contexte
+     * Factorye
      */
-    protected $context;
+    protected $factory;
 
     /**
      * File path
      */
     protected $path;
 
-    public function __construct($pathOrContent = '', array $vars = array(), $context = null)
+    public function __construct($pathOrContent = '', array $vars = array(), $factory = null)
     {
-        if (null === $context) {
-            $this->context = new Context;
+        if (null === $factory) {
+            $this->factory = new Factory;
         } else {
-            $this->context = $context;
+            $this->factory = $factory;
         }
 
         if ($pathOrContent) {
@@ -90,7 +90,7 @@ class Form implements \Iterator
      */
     public function setLanguage(Language\Language $language)
     {
-        $this->context->setLanguage($language);
+        $this->factory->setLanguage($language);
     }
 
     /**
@@ -112,7 +112,7 @@ class Form implements \Iterator
      */
     protected function parse()
     {
-        $parser = $this->context->getParser($this->content);
+        $parser = $this->factory->getParser($this->content);
         $this->setParsedDatas($parser);
     }
 
@@ -304,7 +304,7 @@ class Form implements \Iterator
                 $error = $field->check();
 
                 if ($error) {
-                    $errors[] = new Error($field, $error, $this->context->getLanguage());
+                    $errors[] = new Error($field, $error, $this->factory->getLanguage());
                 }
             }
         }

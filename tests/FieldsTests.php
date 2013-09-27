@@ -1,7 +1,7 @@
 <?php
 
 use Gregwar\Formidable\Form;
-use Gregwar\Formidable\Context;
+use Gregwar\Formidable\Factory;
 
 /**
  * Type "file" qui retourne le hash du fichier au lieu de le sauver réellement
@@ -488,9 +488,9 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
      */
     public function testFile()
     {
-        $context = new Context;
-        $context->registerType('file', '\FileField_NoSave');
-        $form = $context->getForm(__DIR__.'/files/form/upload.html');
+        $factory = new Factory;
+        $factory->registerType('file', '\FileField_NoSave');
+        $form = $factory->getForm(__DIR__.'/files/form/upload.html');
         $file = __DIR__.'/files/upload/test.txt';
         $hash = sha1(file_get_contents($file));
 

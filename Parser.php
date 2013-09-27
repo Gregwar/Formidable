@@ -15,9 +15,9 @@ class Parser
     public static $fallback = 'text';
 
     /**
-     * Context
+     * Factory
      */
-    private $context;
+    private $factory;
 
     /**
      * Objects in the form
@@ -54,12 +54,12 @@ class Parser
      */
     private $currentLine = 1;
 
-    public function __construct($content, $context = null)
+    public function __construct($content, $factory = null)
     {
-        if (null === $context) {
-            $this->context = new Context;
+        if (null === $factory) {
+            $this->factory = new Factory;
         } else {
-            $this->context = $context;
+            $this->factory = $factory;
         }
 
         $this->parse($content);
@@ -209,7 +209,7 @@ class Parser
                                 $idx += 2;
 
                                 if (!isset($this->fields[$return->getName()])) {
-                                    $this->fields[$return->getName()] = $this->context->getObject('radios');
+                                    $this->fields[$return->getName()] = $this->factory->getObject('radios');
                                     $this->fields[$return->getName()]->setName($return->getName());
                                 }
                                 $this->fields[$return->getName()]->addRadio($return);
@@ -286,7 +286,7 @@ class Parser
                 return '<'.$name.' '.$data.'>';
             }
 
-            $field = $this->context->getField($type);
+            $field = $this->factory->getField($type);
 
             break;
         case 'form':
@@ -295,7 +295,7 @@ class Parser
         case 'option':
         case 'options':
         case 'custom':
-            $field = $this->context->getObject($name);
+            $field = $this->factory->getObject($name);
             break;
         case '/textarea':
             return '</textarea>';
