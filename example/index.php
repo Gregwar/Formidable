@@ -14,12 +14,13 @@ $form->addConstraint('firstname', function($value) {
 });
 
 $form->source('animals', array(
-    '3' => 'Zebra',
-    '4' => 'Bonobo'
+    'zebra' => 'Zebra',
+    'bonobo' => 'Bonobo'
 ));
 
-$errors = $form->handle(function($datas) {
-    print_r($datas);
+$errors = $form->handle(function() use ($form) {
+    $data = $form->getData(new Person);
+    var_dump($data);
 });
 
 ?>

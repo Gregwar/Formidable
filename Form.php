@@ -2,8 +2,10 @@
 
 namespace Gregwar\Formidable;
 
+use Symfony\Component\PropertyAccess\PropertyAccessor;
+
 /**
- * A formidable Form
+ * A Formidable Form
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -56,9 +58,14 @@ class Form implements \Iterator
     protected $parser;
 
     /**
-     * Factorye
+     * Factory
      */
     protected $factory;
+
+    /**
+     * Property accessor
+     */
+    protected $accessor = null;
 
     /**
      * File path
@@ -196,6 +203,10 @@ class Form implements \Iterator
      */
     public function setData($entity)
     {
+        if ($this->accessor == null) {
+            $this->accessor = new PropertyAccessor;
+        }
+
         foreach ($this->fields as $field) {
             if (is_object($field)) {
                 if (($mapping = $field->getMappingName()) && !$field->readOnly()) {
@@ -204,9 +215,8 @@ class Form implements \Iterator
                             $field->setValue($entity[$mapping], 1);
                         }
                     } else {
-                        if (isset($entity->$mapping)) {
-                            $field->setValue($entity->$mapping, 1);
-                        }
+                        $value = $this->accessor->getValue($entity);
+                        $field->setValue($value, 1);
                     }
                 }
             }
@@ -325,6 +335,10 @@ class Form implements \Iterator
      */
     public function getData($entity = null)
     {
+        if ($this->accessor == null) {
+            $this->accessor = new PropertyAccessor;
+        }
+
         if (null !== $entity) {
             $entity = $entity;
         } else {
@@ -336,7 +350,7 @@ class Form implements \Iterator
                 if (is_array($entity)) {
                     $entity[$mapping] = $field->getValue();
                 } else {
-                    $entity->$mapping = $field->getValue();
+                    $this->accessor->setValue($entity, $mapping, $field->getValue());
                 }
             }
         }
