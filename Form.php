@@ -215,7 +215,7 @@ class Form implements \Iterator
                             $field->setValue($entity[$mapping], 1);
                         }
                     } else {
-                        $value = $this->accessor->getValue($entity);
+                        $value = $this->accessor->getValue($entity, $mapping);
                         $field->setValue($value, 1);
                     }
                 }
