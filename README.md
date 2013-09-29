@@ -227,7 +227,7 @@ You can do it this way with `select`:
 
 And then source it with the same method
 
-## Creating form
+## Creating form from string
 
 You can create form from a file or from a string, this will be detected automatically:
 
@@ -259,3 +259,46 @@ echo $form;
 </form>
 */
 ```
+
+## Mapping
+
+You can also use `mapping` attribute to populate your form or to get back the form data in an array or
+in an object, for instance:
+
+```php
+<?php
+
+class Person
+{
+    protected $name;
+    public function getName() { return $this->name; }
+    public function setName($name) {
+        $this->name = $name;
+    }
+}
+
+$person = new Person;
+$person->setName('Jack');
+
+$form = new Gregwar\Formidable\Form('<form method="post">
+    <input type="text" name="name" mapping="name" />
+    </form>');
+
+$form->setData($person);
+
+echo $form;
+/*
+Will output something like:
+
+<form method="post">
+    <input required="required" type="text" name="name" value="Jack" />
+    <input type="hidden" name="csrf_token" value="aa27f437cc6127c244db14361fd614af51c79aac" />
+</form>
+*/
+```
+
+You can use:
+
+* `getData($entity = array())`: populate and return entity with data populated
+* `setData($entity)`: populate the form with the entity attributes
+
