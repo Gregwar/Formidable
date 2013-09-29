@@ -323,16 +323,12 @@ class Form implements \Iterator
     /**
      * Gets the data using mapping
      */
-    public function getData($tableOrEntity = null)
+    public function getData($entity = null)
     {
-        if (gettype($tableOrEntity) == 'string') {
-            $entity = new Entity($tableOrEntity);
+        if (null !== $entity) {
+            $entity = $entity;
         } else {
-            if (null !== $tableOrEntity) {
-                $entity = $tableOrEntity;
-            } else {
-                $entity = array();
-            }
+            $entity = array();
         }
 
         foreach ($this->fields as $name => $field) {
