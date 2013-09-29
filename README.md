@@ -233,6 +233,7 @@ You can create form from a file or from a string, this will be detected automati
 
 ```php
 <?php
+
 $form = new Gregwar\Formidable\Form('<form method="post">
     <select name="colour">
         <option value="blue">Blue</option>
@@ -241,11 +242,11 @@ $form = new Gregwar\Formidable\Form('<form method="post">
     </select>
     </form>');
 
-echo $form->colour, "\n";
+echo $form->getValue('colour') . "\n";
 // red
 
 // Sets the color to blue
-$form->colour = 'blue';
+$form->setValue('colour', 'blue');
 
 echo $form;
 /* Will display:

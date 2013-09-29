@@ -176,9 +176,9 @@ class Parser
                                 }
                                 $this->hash = sha1($secret);
 
-                                $return = '<input type="hidden" name="csrf_token" value="'.$this->hash.'" /></form>';
+                                $return = '<input type="hidden" name="csrf_token" value="'.$this->hash.'" /></form>'."\n";
                             } else {
-                                $return = '</form>';
+                                $return = '</form>'."\n";
                             }
                         default:
                             $this->data[$idx] .= $return;
