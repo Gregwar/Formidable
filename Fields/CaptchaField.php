@@ -2,7 +2,7 @@
 
 namespace Gregwar\Formidable\Fields;
 
-use Gregwar\Formidable\Captcha\Captcha;
+use Gregwar\Captcha\CaptchaBuilder;
 
 /**
  * Captcha field
@@ -14,12 +14,18 @@ class CaptchaField extends Field
     /**
      * Captcha value
      */
-    protected $captchaValue = '';
+    protected $builder = null;
 
     /**
      * Field type (text)
      */
     protected $type = 'text';
+
+    public function __construct()
+    {
+        $this->builder = new CaptchaBuilder;
+        $this->builder->build();
+    }
 
     public function push($var, $value = null)
     {
@@ -28,23 +34,9 @@ class CaptchaField extends Field
         }
     }
 
-    /**
-     * Generates the captcha code
-     */
-    protected function generate()
-    {
-        $chars = str_split('0123456789abcdefghijkmnpqrstuvwxyz');
-
-        for ($i=0; $i<5; $i++) {
-            $this->captchaValue .= $chars[array_rand($chars)];
-        }
-
-        $_SESSION['Formidable_Captcha'] = $this->captchaValue;
-    }
-
     public function getCaptchaValue()
     {
-        return $this->captchaValue;
+        return $this->builder->getPhrase();
     }
 
     public function check()
@@ -59,15 +51,14 @@ class CaptchaField extends Field
 
     public function getHtml()
     {
-        $this->generate();
         $temp = $this->value;
         $this->value = '';
         $input_html = parent::getHtml();
         $this->value = $temp;
 
-        $captcha = new Captcha($this->captchaValue);
+        $_SESSION['Formidable_Captcha'] = $this->getCaptchaValue();
 
-        $html = '<img src="'.$captcha->inline().'" class="Formidable_Captcha" alt="Code visuel" ><br />'.$input_html;
+        $html = '<img src="'.$this->builder->inline().'" class="Formidable_Captcha" alt="Code visuel" ><br />'.$input_html;
 
         return $html;
     }

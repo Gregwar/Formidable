@@ -109,6 +109,9 @@ Want a CAPTCHA to secure your form? No problem:
 This will generate an image and an input field on the client-side, and use
 session on the server-side to check that the code is correct.
 
+Note that this will use the dependency with [Gregwar/Captcha](https://github.com/Gregwar/Captcha/)
+library (you will have to install dependencies using composer).
+
 ## Types
 
 The following input types are supported:
