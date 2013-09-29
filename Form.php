@@ -215,7 +215,7 @@ class Form implements \Iterator
                             $field->setValue($entity[$mapping], 1);
                         }
                     } else {
-                        $value = $this->accessor->getValue($entity);
+                        $value = $this->accessor->getValue($entity, $mapping);
                         $field->setValue($value, 1);
                     }
                 }
@@ -333,16 +333,10 @@ class Form implements \Iterator
     /**
      * Gets the data using mapping
      */
-    public function getData($entity = null)
+    public function getData($entity = array())
     {
         if ($this->accessor == null) {
             $this->accessor = new PropertyAccessor;
-        }
-
-        if (null !== $entity) {
-            $entity = $entity;
-        } else {
-            $entity = array();
         }
 
         foreach ($this->fields as $name => $field) {
