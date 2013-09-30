@@ -298,7 +298,7 @@ Will output something like:
 */
 ```
 
-Note that the mapping uses the [Symfony PropertyAccessor][https://github.com/symfony/PropertyAccess),
+Note that the mapping uses the [Symfony PropertyAccessor](https://github.com/symfony/PropertyAccess),
 you can then use accessor as in the example above to populate properties.
 
 You can use:
