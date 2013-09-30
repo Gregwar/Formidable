@@ -218,7 +218,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertContains('code', $html);
         $this->assertContains('type="text"', $html);
 
-        $captchaValue = $form->get('code')->getCaptchaValue();
+        $captchaValue = $form->getField('code')->getCaptchaValue();
 
         $this->assertNotContains($captchaValue, $html);
 
@@ -242,7 +242,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('captcha.html');
         $html = "$form";
 
-        $captchaValue = $form->get('code')->getCaptchaValue();
+        $captchaValue = $form->getField('code')->getCaptchaValue();
 
         $this->assertAccept($form, array(
             'code' => $captchaValue
@@ -506,7 +506,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals($hash, $form->attachement->save(null));
-        $this->assertEquals('test.txt', $form->get('attachement')->fileName());
+        $this->assertEquals('test.txt', $form->getField('attachement')->fileName());
 
         $file = __DIR__.'/files/upload/long.txt';
         $this->assertRefuse($form, array(), array(

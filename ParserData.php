@@ -84,6 +84,18 @@ class ParserData
         return $this->needJs;
     }
 
+    /**
+     * Gets a field
+     */
+    public function getField($name)
+    {
+        if (isset($this->fields[$name])) {
+            return $this->fields[$name];
+        } else {
+            throw new \Exception('Field with name '.$name.' not found');
+        }
+    }
+
     public function copyParserData(ParserData $other)
     {
         // Cloning head

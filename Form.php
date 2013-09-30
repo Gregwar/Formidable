@@ -101,18 +101,6 @@ class Form extends ParserData implements \Iterator
     }
 
     /**
-     * Get a field by name
-     */
-    public function getField($name)
-    {
-        if (isset($this->fields[$name])) {
-            return $this->fields[$name];
-        }
-
-        return null;
-    }
-
-    /**
      * Get all the values
      */
     public function getValues()
@@ -174,7 +162,7 @@ class Form extends ParserData implements \Iterator
      */
     public function setValue($name, $value)
     {
-        $this->fields[$name]->setValue($value, 1);
+        $this->getField($name)->setValue($value, 1);
     }
 
     /**
@@ -182,7 +170,7 @@ class Form extends ParserData implements \Iterator
      */
     public function getValue($name)
     {
-        return $this->fields[$name]->getValue();
+        return $this->getField($name)->getValue();
     }
 
     /**
@@ -190,23 +178,23 @@ class Form extends ParserData implements \Iterator
      */
     public function addConstraint($name, $closure)
     {
-        $this->fields[$name]->addConstraint($closure);
+        $this->getField($name)->addConstraint($closure);
     }
 
     /**
      * Defines an attribute value
      */
-    public function setAttribute($name, $attr_name, $value)
+    public function setAttribute($name, $attribute, $value)
     {
-        $this->fields[$name]->setAttribute($attr_name, $value);
+        $this->getField($name)->setAttribute($attribute, $value);
     }
 
     /**
      * Get a field attribute
      */
-    public function getAttribute($name, $attr_name)
+    public function getAttribute($name, $attribute)
     {
-        return $this->fields[$name]->getAttribute($attr_name);
+        return $this->getField($name)->getAttribute($attribute);
     }
 
     /**
@@ -214,7 +202,7 @@ class Form extends ParserData implements \Iterator
      */
     public function setOptionClass($select, $val, $class)
     {
-        $this->fields[$select]->setOptionClass($val, $class);
+        $this->getField($select)->setOptionClass($val, $class);
     }
 
     /**
@@ -312,14 +300,6 @@ class Form extends ParserData implements \Iterator
     public function __set($var, $val)
     {
         $this->setValue($var, $val);
-    }
-
-    /**
-     * Get a field
-     */
-    public function get($name)
-    {
-        return $this->fields[$name];
     }
 
     /**
