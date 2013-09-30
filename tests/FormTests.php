@@ -192,6 +192,18 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals($html, $otherHtml);
     }
 
+    /**
+     * Testing that accessing a non-existent field raise an exception
+     *
+     * @expectedException              \Exception
+     */
+    public function testAccessingNotExistingField()
+    {
+        $form = $this->getForm('basic.html');
+
+        $form->getField('titi');
+    }
+
     private function getForm($file)
     {
         return new Form(__DIR__.'/files/form/'.$file);
