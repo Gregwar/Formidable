@@ -114,6 +114,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form1 = $this->getForm('empty.html');
         $form2 = $this->getForm('empty.html');
 
+        $this->assertNotEquals('', $form1->getToken());
         $this->assertEquals($form1->getToken(), $form2->getToken());
 
         $form3 = $this->getForm('empty2.html');

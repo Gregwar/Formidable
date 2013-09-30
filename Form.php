@@ -9,7 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class Form implements \Iterator
+class Form extends ParserData implements \Iterator
 {
     /**
      * HTML contents of the form
@@ -17,40 +17,9 @@ class Form implements \Iterator
     protected $content;
 
     /**
-     * Objects & strings
-     */
-    protected $data = array();
-
-    /**
-     * Fields by name
-     */
-    protected $fields = array();
-
-    /**
-     * Information sources
-     */
-    protected $sources = array();
-
-    /**
-     *
-     * Security token
-     */
-    protected $token;
-
-    /**
      * Current position for iterator
      */
     protected $position = 0;
-
-    /**
-     * Form header
-     */
-    protected $head = null;
-
-    /**
-     * Does we need js?
-     */
-    protected $needJs = false;
 
     /**
      * Parser
@@ -119,23 +88,8 @@ class Form implements \Iterator
      */
     protected function parse()
     {
-        $parser = $this->factory->getParser($this->content);
-        $this->setParsedData($parser);
-    }
-
-    /**
-     * Gt data from the parser
-     */
-    protected function setParsedData(Parser $parser)
-    {
-        $this->parser = clone $parser;
-
-        $this->data = $parser->getData();
-        $this->fields = $parser->getFields();
-        $this->sources = $parser->getSources();
-        $this->token = $parser->getHash();
-        $this->needJs = $parser->needJs();
-        $this->head = $parser->getHead();
+        $this->parser = $this->factory->getParser($this->content);
+        $this->copyParserData($this->parser);
     }
 
     /**
@@ -143,15 +97,7 @@ class Form implements \Iterator
      */
     public function reset()
     {
-        $this->setParsedData($this->parser);
-    }
-
-    /**
-     * Get the security token
-     */
-    public function getToken()
-    {
-        return $this->token;
+        $this->copyParserData($this->parser);
     }
 
     /**

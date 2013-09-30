@@ -7,7 +7,7 @@ namespace Gregwar\Formidable;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class Parser
+class Parser extends ParserData
 {
     /**
      * Default type (for untyped inputs)
@@ -15,39 +15,14 @@ class Parser
     public static $fallback = 'text';
 
     /**
+     * Parser data
+     */
+    protected $parserData;
+
+    /**
      * Factory
      */
     private $factory;
-
-    /**
-     * Objects in the form
-     */
-    private $data = array();
-
-    /**
-     * Sources
-     */
-    private $sources = array();
-
-    /**
-     * Fields
-     */
-    private $fields = array();
-
-    /**
-     * Hash CSRF
-     */
-    private $hash = '';
-
-    /**
-     * Does we need js?
-     */
-    private $needJs = false;
-
-    /**
-     * Form header
-     */
-    private $head = null;
 
     /**
      * Current line
@@ -63,54 +38,6 @@ class Parser
         }
 
         $this->parse($content);
-    }
-
-    /**
-     * Form components
-     */
-    public function getData()
-    {
-        return $this->data;
-    }
-
-    /**
-     * Fields mapped by name
-     */
-    public function getFields()
-    {
-        return $this->fields;
-    }
-
-    /**
-     * Sources
-     */
-    public function getSources()
-    {
-        return $this->sources;
-    }
-
-    /**
-     * CSRF hash
-     */
-    public function getHash()
-    {
-        return $this->hash;
-    }
-
-    /**
-     * Gets the head
-     */
-    public function getHead()
-    {
-        return $this->head;
-    }
-
-    /**
-     * Does we need js?
-     */
-    public function needJs()
-    {
-        return $this->needJs;
     }
 
     /**
@@ -174,11 +101,11 @@ class Parser
                                 if ($this->head && $this->head->has('name')) {
                                     $secret .= '/'.$this->head->get('name');
                                 }
-                                $this->hash = sha1($secret);
+                                $this->token = sha1($secret);
 
-                                $return = '<input type="hidden" name="csrf_token" value="'.$this->hash.'" /></form>'."\n";
+                                $return = '<input type="hidden" name="csrf_token" value="'.$this->token.'" /></form>';
                             } else {
-                                $return = '</form>'."\n";
+                                $return = '</form>';
                             }
                         default:
                             $this->data[$idx] .= $return;
@@ -335,47 +262,6 @@ class Parser
         } else {
 
             return '';
-        }
-    }
-
-    /**
-     * Clonage
-     */
-    public function __clone()
-    {
-        // Cloning head
-        $this->head = clone $this->head;
-
-        // Cloning fields
-        foreach ($this->fields as &$field) {
-            $field = clone $field;
-        }
-
-        // Cloning sources
-        foreach ($this->sources as &$source) {
-            if ($source instanceof Fields\Options) {
-                $name = $source->getParent()->getName();
-                $source = clone $source;
-                $source->setParent($this->fields[$name]);
-            } else {
-                $source = $this->fields[$source->getName()];
-            }
-        }
-
-        // Getting data references
-        foreach ($this->data as &$data) {
-            if (is_object($data)) {
-                if ($data instanceof Head) {
-                    $data = $this->getHead();
-                } else {
-                    if ($data instanceof Fields\RadioField) {
-                        $data = clone $data;
-                        $this->fields[$data->getName()]->addRadio($data);
-                    } else {
-                        $data = $this->fields[$data->getName()];
-                    }
-                }
-            }
         }
     }
 }
