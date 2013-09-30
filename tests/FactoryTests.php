@@ -3,14 +3,14 @@
 use Gregwar\Formidable\Factory;
 
 /**
- * Tests du factory de formulaires Formidable
+ * Testing Formidable factory
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class FactoryTests extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test de création de formulaire à l'aide du factory
+     * Testing creating forms using the factory
      */
     public function testFactoryCreation()
     {
@@ -23,7 +23,7 @@ class FactoryTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test d'enregistrement d'un type personnalisé
+     * Testing adding a customized type
      */
     public function testFactoryCustomType()
     {

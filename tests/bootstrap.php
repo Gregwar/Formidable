@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Chargement des fichiers de Formidable pour les tests
+ * Loading files to bootstrap testing
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */

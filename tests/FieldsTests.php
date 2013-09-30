@@ -4,7 +4,7 @@ use Gregwar\Formidable\Form;
 use Gregwar\Formidable\Factory;
 
 /**
- * Type "file" qui retourne le hash du fichier au lieu de le sauver réellement
+ * Special type "file" returning hash of the file instead of actually saving it 
  */
 class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
 {
@@ -15,14 +15,14 @@ class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
 }
 
 /**
- * Tests des contraintes
+ * Testing constraints
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class ConstraintsTests extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test le rendu d'un champ requis et du test
+     * Testing rendering a required field
      */
     public function testRequired()
     {
@@ -45,7 +45,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test d'envoi d'un array sur une valeur simple
+     * Testing sending an array on a simple value
      */
     public function testArray()
     {
@@ -57,7 +57,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test le rendu d'un champ optionel et du test
+     * Testing rendering an optional field
      */
     public function testOptional()
     {
@@ -78,7 +78,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test la longueur maximale
+     * Testing maxlength constraint
      */
     public function testMaxLength()
     {
@@ -96,7 +96,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test la longueur minimale
+     * Testing minlength constraint
      */
     public function testMinLength()
     {
@@ -114,7 +114,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de regex=""
+     * Testing the regex constraint
      */
     public function testRegex()
     {
@@ -132,7 +132,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test du champ hidden
+     * Testing hidden field
      */
     public function testHidden()
     {
@@ -151,7 +151,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de min="" et max=""
+     * Testing min and max
      */
     public function testMinMax()
     {
@@ -174,7 +174,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de contrainte custom
+     * Testing custom constraint
      */
     public function testCustomConstraint()
     {
@@ -197,6 +197,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
     /**
      * Test du typehint
+     * Testing typehinting
      * @expectedException       \InvalidArgumentException
      */
     public function testCustomConstraintType()
@@ -207,7 +208,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de contrainte custom
+     * Testing captcha constraint
      */
     public function testCaptcha()
     {
@@ -235,7 +236,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de non-réutilisabilité du CAPTCHA
+     * Testing that a captcha can't be reused
      */
     public function testCaptchaNotReusable()
     {
@@ -254,7 +255,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de valeur postée n'étant pas dans un select
+     * Testing posting a value that is not possible for a select
      */
     public function testSelectOut()
     {
@@ -269,10 +270,14 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertRefuse($form, array(
             'city' => 'xy'
         ));
+        
+        $this->assertRefuse($form, array(
+            'city' => array('x')
+        ));
     }
 
     /**
-     * Test des multiples
+     * Testing multiple
      */
     public function testMultiple()
     {
@@ -304,7 +309,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test qu'on ne peut pas changer les readonly
+     * Testing that we can't change the readonly field
      */
     public function testReadOnly()
     {
@@ -326,7 +331,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Teste le reset
+     * Testing reseting a form
      */
     public function testReset()
     {
@@ -344,7 +349,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test du sourcage des <options>
+     * Testing sourcing an <options>
      */
     public function testOptions()
     {
@@ -377,7 +382,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test des multiradio
+     * Testing multiradio
      */
     public function testMultiradio()
     {
@@ -418,7 +423,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de multiradio optionnel
+     * Testing a multiradio optional
      */
     public function testOptionalMultiradio()
     {
@@ -440,7 +445,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test du multicheckbox
+     * Testing a multicheckbox
      */
     public function testMultiCheckBox()
     {
@@ -484,7 +489,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test du type file
+     * Testing file type
      */
     public function testFile()
     {
@@ -519,7 +524,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Teste que le filetype="image" marche
+     * Testing the filetype="image"
      */
     public function testFileImage()
     {
@@ -545,7 +550,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Teste le type date
+     * Testing date type
      */
     public function testDate()
     {
@@ -582,7 +587,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test de l'échappement des données
+     * Testing that data are escaped
      */
     public function testEscaping()
     {
@@ -604,7 +609,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test qu'un formulaire accepte les données fournies
+     * Testing that a form accept data
      */
     private function assertAccept($form, $data, $files = array()) {
         $_POST = $data;
@@ -615,7 +620,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test qu'un formulaire rejette les données fournies
+     * Testing that a form doesn't accept data
      */
     private function assertRefuse($form, $data, $files = array()) {
         $_POST = $data;

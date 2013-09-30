@@ -118,7 +118,7 @@ class Parser extends ParserData
                         $this->needJs = $this->needJs || $return->needJs();
                         if ($return instanceof Fields\Options) {
                             if (!$this->data[$idx-1] instanceof Fields\Select) {
-                                throw new ParserException('<option> en dehors d\'un <select>');
+                                throw new ParserException('<option> should always be in a <select>');
                             }
                             $this->sources[$return->getSource()] = $return;
                             $return->setParent($this->data[$idx-1]);
@@ -127,7 +127,7 @@ class Parser extends ParserData
                                 $option = true;
 
                                 if (!$this->data[$idx-1] instanceof Fields\Select) {
-                                    throw new ParserException('<option> en dehors d\'un <select>');
+                                    throw new ParserException('<option> should always be in a <select>');
                                 } else {
                                     $this->data[$idx-1]->addOption($return);
                                 }
@@ -174,7 +174,7 @@ class Parser extends ParserData
         }
 
         if (null === $this->getHead()) {
-            throw new ParserException('Le formulaire Formidable doit avoir une balise <form>');
+            throw new ParserException('The Formidable form should have a <form> tag');
         }
     }
 

@@ -4,14 +4,14 @@ use Gregwar\Formidable\Parser;
 use Gregwar\Formidable\ParserException;
 
 /**
- * Tests du parser Formidable
+ * Testing Formidable parser
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class ParserTests extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test le retour d'un parse basique
+     * Testing the returns of a basic parse
      */
     public function testBasicParse()
     {
@@ -26,7 +26,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test le type de champs
+     * Testing field types
      */
     public function testTypes()
     {
@@ -48,7 +48,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que la récupération d'attributs marche bien
+     * Testing that attributes access works
      */
     public function testAttributes()
     {
@@ -64,7 +64,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test la récupération de valeurs par défaut
+     * Testing default values getting
      */
     public function testDefaultValues()
     {
@@ -89,7 +89,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que l'en-tête marche bien
+     * Testing that the form header works
      */
     public function testHead()
     {
@@ -111,8 +111,10 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * A form without <form> value is not correct
+     *
      * @expectedException               Gregwar\Formidable\ParserException
-     * @expectedExceptionMessage        Le formulaire Formidable doit avoir une balise <form>
+     * @expectedExceptionMessage        The Formidable form should have a <form> tag
      */
     public function testFormTagPresence()
     {
@@ -120,7 +122,7 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Vérifie bien que l'input non typé devient un champ du type du fallback
+     * Testing that untyped input should become a field of fallback type
      */
     public function testUntypedInputFallback()
     {
@@ -131,8 +133,10 @@ class ParserTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing that an option out of select raise an error
+     *
      * @expectedException               Gregwar\Formidable\ParserException
-     * @expectedExceptionMessage        <option> en dehors d'un <select>
+     * @expectedExceptionMessage        <option> should always be in a <select>
      */
     public function testOptionOutOfSelectException()
     {

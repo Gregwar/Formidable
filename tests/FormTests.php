@@ -3,14 +3,14 @@
 use Gregwar\Formidable\Form;
 
 /**
- * Tests des formulaires Formidable
+ * Testing Formidable forms
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class FormTests extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Test que toString renvoie bien le getHtml
+     * Testing that toString() give the same thing as getHtml()
      */
     public function testToString()
     {
@@ -20,7 +20,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que Formidable devine bien s'il doit inclure ou interpreter le contenu
+     * Testing that Formidable guess if it should interpret the contents
      */
     public function testGuessPathOrContent()
     {
@@ -32,7 +32,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que l'enctype passe en multipart sur des file
+     * Testing that the enctype becomes multipart when there is file
      */
     public function testEnctype()
     {
@@ -44,7 +44,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Teste la manipulation des attributs
+     * Testing attributes handling
      */
     public function testAttributes()
     {
@@ -58,7 +58,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test l'obtention de valeurs par défaut
+     * Testing default values
      */
     public function testGetValues()
     {
@@ -72,7 +72,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test la définition de valeurs
+     * Testing defining values
      */
     public function testSetValues()
     {
@@ -88,7 +88,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test la définition avec plusieurs valeurs
+     * Testing definition with multiple values
      */
     public function testSetMultipleValues()
     {
@@ -106,8 +106,8 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que le jeton CSRF calculé est bien le même en le calculant
-     * deux fois de suite
+     * Testing that the CSRF token is t he same if computer twice on
+     * the same file, and different for another file with a different form name
      */
     public function testCsrfTokenGeneration()
     {
@@ -122,7 +122,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que le secret généré est bien différent
+     * Testing that the generated secret is different
      */
     public function testCsrfSecretGeneration()
     {
@@ -136,8 +136,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Teste que posted() retourne bien vrai quand le jeton CSRF est dans
-     * la requête
+     * Testing posted() returns true when the csrd token is in the request
      */
     public function testCsrfTokenCheck()
     {
@@ -151,7 +150,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test du bon pré-remplissage des valeurs à l'aide de POST()
+     * Testing the filling of the values in the form using post
      */
     public function testPostValue()
     {
@@ -181,7 +180,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test que la sortie redonnée à Formidable redonne la même sortie
+     * Testing that Formidable output given back to Formidable gives the same output
      */
     public function testOutIn()
     {
