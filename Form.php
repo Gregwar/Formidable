@@ -307,6 +307,10 @@ class Form
             }
         }
 
+        if ($html[strlen($html)-1] != "\n") {
+            $html .= "\n";
+        }
+
         return $html;
     }
 

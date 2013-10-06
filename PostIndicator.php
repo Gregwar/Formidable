@@ -70,7 +70,7 @@ class PostIndicator
      */
     public function getHtml()
     {        
-        return '<input type="hidden" name="'.self::$fieldName.'" value="'.$this->getToken().'" />';
+        return '<input type="hidden" name="'.self::$fieldName.'" value="'.$this->getToken().'" />'."\n";
     }
 
     /**
