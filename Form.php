@@ -47,7 +47,7 @@ class Form
      */
     protected $cache = null;
 
-    public function __construct($pathOrContent = '', array $variables = array(), $factory = null, $cache = null)
+    public function __construct($pathOrContent = '', array $variables = array(), $cache = false, $factory = null)
     {
         if (null === $factory) {
             $this->factory = new Factory;
@@ -55,13 +55,13 @@ class Form
             $this->factory = $factory;
         }
 
-        if ($cache !== null) {
+        if ($cache !== null && $cache !== false) {
             if ($cache == true) {
                 $this->cache = new \Gregwar\Cache\Cache;
             } else if ($cache instanceof \Gregwar\Cache\Cache) {
                 $this->cache = $cache;
             } else {
-                throw new \Exception('The parameter $cache should be null, true or an instance of Gregwar\Cache\Cache');
+                throw new \Exception('The parameter $cache should be false, true or an instance of Gregwar\Cache\Cache');
             }
         }
 

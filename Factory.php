@@ -97,10 +97,10 @@ class Factory extends Language\LanguageAware
     /**
      * Get a form in this factory
      */
-    public function getForm($pathOrContent, array $vars = array()) {
+    public function getForm($pathOrContent, array $vars = array(), $cache = false) {
         $formClass = $this->formClass;
 
-        return $this->inject(new $formClass($pathOrContent, $vars, $this));
+        return $this->inject(new $formClass($pathOrContent, $vars, $cache, $this));
     }
 
     /**
