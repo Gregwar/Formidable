@@ -381,6 +381,9 @@ class Form implements \Iterator
         $this->setValue($var, $val);
     }
 
+    /**
+     * Get the CSRF token
+     */
     public function getToken()
     {
         foreach ($this->parserData->getData() as $entry) {
@@ -397,7 +400,9 @@ class Form implements \Iterator
      */
     public function posted()
     {
-        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->getToken()) {
+        $token = $this->getToken();
+
+        if ($token != null && isset($_POST['csrf_token']) && $_POST['csrf_token'] == $token) {
             $this->setValues($_POST, $_FILES);
             return true;
         }
