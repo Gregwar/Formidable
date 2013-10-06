@@ -9,7 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class Form extends ParserData implements \Iterator
+class Form implements \Iterator
 {
     /**
      * HTML contents of the form
@@ -29,6 +29,7 @@ class Form extends ParserData implements \Iterator
     /**
      * Parser raw data
      */
+    protected $originalParserData;
     protected $parserData;
 
     /**
@@ -100,6 +101,17 @@ class Form extends ParserData implements \Iterator
     public function setLanguage(Language\Language $language)
     {
         $this->factory->setLanguage($language);
+        $this->pushLanguage();
+    }
+
+    /**
+     * Push the language to all the fields
+     */
+    protected function pushLanguage()
+    {
+        foreach ($this->parserData->getFields() as &$field) {
+            $field->setLanguage($this->factory->getLanguage());
+        }
     }
 
     /**
@@ -125,10 +137,8 @@ class Form extends ParserData implements \Iterator
         $generate = function() use ($formidable) {
             // Parses the contents
             $parser = $formidable->getFactory()->getParser($formidable->getOriginalContent());
-            $parserData = new ParserData;
-            $parserData->copyParserData($parser);
 
-            return $parserData;
+            return $parser;
         };
 
         if ($this->cache) {
@@ -136,18 +146,12 @@ class Form extends ParserData implements \Iterator
                 $parserData = $generate();
                 file_put_contents($cacheFile, serialize($parserData));
             });
-            $parserData = unserialize($cacheData);
 
-            foreach ($parserData->fields as $field) {
-                $field->setLanguage($this->factory->getLanguage());
-            }
-
-            $this->parserData = new ParserData;
-            $this->parserData->copyParserData($parserData);
+            $this->originalParserData = unserialize($cacheData);
         } else {
-            $this->parserData = $generate();
+            $this->originalParserData = $generate();
         }
-
+        
         $this->reset();
     }
 
@@ -156,7 +160,8 @@ class Form extends ParserData implements \Iterator
      */
     public function reset()
     {
-        $this->copyParserData($this->parserData);
+        $this->parserData = unserialize(serialize($this->originalParserData));
+        $this->pushLanguage();
     }
 
     /**
@@ -166,7 +171,7 @@ class Form extends ParserData implements \Iterator
     {
         $values = array();
         
-        foreach ($this->fields as $name => $field) {
+        foreach ($this->getFields() as $name => $field) {
             $values[$name] = $field->getValue();
         }
 
@@ -178,7 +183,7 @@ class Form extends ParserData implements \Iterator
      */
     public function setValues($values, array $files = array())
     {
-        foreach ($this->fields as $name => $field) {
+        foreach ($this->getFields() as $name => $field) {
             if (isset($values[$name])) {
                 $field->setValue($values[$name]);
             } else {
@@ -200,7 +205,7 @@ class Form extends ParserData implements \Iterator
             $this->accessor = new PropertyAccessor;
         }
 
-        foreach ($this->fields as $field) {
+        foreach ($this->getFields() as $field) {
             if (is_object($field)) {
                 if (($mapping = $field->getMappingName()) && !$field->readOnly()) {
                     if (is_array($entity)) {
@@ -265,6 +270,19 @@ class Form extends ParserData implements \Iterator
     }
 
     /**
+     * Get a field
+     */
+    public function getField($name)
+    {
+        return $this->parserData->getField($name);
+    }
+
+    public function getFields()
+    {
+        return $this->parserData->getFields();
+    }
+
+    /**
      * Convert to HTML
      */
     public function __toString()
@@ -279,15 +297,15 @@ class Form extends ParserData implements \Iterator
     {
         $html = '';
 
-        if ($this->needJs) {
+        if ($this->parserData->needJs()) {
             $html.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/formidable.js').'</script>';
         }
 
-        foreach ($this->data as $d) {
-            if (is_string($d)) {
-                $html .= $d;
+        foreach ($this->parserData->getData() as $data) {
+            if (is_string($data)) {
+                $html .= $data;
             } else {
-                $html .= $d->getHtml();
+                $html .= $data->getHtml();
             }
         }
 
@@ -302,7 +320,7 @@ class Form extends ParserData implements \Iterator
         $toCheck = array_flip(func_get_args());
         $errors = array();
 
-        foreach ($this->fields as $name => $field) {
+        foreach ($this->getFields() as $name => $field) {
             if (!count($toCheck) || isset($toCheck[$name])) {
                 $error = $field->check();
 
@@ -320,7 +338,9 @@ class Form extends ParserData implements \Iterator
      */
     public function source($source, $data)
     {
-        $this->sources[$source]->source($data);
+        $sources = $this->parserData->getSources();
+
+        $sources[$source]->source($data);
     }
 
     /**
@@ -332,7 +352,7 @@ class Form extends ParserData implements \Iterator
             $this->accessor = new PropertyAccessor;
         }
 
-        foreach ($this->fields as $name => $field) {
+        foreach ($this->getFields() as $name => $field) {
             if ($mapping = $field->getMappingName()) {
                 if (is_array($entity)) {
                     $entity[$mapping] = $field->getValue();
@@ -363,7 +383,7 @@ class Form extends ParserData implements \Iterator
 
     public function getToken()
     {
-        foreach ($this->data as $entry) {
+        foreach ($this->parserData->getData() as $entry) {
             if ($entry instanceof Csrf) {
                 return $entry->getToken();
             }
@@ -423,16 +443,18 @@ class Form extends ParserData implements \Iterator
 
     public function current()
     {
-        return ($this->fields[$this->position]);
+        return ($this->getField($this->position));
     }
 
     public function valid()
     {
-        return isset($this->fields[$this->position]);
+        $fields = &$this->getFields();
+
+        return isset($fields[$this->position]);
     }
 
     public function key()
     {
-        return $this->fields[$this->position]->getName();
+        return $this->getField($this->position)->getName();
     }
 }
