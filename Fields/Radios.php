@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Gestion d'un groupe de radios du mÃªme nom
+ * Managing a radios group with the same name
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Radios extends Field
 {
     /**
-     * Enfants
+     * Children
      */
     protected $radios = array();
 
     /**
-     * La valeur est t-elle correcte ?
+     * Is the value set ?
      */
     protected $valueSet = false;
     

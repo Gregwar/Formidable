@@ -3,14 +3,14 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Champ texte
+ * Text field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class TextField extends Field
 {
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = 'text';
 }

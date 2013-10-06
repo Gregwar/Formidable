@@ -10,7 +10,7 @@ namespace Gregwar\Formidable\Fields;
 class MultiradioField extends Field
 {
     /**
-     * Nom de la source
+     * Source name
      */
     protected $source;
 
@@ -20,12 +20,12 @@ class MultiradioField extends Field
     protected $radios = array();
 
     /**
-     * Labels des radios
+     * Radios labels
      */
     protected $labels = array();
 
     /**
-     * Sauve du push
+     * Push saves
      */
     protected $pushSave = array();
 

@@ -3,24 +3,24 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Nombre
+ * Number
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class NumberField extends Field
 {
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = 'text';
 
     /**
-     * Valeur minimum
+     * Minimal value
      */
     protected $min = null;
 
     /**
-     * Valeur maximum
+     * Maximum value
      */
     protected $max = null;
     

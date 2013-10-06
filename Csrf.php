@@ -4,6 +4,8 @@ namespace Gregwar\Formidable;
 
 /**
  * Csrf token
+ *
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Csrf
 {
@@ -19,6 +21,9 @@ class Csrf
         $this->name = $name;
     }
 
+    /**
+     * Get the token value
+     */
     public function getToken()
     {
         $this->generateToken();

@@ -3,14 +3,14 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Une mot de passe
+ * Password field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class PasswordField extends Field
 {
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = 'password';
 }

@@ -3,24 +3,24 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Un champ radio
+ * Radio field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class RadioField extends Field
 {
     /**
-     * La case est t-elle cochée ?
+     * Is this box checked ?
      */
     protected $checked = false;
 
     /**
-     * Radios parent
+     * Parend radios
      */
     protected $parent;
 
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = 'radio';
     

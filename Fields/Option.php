@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Une option
+ * An option field
  *
  * @author Grégoirr Passault <g.passault@gmail.com>
  */
 class Option extends Field
 {
     /**
-     * Select parent
+     * Parent select
      */
     protected $parent;
 
     /**
-     * Séléctionnée ?
+     * Is this option selected ?
      */
     protected $selected = false;
     

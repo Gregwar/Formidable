@@ -3,14 +3,14 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Une ComboBox
+ * A select field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Select extends Field
 {
     /**
-     * Options (enfants)
+     * Childrens
      */
     protected $options = array();
     

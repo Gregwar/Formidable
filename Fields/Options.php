@@ -3,30 +3,29 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Des options sourcées
+ * Sourced options
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Options extends Field
 {
     /**
-     * Nom de la source d'alimentation
+     * Source name
      */
     protected $source;
 
     /**
-     * Champ select correspondant
+     * Select field
      */
     protected $parent;
 
     /**
-     * Position des options dans le parent
+     * Positioning of the options in the parent
      */
     protected $position;
 
     /**
-     * Sauvegarde les donnÃ©es poussÃ©es pour les rÃ©percuter plus
-     * tard sur les options
+     * Saving pushed data
      */
     protected $pushSave = array();
     

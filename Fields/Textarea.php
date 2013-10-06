@@ -3,14 +3,14 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Représente une balise <textarea>
+ * A textarea field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class Textarea extends Field
 {
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = '';
 
