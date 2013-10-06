@@ -15,9 +15,9 @@ class Parser extends ParserData
     public static $fallback = 'text';
 
     /**
-     * Parser data
+     * Current position in the data
      */
-    protected $parserData;
+    protected $idx;
 
     /**
      * Factory
@@ -40,6 +40,12 @@ class Parser extends ParserData
         $this->parse($content);
     }
 
+    protected function push($something)
+    {
+        $this->data[] = $something;
+        $this->idx = count($this->data);
+    }
+
     /**
      * Parses the form and build Formidable objects
      *
@@ -48,6 +54,7 @@ class Parser extends ParserData
     private function parse($content)
     {
         $buffer = '';
+        $idx = &$this->idx;
         $idx = 0;
         $len = strlen($content);
 
@@ -78,9 +85,9 @@ class Parser extends ParserData
             } else {
                 if ($char == '>') {
                     $balise = false;
-                    $return = $this->parseTag($buffer);
-                    if (!is_object($return)) {
-                        switch ($return) {
+                    $newNode = $this->parseTag($buffer);
+                    if (!is_object($newNode)) {
+                        switch ($newNode) {
                         case '</textarea>':
                             $textarea = false;
                             break;
@@ -97,68 +104,66 @@ class Parser extends ParserData
                                     $name .= $this->head->get('name');
                                 }
 
-                                $this->data[] = new Csrf($name);
-                                $idx += 2;
-                            } else {
-                                $this->data[$idx] .= '</form>';
-                            }
+                                $this->push(new Csrf($name));
+                            } 
+
+                            $this->push('</form>');
                             break;
                         default:
-                            $this->data[$idx] .= $return;
+                            $this->data[$idx] .= $newNode;
                         }
 
                         if ($textarea) {
-                            $this->data[$idx-1]->addValue($return);
+                            $this->data[$idx-1]->addValue($newNode);
                         }
                     } else {
-                        $this->needJs = $this->needJs || $return->needJs();
-                        if ($return instanceof Fields\Options) {
+                        $this->needJs = $this->needJs || $newNode->needJs();
+                        if ($newNode instanceof Fields\Options) {
                             if (!$this->data[$idx-1] instanceof Fields\Select) {
                                 throw new ParserException('<option> should always be in a <select>');
                             }
-                            $this->sources[$return->getSource()] = $return;
-                            $return->setParent($this->data[$idx-1]);
+                            $this->sources[$newNode->getSource()] = $newNode;
+                            $newNode->setParent($this->data[$idx-1]);
                         } else {
-                            if ($return instanceof Fields\Option) {
+                            if ($newNode instanceof Fields\Option) {
                                 $option = true;
 
                                 if (!$this->data[$idx-1] instanceof Fields\Select) {
                                     throw new ParserException('<option> should always be in a <select>');
                                 } else {
-                                    $this->data[$idx-1]->addOption($return);
+                                    $this->data[$idx-1]->addOption($newNode);
                                 }
-                            } else if ($return instanceof Fields\RadioField) {
-                                $this->data[] = $return;
-                                $idx += 2;
+                            } else if ($newNode instanceof Fields\RadioField) {
+                                $this->push($newNode);
 
-                                if (!isset($this->fields[$return->getName()])) {
-                                    $this->fields[$return->getName()] = $this->factory->getObject('radios');
-                                    $this->fields[$return->getName()]->setName($return->getName());
+                                if (!isset($this->fields[$newNode->getName()])) {
+                                    $this->fields[$newNode->getName()] = $this->factory->getObject('radios');
+                                    $this->fields[$newNode->getName()]->setName($newNode->getName());
                                 }
-                                $this->fields[$return->getName()]->addRadio($return);
+                                $this->fields[$newNode->getName()]->addRadio($newNode);
                             } else {
-                                $this->data[] = $return;
-                                if ($return instanceof Head) {
-                                    $this->head = $return;
-                                } else {
-                                    $this->fields[$return->getName()] = $return;
-                                }
-                                $idx += 2;
+                                $this->push($newNode);
 
-                                if ($return instanceof Fields\FileField && $this->head) {
+                                if ($newNode instanceof Head) {
+                                    $this->head = $newNode;
+                                } else {
+                                    $this->fields[$newNode->getName()] = $newNode;
+                                }
+
+                                if ($newNode instanceof Fields\FileField && $this->head) {
                                     $this->head->set('enctype', 'multipart/form-data');
                                 }
 
-                                if ($return instanceof Fields\Textarea) {
+                                if ($newNode instanceof Fields\Textarea) {
                                     $textarea = true;
                                 }
 
-                                if ($return instanceof Fields\Select) {
+                                if ($newNode instanceof Fields\Select) {
                                     $select = true;
                                 }
 
-                                if ($return->getSource()) {
-                                    $this->sources[$return->getSource()] = $return;
+                                if ($newNode->getSource()) {
+                                    $this->sources[$newNode->getSource()] = $newNode;
                                 }
                             }
                         }

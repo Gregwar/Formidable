@@ -61,7 +61,7 @@ class Csrf
     {
         $this->generateToken();
 
-        return '<input type="hidden" name="csrf_token" value="'.$this->token.'" /></form>';
+        return '<input type="hidden" name="csrf_token" value="'.$this->token.'" />';
     }
 
     public function __toString()
