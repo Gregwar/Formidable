@@ -47,7 +47,6 @@ class PostIndicator
             $secret = array(
                 'install' => __DIR__,
                 'name' => $this->name,
-
             );
 
             if (isset($_SESSION)) {
@@ -56,7 +55,7 @@ class PostIndicator
                 if (isset($_SESSION[$key])) {
                     $secret['csrf'] = $_SESSION[$key];
                 } else {
-                    $csrf = sha1(uniqid(mt_rand(), true));
+                    $csrf = sha1(uniqid(mt_rand(), true).'|'.gettimeofday(true));
                     $_SESSION[$key] = $csrf;
                     $secret['csrf'] = $csrf;
                 }
