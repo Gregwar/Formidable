@@ -380,13 +380,13 @@ class Form
     }
 
     /**
-     * Get the CSRF token
+     * Get the CSRF manager
      */
-    public function getToken()
+    public function getPostIndicator()
     {
         foreach ($this->parserData->getData() as $entry) {
-            if ($entry instanceof Csrf) {
-                return $entry->getToken();
+            if ($entry instanceof PostIndicator) {
+                return $entry;
             }
         }
 
@@ -394,13 +394,21 @@ class Form
     }
 
     /**
+     * Gets the post indicator
+     */
+    public function getToken()
+    {
+        return $this->getPostIndicator()->getToken();
+    }
+
+    /**
      * Check if the form was posted
      */
     public function posted()
     {
-        $token = $this->getToken();
+        $postIndicator = $this->getPostIndicator();
 
-        if ($token != null && isset($_POST['csrf_token']) && $_POST['csrf_token'] == $token) {
+        if ($postIndicator->posted()) {
             $this->setValues($_POST, $_FILES);
             return true;
         }

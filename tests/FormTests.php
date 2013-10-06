@@ -1,6 +1,7 @@
 <?php
 
 use Gregwar\Formidable\Form;
+use Gregwar\Formidable\PostIndicator;
 
 /**
  * Testing Formidable forms
@@ -140,11 +141,33 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form3 = $this->getForm('empty.html');
         $token3 = $form3->getToken();
 
+        // Assert that the token is in the form
+        $this->assertContains($token1, "$form1");
+
         // Tokens from two forms sharing the session should be equals
         $this->assertEquals($token1, $token2);
 
         // Tokens from two forms with the session destroyed should be different
         $this->assertNotEquals($token1, $token3);
+    }
+
+    /**
+     * Testing a post indicator without session
+     */
+    public function testPostIndicator()
+    {
+
+        unset($_SESSION);
+        $form1 = $this->getForm('post-indicator.html');
+        $token1 = $form1->getToken();
+        
+        unset($_SESSION);
+        $form2 = $this->getForm('post-indicator.html');
+        $token2 = $form2->getToken();
+
+        $this->assertEquals($token1, $token2);
+        $this->assertContains($token1, "$form1");
+        $this->assertContains($token1, "$form2");
     }
 
     /**
@@ -157,7 +180,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $_POST = array();
         $this->assertFalse($form->posted());
 
-        $_POST = array('csrf_token' => $form->getToken());
+        $_POST = array(PostIndicator::$fieldName => $form->getToken());
         $this->assertTrue($form->posted());
     }
 
@@ -169,7 +192,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('post-values.html');
 
         $_POST = array(
-            'csrf_token' => $form->getToken(),
+            PostIndicator::$fieldName => $form->getToken(),
             'message' => 'Hello with spaces and "!',
             'gender' => '1',
             'color' => 'blue',
@@ -244,5 +267,10 @@ class FormTests extends \PHPUnit_Framework_TestCase
     private function getForm($file, $vars = array())
     {
         return new Form(__DIR__.'/files/form/'.$file, $vars);
+    }
+
+    public function setup()
+    {
+        $_SESSION = array();
     }
 }

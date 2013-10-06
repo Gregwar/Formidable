@@ -98,13 +98,13 @@ class Parser extends ParserData
                             $option = false;
                             break;
                         case '</form>':
-                            if (!isset($this->fields['csrf_token'])) {
+                            if (!isset($this->fields[PostIndicator::$fieldName])) {
                                 $name = '';
                                 if ($this->head && $this->head->has('name')) {
                                     $name .= $this->head->get('name');
                                 }
 
-                                $this->push(new Csrf($name));
+                                $this->push(new PostIndicator($name));
                             } 
 
                             $this->push('</form>');

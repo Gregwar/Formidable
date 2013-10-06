@@ -2,6 +2,7 @@
 
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\Factory;
+use Gregwar\Formidable\PostIndicator;
 
 /**
  * Special type "file" returning hash of the file instead of actually saving it 
@@ -646,7 +647,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
      */
     private function assertAccept($form, $data, $files = array()) {
         $_POST = $data;
-        $_POST['csrf_token'] = $form->getToken();
+        $_POST[PostIndicator::$fieldName] = $form->getToken();
         $_FILES = $files;
         $this->assertTrue($form->posted());
         $this->assertEmpty($form->check());
@@ -657,7 +658,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
      */
     private function assertRefuse($form, $data, $files = array()) {
         $_POST = $data;
-        $_POST['csrf_token'] = $form->getToken();
+        $_POST[PostIndicator::$fieldName] = $form->getToken();
         $_FILES = $files;
         $this->assertTrue($form->posted());
         $this->assertNotEmpty($form->check());
@@ -666,5 +667,10 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     private function getForm($file)
     {
         return new Form(__DIR__.'/files/form/'.$file);
+    }
+
+    public function setup()
+    {
+        $_SESSION = array();
     }
 }
