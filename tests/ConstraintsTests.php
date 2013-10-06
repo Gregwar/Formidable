@@ -382,6 +382,39 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing radios fields
+     */
+    public function testRadios()
+    {
+        $form = $this->getForm('radios.html');
+        $html = "$form";
+
+        $this->assertEquals(2, substr_count($form, 'radio'));
+        $this->assertEquals(2, substr_count($form, 'gender'));
+        $this->assertEquals(1, substr_count($form, 'checked="checked"'));
+
+        $this->assertEquals('male', $form->getValue('gender'));
+
+        $form->setValue('gender', 'female');
+        $html = "$form";
+
+        $this->assertEquals($form->getValue('gender'), 'female');
+        $this->assertEquals(2, substr_count($form, 'radio'));
+        $this->assertEquals(2, substr_count($form, 'gender'));
+        $this->assertEquals(1, substr_count($form, 'checked="checked"'));
+
+        $this->assertAccept($form, array(
+            'gender' => 'female'
+        ));
+        $this->assertAccept($form, array(
+            'gender' => 'male'
+        ));
+        $this->assertRefuse($form, array(
+            'gender' => 'something'
+        ));
+    }
+
+    /**
      * Testing multiradio
      */
     public function testMultiradio()

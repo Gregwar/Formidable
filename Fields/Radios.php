@@ -51,6 +51,7 @@ class Radios extends Field
     public function setValue($value, $default = false)
     {
         $this->value = $value;
+        $this->valueSet = false;
 
         foreach ($this->radios as $radio) {
             if ($radio->getValue() == $value) {
