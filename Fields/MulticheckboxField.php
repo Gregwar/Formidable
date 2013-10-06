@@ -10,7 +10,7 @@ namespace Gregwar\Formidable\Fields;
 class MulticheckboxField extends Field
 {
     /**
-     * Nom de la source
+     * Source name
      */
     protected $source;
 
@@ -25,7 +25,7 @@ class MulticheckboxField extends Field
     protected $labels = array();
 
     /**
-     * Sauvegarde des push
+     * Push saving
      */
     protected $pushSave = array();
     

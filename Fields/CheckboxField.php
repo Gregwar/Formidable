@@ -5,7 +5,7 @@ namespace Gregwar\Formidable\Fields;
 /**
  * Checkbox field
  *
- * @author GrÃ©goire Passault <g.passault@gmail.com>
+ * @author Grégoire Passault <g.passault@gmail.com>
  */
 class CheckboxField extends Field
 {

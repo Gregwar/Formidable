@@ -3,19 +3,19 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Champs caché
+ * Hidden field
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class HiddenField extends Field
 {
     /**
-     * Type du champ
+     * Field type
      */
     protected $type = 'hidden';
 
     /**
-     * Optionel par défaut
+     * Optional by default
      */
     protected $optional = true;
 }

@@ -3,29 +3,29 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Champ de type custom
+ * File field type
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class FileField extends Field
 {
     /**
-     * Données du fichier
+     * File data
      */
     protected $datas;
 
     /**
-     * Taille maximum
+     * Maximum file size
      */
     protected $maxsize;
 
     /**
-     * Type de fichier
+     * File type
      */
     protected $filetype;
 
     /**
-     * Type de champ
+     * Field type
      */
     protected $type = 'file';
     

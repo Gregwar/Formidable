@@ -3,14 +3,14 @@
 namespace Gregwar\Formidable\Fields;
 
 /**
- * Entier
+ * Integer
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
 class IntField extends NumberField
 {
     /**
-     * Type de champ
+     * Field type
      */
     protected $type = 'text';
 
