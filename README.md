@@ -256,7 +256,7 @@ echo $form;
         <option value="red">Red</option>
         <option value="green">Green</option>
     </select>
-    <input type="hidden" name="csrf_token" value="d293dc38017381b6086ff1a856c1e8fe43738c60" />
+    <input type="hidden" name="posted_token" value="d293dc38017381b6086ff1a856c1e8fe43738c60" />
 </form>
 */
 ```
@@ -293,7 +293,7 @@ Will output something like:
 
 <form method="post">
     <input required="required" type="text" name="name" value="Jack" />
-    <input type="hidden" name="csrf_token" value="aa27f437cc6127c244db14361fd614af51c79aac" />
+    <input type="hidden" name="posted_token" value="aa27f437cc6127c244db14361fd614af51c79aac" />
 </form>
 */
 ```

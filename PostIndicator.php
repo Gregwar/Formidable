@@ -3,10 +3,12 @@
 namespace Gregwar\Formidable;
 
 /**
- * Manage the form posting
+ * Manage the form posting, this managed the posted token which is used to indicate
+ * if the specific form has been posted.
  *
- * If the sessions are active, a CSRF token will be used
- * Else, a token depending on form name and installation directory will be used
+ * If the sessions are active, a CSRF token will be used.
+ *
+ * Else, a token depending on form name and installation directory will be used.
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
@@ -42,24 +44,25 @@ class PostIndicator
     protected function generateToken()
     {
         if ($this->token === null) {
+            $secret = array(
+                'install' => __DIR__,
+                'name' => $this->name,
+
+            );
+
             if (isset($_SESSION)) {
                 $key = sha1(__DIR__ . '/' . 'formidable_secret');
 
                 if (isset($_SESSION[$key])) {
-                    $secret = $_SESSION[$key];
+                    $secret['csrf'] = $_SESSION[$key];
                 } else {
-                    $secret = sha1(uniqid(mt_rand(), true));
-                    $_SESSION[$key] = $secret;
+                    $csrf = sha1(uniqid(mt_rand(), true));
+                    $_SESSION[$key] = $csrf;
+                    $secret['csrf'] = $csrf;
                 }
-
-                if ($this->name) {
-                    $secret .= '/' . $this->name;
-                }
-
-                $this->token = sha1($secret);
-            } else {
-                $this->token = sha1(__DIR__ . '/' . $this->name);
             }
+
+            $this->token = sha1(serialize($secret));
         }
     }
 
