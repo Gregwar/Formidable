@@ -306,3 +306,49 @@ You can use:
 * `getData($entity = array())`: populate and return entity with data populated
 * `setData($entity)`: populate the form with the entity attributes
 
+## Adding dynamic data into the form
+
+In some case, you'll want to add custom data into the form, there is two way to do this.
+
+### First way: using the `<custom>` tag
+
+The `<custom source="name" />` tag allow you to simply inject data from the code, like this:
+
+```php
+<?php
+
+$form = new Gregwar\Formidable\Form('<form method="post">
+    <custom source="something" />
+    </form>');
+
+$form->source('something', 'Hello world!');
+
+echo $form;
+```
+
+In the example above, the `<custom>` tag will not be rendered, but `Hello world!` will appear instead
+
+### Second way: using PHP form
+
+You can also write your form using PHP, like a template, for instance:
+
+```php
+<form>
+    <?php echo $label; ?>: <input type="text" name="name" />
+    <input type="submit" />
+</form>
+```
+
+And then instanciate your form passing the template variables as a second argument:
+
+```php
+<?php
+
+$form = new Gregwar\Formidable\Form('the-above-form.php', array('label' => 'Your name'));
+```
+
+The `$label` will be interpreted using PHP.
+
+## License
+
+`Gregwar\Formidable` is under MIT License, have a look at the `LICENSE` file for more information.

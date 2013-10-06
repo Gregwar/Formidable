@@ -178,7 +178,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
      */
     public function testCustomConstraint()
     {
-        $form = $this->getForm('custom.html');
+        $form = $this->getForm('custom-constraint.html');
 
         $form->addConstraint('name', function($value) {
             if ($value[0] == 'J') {
@@ -202,7 +202,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
      */
     public function testCustomConstraintType()
     {
-        $form = $this->getForm('custom.html');
+        $form = $this->getForm('custom-constraint.html');
 
         $form->addConstraint('name', 'meeeh');
     }

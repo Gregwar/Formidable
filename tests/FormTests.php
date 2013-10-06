@@ -203,6 +203,31 @@ class FormTests extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($html, $otherHtml);
     }
+    
+    /**
+     * Testing the <custom> tag
+     */
+    public function testCustom()
+    {
+        $form = $this->getForm('custom.html');
+        $form->source('something', 'Hello world!');
+        $html = $form->getHtml();
+
+        $this->assertNotContains('custom', $html);
+        $this->assertContains('Hello world!', $html);
+    }
+
+    /**
+     * Testing running the PHP interpreter on the form
+     */
+    public function testPHPInterpreter()
+    {
+        $form = $this->getForm('custom.php', array('label' => 'Hello world!'));
+        $html = $form->getHtml();
+
+        $this->assertNotContains('php', $html);
+        $this->assertContains('Hello world!', $html);
+    }
 
     /**
      * Testing that accessing a non-existent field raise an exception
@@ -216,8 +241,8 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form->getField('titi');
     }
 
-    private function getForm($file)
+    private function getForm($file, $vars = array())
     {
-        return new Form(__DIR__.'/files/form/'.$file);
+        return new Form(__DIR__.'/files/form/'.$file, $vars);
     }
 }

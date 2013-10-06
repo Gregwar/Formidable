@@ -47,7 +47,7 @@ class Form
      */
     protected $cache = null;
 
-    public function __construct($pathOrContent = '', array $vars = array(), $factory = null, $cache = null)
+    public function __construct($pathOrContent = '', array $variables = array(), $factory = null, $cache = null)
     {
         if (null === $factory) {
             $this->factory = new Factory;
@@ -70,7 +70,7 @@ class Form
                 $this->content = $pathOrContent;
             } else {
                 $this->path = $pathOrContent;
-                $this->getContent($vars);
+                $this->getContent($variables);
             }
         }
 
@@ -117,11 +117,9 @@ class Form
     /**
      * Get the form contents
      */
-    public function getContent($vars = array())
+    public function getContent($variables = array())
     {
-        foreach ($vars as $k=>$v) {
-            $$k = $v;
-        }
+        extract($variables);
 
         ob_start();
         include($this->path);
