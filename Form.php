@@ -22,14 +22,14 @@ class Form extends ParserData implements \Iterator
     protected $position = 0;
 
     /**
-     * Parser
-     */
-    protected $parser;
-
-    /**
      * Factory
      */
     protected $factory;
+
+    /**
+     * Parser raw data
+     */
+    protected $parserData;
 
     /**
      * Property accessor
@@ -41,12 +41,27 @@ class Form extends ParserData implements \Iterator
      */
     protected $path;
 
-    public function __construct($pathOrContent = '', array $vars = array(), $factory = null)
+    /***
+     * Cache system
+     */
+    protected $cache = null;
+
+    public function __construct($pathOrContent = '', array $vars = array(), $factory = null, $cache = null)
     {
         if (null === $factory) {
             $this->factory = new Factory;
         } else {
             $this->factory = $factory;
+        }
+
+        if ($cache !== null) {
+            if ($cache == true) {
+                $this->cache = new \Gregwar\Cache\Cache;
+            } else if ($cache instanceof \Gregwar\Cache\Cache) {
+                $this->cache = $cache;
+            } else {
+                throw new \Exception('The parameter $cache should be null, true or an instance of Gregwar\Cache\Cache');
+            }
         }
 
         if ($pathOrContent) {
@@ -59,6 +74,24 @@ class Form extends ParserData implements \Iterator
         }
 
         $this->parse();
+    }
+
+    public function getFactory()
+    {
+        return $this->factory;
+    }
+
+    public function getOriginalContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Gets the parser data
+     */
+    public function getParserData()
+    {
+        return $this->parserData;
     }
 
     /**
@@ -88,8 +121,34 @@ class Form extends ParserData implements \Iterator
      */
     protected function parse()
     {
-        $this->parser = $this->factory->getParser($this->content);
-        $this->copyParserData($this->parser);
+        $formidable = $this;
+        $generate = function() use ($formidable) {
+            // Parses the contents
+            $parser = $formidable->getFactory()->getParser($formidable->getOriginalContent());
+            $parserData = new ParserData;
+            $parserData->copyParserData($parser);
+
+            return $parserData;
+        };
+
+        if ($this->cache) {
+            $cacheData = $this->cache->getOrCreate(sha1($this->content), array(), function($cacheFile) use ($generate) {
+                $parserData = $generate();
+                file_put_contents($cacheFile, serialize($parserData));
+            });
+            $parserData = unserialize($cacheData);
+
+            foreach ($parserData->fields as $field) {
+                $field->setLanguage($this->factory->getLanguage());
+            }
+
+            $this->parserData = new ParserData;
+            $this->parserData->copyParserData($parserData);
+        } else {
+            $this->parserData = $generate();
+        }
+
+        $this->reset();
     }
 
     /**
@@ -97,7 +156,7 @@ class Form extends ParserData implements \Iterator
      */
     public function reset()
     {
-        $this->copyParserData($this->parser);
+        $this->copyParserData($this->parserData);
     }
 
     /**
@@ -302,12 +361,23 @@ class Form extends ParserData implements \Iterator
         $this->setValue($var, $val);
     }
 
+    public function getToken()
+    {
+        foreach ($this->data as $entry) {
+            if ($entry instanceof Csrf) {
+                return $entry->getToken();
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Check if the form was posted
      */
     public function posted()
     {
-        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->token) {
+        if (isset($_POST['csrf_token']) && $_POST['csrf_token'] == $this->getToken()) {
             $this->setValues($_POST, $_FILES);
             return true;
         }

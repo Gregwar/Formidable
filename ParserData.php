@@ -3,6 +3,7 @@
 namespace Gregwar\Formidable;
 
 use Gregwar\Formidable\Fields\Field;
+use Gregwar\Formidable\Fields\RadioField;
 
 class ParserData
 {
@@ -20,11 +21,6 @@ class ParserData
      * Fields
      */
     protected $fields = array();
-
-    /**
-     * Hash CSRF
-     */
-    protected $token = '';
 
     /**
      * Does we need js?
@@ -105,15 +101,28 @@ class ParserData
         foreach ($other->fields as &$field) {
             $this->fields[$field->getName()] = clone $field;
         }
-
-        // Token
-        $this->token = $other->token;
+        
+        // Setting references for radios
+        foreach ($other->data as &$data) {
+            if (is_object($data)) {
+                if ($data instanceof Field) {
+                    if ($data instanceof Fields\RadioField) {
+                        $data = clone $data;
+                        $radios = $this->fields[$data->getName()];
+                        $radios->addRadio($data);
+                    }
+                }
+            }
+        }
 
         // Data
         $this->data = array();
         foreach ($other->data as $entry) {
             if (is_object($entry)) {
-                if ($entry instanceof Field) {
+                if ($entry instanceof RadioField) {
+                    $radios = $this->fields[$entry->getName()];
+                    $this->data[] = $radios->getRadioForValue($entry->getValue());
+                } else if ($entry instanceof Field) {
                     $this->data[] = $this->fields[$entry->getName()];
                 } else {
                     $this->data[] = clone $entry;
@@ -133,22 +142,6 @@ class ParserData
                 $mySource = $this->fields[$source->getName()];
             }
             $this->sources[$key] = $mySource;
-        }
-
-        // Getting data references
-        foreach ($other->data as &$data) {
-            if (is_object($data)) {
-                if ($data instanceof Head) {
-                    $data = $other->getHead();
-                } else {
-                    if ($data instanceof Fields\RadioField) {
-                        $data = clone $data;
-                        $this->fields[$data->getName()]->addRadio($data);
-                    } else {
-                        $data = $this->fields[$data->getName()];
-                    }
-                }
-            }
         }
     }
 }

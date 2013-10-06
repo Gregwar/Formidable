@@ -28,6 +28,13 @@ class MulticheckboxField extends Field
      * Sauvegarde des push
      */
     protected $pushSave = array();
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'labels', 'source', 'checkboxes', 'pushSave'
+        ));
+    }
 
     public function check()
     {

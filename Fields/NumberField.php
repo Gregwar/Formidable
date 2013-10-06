@@ -23,6 +23,13 @@ class NumberField extends Field
      * Valeur maximum
      */
     protected $max = null;
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'min', 'max'
+        ));
+    }
 
     public function push($name, $value = null)
     {

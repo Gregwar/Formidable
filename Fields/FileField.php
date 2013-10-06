@@ -28,6 +28,13 @@ class FileField extends Field
      * Type de champ
      */
     protected $type = 'file';
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'datas', 'filetype', 'maxsize'
+        ));
+    }
 
     public function push($var, $value = null)
     {

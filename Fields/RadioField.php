@@ -23,6 +23,13 @@ class RadioField extends Field
      * Type du champ
      */
     protected $type = 'radio';
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'checked', 'parent'
+        ));
+    }
 
     public function setParent($parent)
     {

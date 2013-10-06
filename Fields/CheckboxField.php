@@ -24,6 +24,13 @@ class CheckboxField extends Field
      */
     protected $type = 'checkbox';
 
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'checked', 'checkedValue'
+        ));
+    }
+
     public function push($name, $value = null)
     {
         if ($name === 'checked') {

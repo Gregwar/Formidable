@@ -18,6 +18,24 @@ class Radios extends Field
      * La valeur est t-elle correcte ?
      */
     protected $valueSet = false;
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'valueSet', 'radios'
+        ));
+    }
+
+    public function getRadioForValue($value)
+    {
+        foreach ($this->radios as $radio) {
+            if ($radio->getValue() == $value) {
+                return $radio;
+            }
+        }
+
+        return null;
+    }
 
     public function addRadio(RadioField $radio)
     {

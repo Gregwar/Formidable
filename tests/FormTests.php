@@ -128,11 +128,23 @@ class FormTests extends \PHPUnit_Framework_TestCase
     {
         $form1 = $this->getForm('empty.html');
         $token1 = $form1->getToken();
-        $_SESSION['formidable_secret'] = null;
+        
         $form2 = $this->getForm('empty.html');
         $token2 = $form2->getToken();
 
-        $this->assertNotEquals($token1, $token2);
+        // Deleting session variales
+        foreach ($_SESSION as $key => $v) {
+            unset($_SESSION[$key]);
+        }
+
+        $form3 = $this->getForm('empty.html');
+        $token3 = $form3->getToken();
+
+        // Tokens from two forms sharing the session should be equals
+        $this->assertEquals($token1, $token2);
+
+        // Tokens from two forms with the session destroyed should be different
+        $this->assertNotEquals($token1, $token3);
     }
 
     /**

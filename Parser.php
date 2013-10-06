@@ -92,21 +92,17 @@ class Parser extends ParserData
                             break;
                         case '</form>':
                             if (!isset($this->fields['csrf_token'])) {
-                                if (isset($_SESSION['formidable_secret'])) {
-                                    $secret = $_SESSION['formidable_secret'];
-                                } else {
-                                    $secret = sha1(uniqid(mt_rand(), true));
-                                    $_SESSION['formidable_secret'] = $secret;
-                                }
+                                $name = '';
                                 if ($this->head && $this->head->has('name')) {
-                                    $secret .= '/'.$this->head->get('name');
+                                    $name .= $this->head->get('name');
                                 }
-                                $this->token = sha1($secret);
 
-                                $return = '<input type="hidden" name="csrf_token" value="'.$this->token.'" /></form>';
+                                $this->data[] = new Csrf($name);
+                                $idx += 2;
                             } else {
-                                $return = '</form>';
+                                $this->data[$idx] .= '</form>';
                             }
+                            break;
                         default:
                             $this->data[$idx] .= $return;
                         }

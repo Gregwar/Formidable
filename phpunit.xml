@@ -16,7 +16,7 @@
             <file>./tests/ParserTests.php</file>
             <file>./tests/FormTests.php</file>
             <file>./tests/ContextTests.php</file>
-            <file>./tests/FieldsTests.php</file>
+            <file>./tests/ConstraintsTests.php</file>
         </testsuite>
     </testsuites>
 

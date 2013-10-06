@@ -29,6 +29,13 @@ class Options extends Field
      * tard sur les options
      */
     protected $pushSave = array();
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'source', 'parent', 'position', 'pushSave'
+        ));
+    }
 
     public function push($name, $value = null)
     {

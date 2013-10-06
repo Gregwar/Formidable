@@ -8,7 +8,11 @@ $form = new Gregwar\Formidable\Form('<form method="post">
     </select>
     </form>');
 
-$form->source('animals', array('Cat', 'Dog'));
-$form->animal = 1;
+$form->source('animals', array(
+    'cat' => 'Cat',
+    'dog' => 'Dog'
+));
+
+$form->setValue('animal', 'dog');
 
 echo $form;

@@ -21,7 +21,17 @@ class CaptchaField extends Field
      */
     protected $type = 'text';
 
+    public function __wakeup()
+    {
+        $this->generate();
+    }
+
     public function __construct()
+    {
+        $this->generate();
+    }
+
+    protected function generate()
     {
         $this->builder = new CaptchaBuilder;
         $this->builder->build();

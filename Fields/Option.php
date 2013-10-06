@@ -18,6 +18,13 @@ class Option extends Field
      * Séléctionnée ?
      */
     protected $selected = false;
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'parent', 'selected'
+        ));
+    }
 
     /**
      * Label

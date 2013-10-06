@@ -19,6 +19,13 @@ class DateField extends Field
      */
     private $fields;
 
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'pushSave', 'fields'
+        ));
+    }
+
     public function push($var, $value = null)
     {
 	if ($var == 'name' || $var == 'optional' || $var == 'mapping') {

@@ -13,6 +13,13 @@ class Select extends Field
      * Options (enfants)
      */
     protected $options = array();
+    
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'options'
+        ));
+    }
 
     public function countOptions()
     {

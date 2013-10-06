@@ -78,6 +78,15 @@ abstract class Field extends LanguageAware
      */
     protected $mapping;
 
+    public function __sleep()
+    {
+        return array(
+            'constraints', 'multiple', 'multipleChange', 'mapping', 'valuechanged',
+            'readonly', 'prettyname', 'minlength', 'maxlength', 'regex', 'optional',
+            'type', 'name', 'attributes', 'value'
+        );
+    }
+
     /**
      * Define an attribute
      */

@@ -29,6 +29,13 @@ class MultiradioField extends Field
      */
     protected $pushSave = array();
 
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'source', 'radios', 'labels', 'pushSave'
+        ));
+    }
+
     public function check()
     {
         if (!$this->optional && !$this->value) {

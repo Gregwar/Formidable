@@ -19,6 +19,13 @@ class Custom extends Field
      */
     protected $data;
 
+    public function __sleep()
+    {
+        return array_merge(parent::__sleep(), array(
+            'source', 'data'
+        ));
+    }
+
     public function push($name, $value = null)
     {
         if ($name == 'source') {
