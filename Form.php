@@ -9,7 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class Form implements \Iterator
+class Form
 {
     /**
      * HTML contents of the form
@@ -431,35 +431,5 @@ class Form implements \Iterator
         }
 
         return array();
-    }
-
-    /**
-     * Iterator methods
-     */
-    public function rewind()
-    {
-        $this->position = 0;
-    }
-
-    public function next()
-    {
-        $this->position++;
-    }
-
-    public function current()
-    {
-        return ($this->getField($this->position));
-    }
-
-    public function valid()
-    {
-        $fields = &$this->getFields();
-
-        return isset($fields[$this->position]);
-    }
-
-    public function key()
-    {
-        return $this->getField($this->position)->getName();
     }
 }
