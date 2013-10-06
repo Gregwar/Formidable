@@ -60,7 +60,7 @@ abstract class Field extends LanguageAware
     /**
      * Is the value changed?
      */
-    protected $valuechanged = false;
+    protected $valueChanged = false;
 
     /**
      * Constraints on the field
@@ -81,7 +81,7 @@ abstract class Field extends LanguageAware
     public function __sleep()
     {
         return array(
-            'constraints', 'multiple', 'multipleChange', 'mapping', 'valuechanged',
+            'constraints', 'multiple', 'multipleChange', 'mapping', 'valueChanged',
             'readonly', 'prettyname', 'minlength', 'maxlength', 'regex', 'optional',
             'type', 'name', 'attributes', 'value'
         );
@@ -192,7 +192,7 @@ abstract class Field extends LanguageAware
      */
     public function check()
     {
-        if ($this->valuechanged && $this->readonly) {
+        if ($this->valueChanged && $this->readonly) {
             return array('read_only', $this->printName());
         }
 
@@ -275,7 +275,7 @@ abstract class Field extends LanguageAware
     public function setValue($value, $default = false)
     {
         if ($value != $this->value && !$default) {
-            $this->valuechanged = true;
+            $this->valueChanged = true;
         }
 
         if (is_string($value) || is_int($value) || is_float($value)) {
