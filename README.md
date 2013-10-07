@@ -349,6 +349,32 @@ $form = new Gregwar\Formidable\Form('the-above-form.php', array('label' => 'Your
 
 The `$label` will be interpreted using PHP.
 
+## Caching
+
+For performances reasons, you may want to cache the parsed forms.
+
+To do this, simply pass `true` as the first argument of the constructor:
+
+```php
+<?php
+
+/**
+ * Parsed data for the form will be serialized and stored in a cache file,
+ * if you use this form often, this will offer you better performances.
+ */
+$form = new Gregwar\Formidable\Form('form.html', null, true);
+
+```
+
+This will use the [Gregwar/Cache](http://github.com/Gregwar/Cache) system, you will need to get
+the composer dependencies of this repository or install it manually.
+
+Try to run the `performances.php` script in the `examples/` directory, this will give you an 
+example of performance gain with cache.
+
+You can also pass an instance of `Gregwar\Cache\Cache` as the third parameter, which will allow you
+to set the cache directory.
+
 ## License
 
 `Gregwar\Formidable` is under MIT License, have a look at the `LICENSE` file for more information.
