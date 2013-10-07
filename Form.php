@@ -14,7 +14,17 @@ class Form
     /**
      * HTML contents of the form
      */
-    protected $content;
+    protected $content = null;
+
+    /**
+     * File path
+     */
+    protected $path = null;
+
+    /**
+     * File variables
+     */
+    protected $variables = null;
 
     /**
      * Current position for iterator
@@ -36,11 +46,6 @@ class Form
      * Property accessor
      */
     protected $accessor = null;
-
-    /**
-     * File path
-     */
-    protected $path;
 
     /***
      * Cache system
@@ -75,7 +80,7 @@ class Form
                 $this->content = $pathOrContent;
             } else {
                 $this->path = $pathOrContent;
-                $this->getContent($variables);
+                $this->variables = $variables;
             }
         }
 
@@ -85,11 +90,6 @@ class Form
     public function getFactory()
     {
         return $this->factory;
-    }
-
-    public function getOriginalContent()
-    {
-        return $this->content;
     }
 
     /**
@@ -122,19 +122,23 @@ class Form
     /**
      * Get the form contents
      */
-    public function getContent($variables = null)
+    public function getContent()
     {
-        if (is_array($variables)) {
-            extract($variables);
-        } else {
-            if ($variables !== null) {
-                throw new \Exception('$variables argument should be null or an array');
+        if ($this->content === null) {
+            if (is_array($this->variables)) {
+                extract($this->variables);
+            } else {
+                if ($this->variables !== null) {
+                    throw new \Exception('$variables argument should be null or an array');
+                }
             }
+
+            ob_start();
+            include($this->path);
+            $this->content = ob_get_clean();
         }
 
-        ob_start();
-        include($this->path);
-        $this->content = ob_get_clean();
+        return $this->content;
     }
 
     /**
@@ -145,14 +149,25 @@ class Form
         $formidable = $this;
         $generate = function() use ($formidable) {
             // Parses the contents
-            $parser = $formidable->getFactory()->getParser($formidable->getOriginalContent());
+            $parser = $formidable->getFactory()->getParser($formidable->getContent());
             $formidable->isCached = false;
 
             return $parser;
         };
 
         if ($this->cache) {
-            $cacheData = $this->cache->getOrCreate(sha1($this->content), array(), function($cacheFile) use ($generate) {
+            $formInfos = array(
+                'path' => $this->path,
+                'content' => $this->content
+            );
+            $cacheFile = sha1(serialize($formInfos));
+
+            $conditions = array();
+            if ($this->path !== null) {
+                $conditions['younger-than'] = $this->path;
+            }
+
+            $cacheData = $this->cache->getOrCreate($cacheFile, $conditions, function($cacheFile) use ($generate) {
                 $parserData = $generate();
                 file_put_contents($cacheFile, serialize($parserData));
             });
