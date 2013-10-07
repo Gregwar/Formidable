@@ -47,7 +47,12 @@ class Form
      */
     protected $cache = null;
 
-    public function __construct($pathOrContent = '', array $variables = array(), $cache = false, $factory = null)
+    /**
+     * Is the form cached?
+     */
+    public $isCached = true;
+
+    public function __construct($pathOrContent = '', $variables = null, $cache = false, $factory = null)
     {
         if (null === $factory) {
             $this->factory = new Factory;
@@ -56,7 +61,7 @@ class Form
         }
 
         if ($cache !== null && $cache !== false) {
-            if ($cache == true) {
+            if ($cache === true) {
                 $this->cache = new \Gregwar\Cache\Cache;
             } else if ($cache instanceof \Gregwar\Cache\Cache) {
                 $this->cache = $cache;
@@ -117,9 +122,15 @@ class Form
     /**
      * Get the form contents
      */
-    public function getContent($variables = array())
+    public function getContent($variables = null)
     {
-        extract($variables);
+        if (is_array($variables)) {
+            extract($variables);
+        } else {
+            if ($variables !== null) {
+                throw new \Exception('$variables argument should be null or an array');
+            }
+        }
 
         ob_start();
         include($this->path);
@@ -135,6 +146,7 @@ class Form
         $generate = function() use ($formidable) {
             // Parses the contents
             $parser = $formidable->getFactory()->getParser($formidable->getOriginalContent());
+            $formidable->isCached = false;
 
             return $parser;
         };

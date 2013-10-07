@@ -264,13 +264,43 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form->getField('titi');
     }
 
-    private function getForm($file, $vars = array())
+    /**
+     * Testing caching a form
+     */
+    public function testCache()
     {
-        return new Form(__DIR__.'/files/form/'.$file, $vars);
+        $cache = new Gregwar\Cache\Cache;
+        $cache->setCacheDirectory($this->getCacheDirectory());
+
+        $form = $this->getForm('basic.html', null, $cache);
+        $html = "$form";
+        $this->assertContains('toto', $html);
+        $this->assertEquals(false, $form->isCached);
+
+        $form = $this->getForm('basic.html', null, $cache);
+        $html = "$form";
+        $this->assertContains('toto', $html);
+        $this->assertEquals(true, $form->isCached);
+    }
+
+    private function getForm($file, $vars = array(), $cache = false)
+    {
+        return new Form(__DIR__.'/files/form/'.$file, $vars, $cache);
     }
 
     public function setup()
     {
         $_SESSION = array();
+    }
+
+    public function getCacheDirectory()
+    {
+        return __DIR__ . '/cache';
+    }
+
+    public function teardown()
+    {
+        $cacheDir = $this->getCacheDirectory();
+        `rm -rf $cacheDir`;
     }
 }

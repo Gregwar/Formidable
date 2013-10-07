@@ -15,7 +15,7 @@ echo "Time = ".$withoutCache."s\n\n";
 echo "Generating $iterations forms with cache...\n";
 $start = microtime(true);
 for ($i=0; $i<$iterations; $i++) {
-    $form = new Gregwar\Formidable\Form('forms/test.html', array(), null, true);
+    $form = new Gregwar\Formidable\Form('forms/test.html', null, true);
     $x = "$form";
 }
 $withCache = microtime(true)-$start;
