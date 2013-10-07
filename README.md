@@ -367,7 +367,8 @@ $form = new Gregwar\Formidable\Form('form.html', null, true);
 ```
 
 This will use the [Gregwar/Cache](http://github.com/Gregwar/Cache) system, you will need to get
-the composer dependencies of this repository or install it manually.
+the composer dependencies of this repository or install it manually. By default, cache files
+will be wrote in the `cache` directory from where the script is run.
 
 Try to run the `performances.php` script in the `examples/` directory, this will give you an 
 example of performance gain with cache.
