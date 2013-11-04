@@ -76,7 +76,7 @@ class Form
         }
 
         if ($pathOrContent) {
-            if (strlen($pathOrContent) > 100 || strpos($pathOrContent, "\n") !== false) {
+            if (strpos($pathOrContent, "\n") !== false) {
                 $this->content = $pathOrContent;
             } else {
                 $this->path = $pathOrContent;
