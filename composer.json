@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.3.0",
         "gregwar/captcha": "v1.0.9",
-        "gregwar/cache": "v1.0.1",
+        "gregwar/cache": "v1.0.*",
         "symfony/property-access": "v2.3.5"
     },
     "target-dir": "Gregwar/Formidable",
