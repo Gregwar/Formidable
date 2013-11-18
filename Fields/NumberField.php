@@ -12,7 +12,7 @@ class NumberField extends Field
     /**
      * Field type
      */
-    protected $type = 'text';
+    protected $type = 'number';
 
     /**
      * Minimal value
@@ -36,12 +36,10 @@ class NumberField extends Field
         switch ($name) {
             case 'min':
                 $this->min = $value;
-
-                return;
+                break;
             case 'max':
                 $this->max = $value;
-
-                return;
+                break;
         }
 
         parent::push($name, $value);

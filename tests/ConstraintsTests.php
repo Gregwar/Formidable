@@ -158,8 +158,9 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getForm('minmax.html');
 
-        $this->assertNotContains('min', "$form");
-        $this->assertNotContains('max', "$form");
+        $this->assertContains('number', "$form");
+        $this->assertContains('min', "$form");
+        $this->assertContains('max', "$form");
 
         $this->assertAccept($form, array(
             'num' => 7
