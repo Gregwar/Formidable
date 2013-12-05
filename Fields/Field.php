@@ -316,6 +316,11 @@ abstract class Field extends LanguageAware
         return $html;
     }
 
+    public function __toString()
+    {
+        return $this->getHtml();
+    }
+
     public function getHtml()
     {
         if (!$this->multiple) {

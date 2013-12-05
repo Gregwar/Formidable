@@ -45,6 +45,11 @@ class Head
         return $html;
     }
 
+    public function __toString()
+    {
+        return $this->getHtml();
+    }
+
     public function needJs()
     {
         return false;

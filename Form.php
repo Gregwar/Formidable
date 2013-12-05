@@ -327,11 +327,7 @@ class Form
         }
 
         foreach ($this->parserData->getData() as $data) {
-            if (is_string($data)) {
-                $html .= $data;
-            } else {
-                $html .= $data->getHtml();
-            }
+            $html .= (string)$data;
         }
 
         if ($html[strlen($html)-1] != "\n") {

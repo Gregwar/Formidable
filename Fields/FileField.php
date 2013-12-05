@@ -134,9 +134,4 @@ class FileField extends Field
     {
         return $this->hasData() ? $this : null;
     }
-
-    public function __toString()
-    {
-        return '(File '.$this->datas['name'].')';
-    }
 }
