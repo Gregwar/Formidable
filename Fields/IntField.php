@@ -12,7 +12,7 @@ class IntField extends NumberField
     /**
      * Field type
      */
-    protected $type = 'text';
+    protected $type = 'number';
 
     public function check()
     {
