@@ -14,6 +14,7 @@ class English extends Language
         'bad_captcha' => 'The captcha value is not correct',
         'bad_date' => 'The date %s is not correct',
         'add' => 'Add',
+        'remove' => 'Remove',
         'file_size_too_big' => 'File size for the field %s should not exceed %s',
         'file_image' => 'File for the field %s should be an image',
         'file_required' => 'You should send a file for the field %s',

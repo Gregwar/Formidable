@@ -21,6 +21,7 @@ $form = new Gregwar\Formidable\Form('<form method="post">
     </multiple>
     <input type="submit" />
     </form>');
+$form->setLanguage(new Gregwar\Formidable\Language\French);
 
 $form->handle(function() use ($form) {
     var_dump($form->getData(new Book));

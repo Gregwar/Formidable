@@ -143,7 +143,9 @@ class Multiple extends Field
             $fid = uniqid('multipleelement'.time().mt_rand());
             $html .= '<span id="'.$fid.'"/>';
             $html .= $this->getHtmlOfForm($form, $index);
-            $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">Remove</a><br />';
+            $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">';
+            $html .= $this->langguage->translate('remove');
+            $html .= '</a><br />';
             $html .= '</span>';
         }
         $html .= '</div>'."\n";
@@ -154,7 +156,9 @@ class Multiple extends Field
         $html .= ";\n";
         $html .= 'Formidable.multiple["'.$id.'"] = '.count($this->forms).";\n";
         $html .= '</script>';
-        $html .= '<a href="javascript:Formidable.addInput(\''.$id.'\', '.$id.'_code);">Add</a>';
+        $html .= '<a href="javascript:Formidable.addInput(\''.$id.'\', '.$id.'_code);">';
+        $html .= $this->language->translate('add');
+        $html .= '</a>';
         $html .= '</div>';
         $html .= '</div>'."\n";
 

@@ -14,6 +14,7 @@ class French extends Language
         'bad_captcha' => 'La valeur du code visuel n\'est pas bonne',
         'bad_date' => 'La date du champ %s n\'est pas correcte',
         'add' => 'Ajouter',
+        'remove' => 'Enlever',
         'file_size_too_big' => 'La taille du fichier %s ne doit pas être plus gros que %s',
         'file_image' => 'Le fichier du champ %s doit être une image',
         'file_required' => 'Vous devez envoyer un fichier pour le champ %s',

@@ -324,6 +324,19 @@ class Form
     }
 
     /**
+     * Get the JavaScript code to embed
+     */
+    public function getJs()
+    {
+        $html = '<script type="text/javascript">';
+        $js = file_get_contents(__DIR__.'/Js/formidable.js');
+        $html .= str_replace("\n", '', str_replace('{remove}', $this->factory->getLanguage()->translate('remove'), $js));
+        $html .= '</script>';
+
+        return $html;
+    }
+
+    /**
      * Convert to HTML
      */
     public function getHtml()
@@ -331,7 +344,7 @@ class Form
         $html = '';
 
         if ($this->parserData->needJs()) {
-            $html.= '<script type="text/javascript">'.file_get_contents(__DIR__.'/Js/formidable.js').'</script>';
+            $html .= $this->getJs();
         }
 
         foreach ($this->parserData->getData() as $data) {
