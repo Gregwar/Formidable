@@ -152,7 +152,7 @@ class Multiple extends Field
         $html .= 'var '.$id.'_code = ';
         $html .= json_encode($this->getHtmlOfForm($prototype, '{number}'));
         $html .= ";\n";
-        $html .= 'FormidableMultiple["'.$id.'"] = '.count($this->forms).";\n";
+        $html .= 'Formidable.multiple["'.$id.'"] = '.count($this->forms).";\n";
         $html .= '</script>';
         $html .= '<a href="javascript:Formidable.addInput(\''.$id.'\', '.$id.'_code);">Add</a>';
         $html .= '</div>';
