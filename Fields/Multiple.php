@@ -144,7 +144,7 @@ class Multiple extends Field
             $html .= '<span id="'.$fid.'"/>';
             $html .= $this->getHtmlOfForm($form, $index);
             $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">';
-            $html .= $this->langguage->translate('remove');
+            $html .= $this->language->translate('remove');
             $html .= '</a><br />';
             $html .= '</span>';
         }

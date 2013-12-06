@@ -1,18 +1,22 @@
 <?php
 
-class Book
+class Film
 {
     public $name;
-    public $authors;
+    public $actors;
 }
 
 include(__DIR__.'/../autoload.php');
 
 $form = new Gregwar\Formidable\Form('<form method="post">
-    Book name:
-    <input type="text" name="book_name" mapping="name" />
+
+    <h2>Film</h2>
+    Film name:
+    <input type="text" name="film_name" mapping="name" />
     <hr />
-    <multiple name="authors" mapping="authors" min-entries="2">
+
+    <h2>Actors</h2>
+    <multiple name="actors" mapping="actors" min-entries="2">
         <fieldset>
             First name: <input name="first_name" mapping="firstName" /><br />
             Last name: <input name="last_name" mapping="lastName" /><br />
@@ -21,10 +25,9 @@ $form = new Gregwar\Formidable\Form('<form method="post">
     </multiple>
     <input type="submit" />
     </form>');
-$form->setLanguage(new Gregwar\Formidable\Language\French);
 
 $form->handle(function() use ($form) {
-    var_dump($form->getData(new Book));
+    var_dump($form->getData(new Film));
 }, function($errors) {
     echo "Errors:<br />";
     foreach ($errors as $error) {
