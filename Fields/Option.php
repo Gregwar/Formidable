@@ -22,7 +22,7 @@ class Option extends Field
     public function __sleep()
     {
         return array_merge(parent::__sleep(), array(
-            'parent', 'selected'
+            'parent', 'selected', 'label'
         ));
     }
 
