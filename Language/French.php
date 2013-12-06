@@ -23,5 +23,7 @@ class French extends Language
         'number_min' => 'Le champ %s doit être au moins %s',
         'number_max' => 'Le champ %s ne doit pas dépasser %s',
         'should_choose' => 'Vous devez choisir une valeur pour %s',
+        'multiple_min' => 'Vous devez au moins fournir %d entrées pour %s',
+        'multiple_mmax' => 'Vous ne pouvez pas fournir plus de %d entrées pour %s',
     );
 }
