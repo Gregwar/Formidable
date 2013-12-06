@@ -114,8 +114,12 @@ class Form
      */
     protected function pushLanguage()
     {
-        foreach ($this->parserData->getFields() as &$field) {
-            $field->setLanguage($this->factory->getLanguage());
+        $language = $this->factory->getLanguage();
+
+        if ($language && $this->parserData) {
+            foreach ($this->parserData->getFields() as &$field) {
+                $field->setLanguage($this->factory->getLanguage());
+            }
         }
     }
 
@@ -210,7 +214,11 @@ class Form
     {
         foreach ($this->getFields() as $name => $field) {
             if (isset($values[$name])) {
-                $field->setValue($values[$name]);
+                if ($field instanceof Field\Multiple) {
+                    $field->setValues($values[$name], $files);
+                } else {
+                    $field->setValue($values[$name], $files);
+                }
             } else {
                 if ($field instanceof Fields\FileField && isset($files[$name])) {
                     $field->setValue($files[$name]);
@@ -464,5 +472,12 @@ class Form
         }
 
         return array();
+    }
+
+    public function hookNames(\Closure $hook)
+    {
+        foreach ($this->getFields() as $field) {
+            $field->hookName($hook);
+        }
     }
 }

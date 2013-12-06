@@ -48,7 +48,8 @@ class Factory extends Language\LanguageAware
         'option' => '\Gregwar\Formidable\Fields\Option',
         'radios' => '\Gregwar\Formidable\Fields\Radios',
         'select' => '\Gregwar\Formidable\Fields\Select',
-        'custom' => '\Gregwar\Formidable\Fields\Custom'
+        'custom' => '\Gregwar\Formidable\Fields\Custom',
+        'multiple' => '\Gregwar\Formidable\Fields\Multiple'
     );
 
     /**
@@ -71,11 +72,11 @@ class Factory extends Language\LanguageAware
     /**
      * Get a parser
      */
-    public function getParser($content)
+    public function getParser($content, $offset = 0)
     {
         $parserClass = $this->parserClass;
 
-        return $this->inject(new $parserClass($content, $this));
+        return $this->inject(new $parserClass($content, $this, $offset));
     }
 
     /**

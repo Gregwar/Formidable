@@ -29,7 +29,12 @@ class Parser extends ParserData
      */
     private $currentLine = 1;
 
-    public function __construct($content, $factory = null)
+    /**
+     * Data offset
+     */
+    private $offset = 0;
+
+    public function __construct($content, $factory = null, $offset = 0)
     {
         if (null === $factory) {
             $this->factory = new Factory;
@@ -37,6 +42,7 @@ class Parser extends ParserData
             $this->factory = $factory;
         }
 
+        $this->offset = $offset;
         $this->parse($content);
     }
 
@@ -44,6 +50,11 @@ class Parser extends ParserData
     {
         $this->data[] = $something;
         $this->idx = count($this->data);
+    }
+
+    public function getOffset()
+    {
+        return $this->offset;
     }
 
     /**
@@ -56,12 +67,11 @@ class Parser extends ParserData
         $buffer = '';
         $idx = &$this->idx;
         $idx = 0;
-        $len = strlen($content);
 
         $balise = $textarea = $select = $option = false;
 
-        for ($i=0; $i<$len; $i++) {
-            $char = $content[$i];
+        for (; $this->offset<strlen($content); $this->offset++) {
+            $char = $content[$this->offset];
 
             if ($char == "\n") {
                 $this->currentLine++;
@@ -96,6 +106,9 @@ class Parser extends ParserData
                             break;
                         case '</option>':
                             $option = false;
+                            break;
+                        case '</multiple>':
+                            return;
                             break;
                         case '</form>':
                             if (!isset($this->fields[PostIndicator::$fieldName])) {
@@ -143,6 +156,12 @@ class Parser extends ParserData
                                 $this->fields[$newNode->getName()]->addRadio($newNode);
                             } else {
                                 $this->push($newNode);
+
+                                if ($newNode instanceof Fields\Multiple) {
+                                    $parser = $this->factory->getParser($content, $this->offset+1);
+                                    $newNode->setParserData($parser);
+                                    $this->offset = $parser->getOffset();
+                                }
 
                                 if ($newNode instanceof Head) {
                                     $this->head = $newNode;
@@ -223,6 +242,7 @@ class Parser extends ParserData
         case 'option':
         case 'options':
         case 'custom':
+        case 'multiple':
             $field = $this->factory->getObject($name);
             break;
         case '/textarea':
