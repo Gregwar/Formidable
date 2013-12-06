@@ -10,7 +10,7 @@ for ($i=0; $i<$iterations; $i++) {
     $x = "$form";
 }
 $withoutCache = microtime(true)-$start;
-echo "Time = ".$withoutCache."s\n\n";
+echo "Time = ".$withoutCache."s (".($withoutCache/$iterations)."s/form)\n\n";
 
 echo "Generating $iterations forms with cache...\n";
 $start = microtime(true);
@@ -19,4 +19,4 @@ for ($i=0; $i<$iterations; $i++) {
     $x = "$form";
 }
 $withCache = microtime(true)-$start;
-echo "Time = ".$withCache."s\n";
+echo "Time = ".$withCache."s (".($withCache/$iterations)."s/form)\n\n";
