@@ -20,6 +20,7 @@ abstract class Field extends LanguageAware
      * Field name
      */
     protected $name;
+    protected $hookName = null;
 
     /**
      * HTML attributes
@@ -218,7 +219,16 @@ abstract class Field extends LanguageAware
 
     public function getName()
     {
-        return $this->name;
+        if ($this->hookName !== null) {
+            return $this->hookName($this->name);
+        } else {
+            return $this->name;
+        }
+    }
+
+    public function hookName(\Closure $hook)
+    {
+        $this->hookName = $hook;
     }
 
     public function setName($name)
