@@ -20,7 +20,7 @@ $form = new Gregwar\Formidable\Form('<form method="post">
         <fieldset>
             First name: <input name="first_name" mapping="firstName" /><br />
             Last name: <input name="last_name" mapping="lastName" /><br />
-            Age: <input type="int" name="age" min="7" optional />
+            Age: <input type="int" name="age" min="7" mapping="age" optional />
         </fieldset>
     </multiple>
     <input type="submit" />

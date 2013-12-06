@@ -6,14 +6,15 @@
 if (typeof(Formidable) == 'undefined') {
     var Formidable = {
         addInput: function(id, code) {
-            var n = Math.random();
-            span = document.createElement('span');
-            span.id = n;
-            span.innerHTML = code;
+            var n = 'multiple-element-'+Math.random();
+            div = document.createElement('div');
+            div.className = 'multiple-element';
+            div.id = n;
+            div.innerHTML = code;
             var number = Formidable.multiple[id]++;
             code = code.replace(/{number}/g, number);
-            span.innerHTML = code + '<a href="javascript:Formidable.removeInput(\''+n+'\');">{remove}</a><br />';
-            document.getElementById(id).appendChild(span);
+            div.innerHTML = code + '<a href="javascript:Formidable.removeInput(\''+n+'\');">{remove}</a><br />';
+            document.getElementById(id).appendChild(div);
         },
         removeInput : function(id) {
             document.getElementById(id).innerHTML = '';

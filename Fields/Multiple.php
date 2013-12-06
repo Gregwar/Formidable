@@ -134,19 +134,19 @@ class Multiple extends Field
 
     public function getHtml()
     {
-        $id = uniqid('multiple'.time().mt_rand());
+        $id = 'multiple'.uniqid(time().mt_rand());
         $prototype = new DataForm($this->parserData, $this->language);
 
         $html = '<div class="multiple">'."\n";
         $html .= '<div id="'.$id.'" class="multiple-forms">'."\n";
         foreach ($this->forms as $index => $form) {
-            $fid = uniqid('multipleelement'.time().mt_rand());
-            $html .= '<span id="'.$fid.'"/>';
+            $fid = 'multiple'.uniqid(time().mt_rand());
+            $html .= '<div class="multiple-element" id="'.$fid.'"/>';
             $html .= $this->getHtmlOfForm($form, $index);
             $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">';
             $html .= $this->language->translate('remove');
             $html .= '</a><br />';
-            $html .= '</span>';
+            $html .= '</div>';
         }
         $html .= '</div>'."\n";
         $html .= '<div class="multiple-buttons">';
