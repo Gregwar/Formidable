@@ -24,9 +24,29 @@ class Multiple extends Field
      */
     protected $forms = array();
 
+    /**
+     * Entries constraints
+     */
+    protected $minEntries = null;
+    protected $maxEntries = null;
+
     public function setParserData(ParserData $parserData)
     {
         $this->parserData = $parserData;
+    }
+
+    public function push($name, $value = null)
+    {
+        switch ($name) {
+        case 'min-entries':
+            $this->minEntries = (int)$value;
+            return;
+        case 'max-entries':
+            $this->maxEntries = (int)$value;
+            return;
+        }
+
+        parent::push($name, $value);        
     }
 
     protected function getForm($index)
@@ -40,6 +60,8 @@ class Multiple extends Field
 
     public function setValues($values, array $files)
     {
+        $this->forms = array();
+
         if (is_array($values)) {
             $index = 0;
             foreach ($values as $v) {
@@ -55,6 +77,19 @@ class Multiple extends Field
     }
 
     public function check()
+    {
+        $count = count($this->forms);
+
+        if ($this->minEntries !== null && $count < $this->minEntries) {
+            return array('multiple_min', $this->minEntries, $this->printName());
+        }
+
+        if ($this->maxEntries !== null && $count > $this->maxEntries) {
+            return array('multiple_max', $this->maxEntries, $this->printName());
+        }
+    }
+
+    public function checkForms()
     {
         $errors = array();
 
@@ -128,7 +163,7 @@ class Multiple extends Field
 
     public function __sleep()
     {
-        return array_merge(array('parserData'), 
+        return array_merge(array('parserData', 'minEntries', 'maxEntries'), 
             parent::__sleep());
     }
 

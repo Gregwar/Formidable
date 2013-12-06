@@ -12,7 +12,7 @@ $form = new Gregwar\Formidable\Form('<form method="post">
     Book name:
     <input type="text" name="book_name" mapping="name" />
     <hr />
-    <multiple name="authors" mapping="authors">
+    <multiple name="authors" mapping="authors" min-entries="2">
         <fieldset>
             First name: <input name="first_name" mapping="firstName" /><br />
             Last name: <input name="last_name" mapping="lastName" /><br />

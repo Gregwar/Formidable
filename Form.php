@@ -358,11 +358,11 @@ class Form
                 $error = $field->check();
 
                 if ($error) {
-                    if ($field instanceof Fields\Multiple) {
-                        $errors = array_merge($error, $errors);
-                    } else {
-                        $errors[] = new Error($field, $error, $this->factory->getLanguage());
-                    }
+                    $errors[] = new Error($field, $error, $this->factory->getLanguage());
+                }
+            
+                if ($field instanceof Fields\Multiple) {
+                    $errors = array_merge($errors, $field->checkForms());
                 }
             }
         }

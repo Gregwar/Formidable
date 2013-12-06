@@ -612,6 +612,40 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing <multiple>
+     */
+    public function testMultiple()
+    {
+        $form = $this->getForm('multiple.html');
+        $html = "$form";
+
+        $this->assertNotContains('<multiple', $html);
+        $this->assertContains('first_name', $html);
+        $this->assertContains('age', $html);
+
+        $this->assertAccept($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '8'),
+            array('first_name' => 'Jack', 'age' => '18'),
+        )));
+        
+        $this->assertAccept($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '8'),
+            array('first_name' => 'Jack', 'age' => '18'),
+        )));
+
+       // The min-entries constraint 
+        $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '8'),
+        )));
+       
+        // The min
+        $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '3'),
+            array('first_name' => 'Jack', 'age' => '18'),
+        )));
+    }
+
+    /**
      * Testing that a form accept data
      */
     private function assertAccept($form, $data, $files = array()) {
