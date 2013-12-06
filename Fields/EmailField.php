@@ -25,7 +25,7 @@ class EmailField extends Field
             return $error;
         }
 
-        if (!($this->multiple && is_array($this->value)) && !filter_var($this->value, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($this->value, FILTER_VALIDATE_EMAIL)) {
             return array('bad_email', $this->printName());
         }
 

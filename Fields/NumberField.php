@@ -47,26 +47,24 @@ class NumberField extends Field
 
     public function check()
     {
-        if ($this->optional && !$this->value)
-
+        if ($this->optional && !$this->value) {
             return;
+        }
 
         if ($error = parent::check()) {
             return $error;
         }
 
-        if ($this->multiple && is_array($this->value))
-
-            return;
-
         if (!is_numeric($this->value)) {
             return array('number', $this->printName());
         }
+
         if ($this->min !== null) {
             if ($this->value < $this->min) {
                 return array('number_min', $this->printName(), $this->min);
             }
         }
+
         if ($this->max !== null) {
             if ($this->value > $this->max) {
                 return array('number_max', $this->printName(), $this->max);

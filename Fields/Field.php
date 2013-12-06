@@ -68,12 +68,6 @@ abstract class Field extends LanguageAware
     protected $constraints = array();
 
     /**
-     * Multiple values ?
-     */
-    protected $multiple = false;
-    protected $multipleChange = '';
-
-    /**
      * Data for the mapping
      */
     protected $mapping;
@@ -81,7 +75,7 @@ abstract class Field extends LanguageAware
     public function __sleep()
     {
         return array(
-            'constraints', 'multiple', 'multipleChange', 'mapping', 'valueChanged',
+            'constraints', 'mapping', 'valueChanged',
             'readonly', 'prettyname', 'minlength', 'maxlength', 'regex', 'optional',
             'type', 'name', 'attributes', 'value'
         );
@@ -152,12 +146,6 @@ abstract class Field extends LanguageAware
             $this->maxlength = $value;
             $this->attributes['maxlength'] = $value;
             break;
-        case 'multiple':
-            $this->multiple = true;
-            break;
-        case 'multiplechange':
-            $this->multipleChange = $value;
-            break;
         case 'mapping':
             $this->mapping = $value;
             break;
@@ -194,28 +182,6 @@ abstract class Field extends LanguageAware
     {
         if ($this->valueChanged && $this->readonly) {
             return array('read_only', $this->printName());
-        }
-
-	if ($this->multiple && is_array($this->value)) {
-            $nodata = implode('', $this->value) === '';
-
-            if (!$this->optional && $nodata) {
-                return array('value_required', $this->printName());
-            }
-
-            // Répectution du test sur chaque partie
-            $values = $this->value;
-            foreach ($values as $value) {
-                $this->value = $value;
-                $error = $this->check();
-                if ($error) {
-                    $this->value = $values;
-                    return $error;
-                }
-            }
-            $this->value = $values;
-
-            return;
         }
 
         if (null === $this->value || '' === $this->value) {
@@ -283,18 +249,6 @@ abstract class Field extends LanguageAware
         } else {
             $this->value = null;
         }
-
-	if ($this->multiple) {
-            $this->value = null;
-            if (is_array($value)) {
-                foreach ($value as $val) {
-                    if (!is_string($val)) {
-                        return;
-                    }
-                }
-		$this->value = $value;
-            }
-        }
     }
 
     public function getHtmlForValue($given_value = '', $name_suffix = '')
@@ -323,35 +277,7 @@ abstract class Field extends LanguageAware
 
     public function getHtml()
     {
-        if (!$this->multiple) {
-            return $this->getHtmlForValue($this->value);
-	} else {
-            $rnd = sha1(mt_rand().time().mt_rand());
-
-	    if (!is_array($this->value) || !$this->value) {
-                $this->value = array('');
-            }
-
-            $others = '';
-	    if ($this->multiple && is_array($this->value)) {
-                foreach ($this->value as $id => $value) {
-                    $others.="Formidable.addInput(\"$rnd\",\"";
-                    $others.=str_replace(
-                        array("\r", "\n"), array('', ''),
-                        addslashes($this->getHtmlForValue($value, '[]'))
-                    );
-                    $others.="\");\n";
-                }
-            }
-
-            $prototype = $this->getHtmlForValue('', '[]');
-
-            $html= '<span id="'.$rnd.'"></span>';
-            $html.= '<script type="text/javascript">'.$others.'</script>';
-            $html.= "<a href=\"javascript:Formidable.addInput('$rnd','".str_replace(array("\r","\n"),array("",""),htmlspecialchars($prototype))."');".$this->multipleChange."\">".$this->language->translate('add')."</a>";
-
-            return $html;
-        }
+        return $this->getHtmlForValue($this->value);
     }
 
     public function getSource()
@@ -365,7 +291,7 @@ abstract class Field extends LanguageAware
 
     public function needJs()
     {
-        return $this->multiple;
+        return false;
     }
 
     public function addConstraint($closure)

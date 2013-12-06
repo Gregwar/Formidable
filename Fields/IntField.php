@@ -26,10 +26,6 @@ class IntField extends NumberField
             return $error;
         }
 
-        if ($this->multiple && is_array($this->value)) {
-            return;
-        }
-
         if ((int)($this->value) != $this->value) {
             return array('integer', $this->printName());
         }

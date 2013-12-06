@@ -279,38 +279,6 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Testing multiple
-     */
-    public function testMultiple()
-    {
-        $form = $this->getForm('multiple.html');
-        $html = "$form";
-
-        $this->assertContains('<script', $html);
-        $this->assertContains('<a', $html);
-
-        $this->assertRefuse($form, array(
-            'names' => ''
-        ));
-
-        $this->assertAccept($form, array(
-            'names' => array('a', 'b')
-        ));
-
-        $this->assertRefuse($form, array(
-            'names' => array(str_repeat('x', 25))
-        ));
-
-        $this->assertRefuse($form, array(
-            'names' => array(array('a', 'b'))
-	));
-
-	$form->names = array('xxx');
-	$html = "$form";
-	$this->assertContains('xxx', $html);
-    }
-
-    /**
      * Testing that we can't change the readonly field
      */
     public function testReadOnly()
