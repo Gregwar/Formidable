@@ -21,10 +21,15 @@ $form = new Gregwar\Formidable\Form('<form method="post">
             First name: <input name="first_name" mapping="firstName" /><br />
             Last name: <input name="last_name" mapping="lastName" /><br />
             Age: <input type="int" name="age" min="7" mapping="age" optional />
+            Gender:
+            <select mapping="gender" name="gender">
+                <option value="m">Male</option>
+                <option value="f">Female</option>
+            </select>
         </fieldset>
     </multiple>
     <input type="submit" />
-    </form>');
+    </form>', array(), true);
 
 $form->handle(function() use ($form) {
     var_dump($form->getData(new Film));
