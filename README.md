@@ -150,6 +150,10 @@ Here is the list of available attributes:
 * `optional`: tell that the field is not required
 * `readonly`: the field is readonly and should not be modifier
 * `value`: the default value for the field
+* `min-entries`: specify the minimum number of
+  entries that you should provide for a multiple (see below)
+* `max-entries`: specify the maximum number of
+  entries that you can provide for a multiple (see below)
 
 ## API
 
@@ -305,6 +309,32 @@ You can use:
 
 * `getData($entity = array())`: populate and return entity with data populated
 * `setData($entity)`: populate the form with the entity attributes
+
+## Creating multiple sub-forms
+
+You can add multiple sub-forms to a page using the `<multiple>` tag:
+
+```html
+<form method="post">
+    Film name: <input type="text" name="film_name" mapping="name" />
+
+    <h2>Actors</h2>
+    <multiple name="actors" mapping="actors">
+        First name: <input name="first_name" mapping="firstName" /><br />
+        Last name: <input name="last_name" mapping="lastName" /><br />
+    </multiple>
+    <input type="submit" />
+</form>
+```
+
+With this, the `<multiple>` can be used exactly like a field, but it will
+contains an array of elements.
+
+Some JS will be injected in the page and allow you to add/remove some 
+elements.
+
+You can use `min-entries` and `max-entries` constraint to set limits on the
+number of entries in a multiple.
 
 ## Adding dynamic data into the form
 
