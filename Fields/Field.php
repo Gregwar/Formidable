@@ -29,7 +29,7 @@ abstract class Field extends LanguageAware
     /**
      * Field value
      */
-    protected $value = false;
+    protected $value = null;
 
     /**
      * Is this field optional ?
@@ -169,9 +169,10 @@ abstract class Field extends LanguageAware
 
     public function printName()
     {
-        if ($this->prettyname)
-
+        if ($this->prettyname) {
             return $this->prettyname;
+        }
+
         return $this->name;
     }
 
@@ -251,25 +252,6 @@ abstract class Field extends LanguageAware
         }
     }
 
-    public function getHtmlForValue($given_value = '', $name_suffix = '')
-    {
-        $html = '<input ';
-        foreach ($this->attributes as $name => $value) {
-            $html.= $name.'="'.$value.'" ';
-        }
-        if (!$this->optional) {
-            $html.= 'required="required" ';
-        }
-        $html.= 'type="'.$this->type.'" ';
-        $html.= 'name="'.$this->name.$name_suffix.'" ';
-        if ($given_value) {
-            $html.= 'value="'.htmlspecialchars($given_value).'" ';
-        }
-        $html.= '/>';
-
-        return $html;
-    }
-
     public function __toString()
     {
         return $this->getHtml();
@@ -277,7 +259,26 @@ abstract class Field extends LanguageAware
 
     public function getHtml()
     {
-        return $this->getHtmlForValue($this->value);
+        $html = '<input ';
+
+        foreach ($this->attributes as $name => $value) {
+            $html.= $name.'="'.$value.'" ';
+        }
+
+        if (!$this->optional) {
+            $html.= 'required="required" ';
+        }
+
+        $html.= 'type="'.$this->type.'" ';
+        $html.= 'name="'.$this->getName().'" ';
+
+        if (($value = $this->getValue()) !== null) {
+            $html.= 'value="'.htmlspecialchars($value).'" ';
+        }
+
+        $html.= '/>';
+
+        return $html;
     }
 
     public function getSource()

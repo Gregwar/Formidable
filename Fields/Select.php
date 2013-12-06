@@ -62,7 +62,7 @@ class Select extends Field
 
     public function getHtml()
     {
-        $html = '<select name="'.$this->name.'" ';
+        $html = '<select name="'.$this->getName().'" ';
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }

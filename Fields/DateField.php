@@ -94,7 +94,7 @@ class DateField extends Field
     {
         $select = new Select;
         $select->setLanguage($this->language);
-	$select->push('name', $this->name.'['.$name.']');
+	$select->push('name', $this->getName().'['.$name.']');
 
 	if ($this->value && $this->value[$name]) {
 	    $select->setValue($this->value[$name]);

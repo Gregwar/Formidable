@@ -21,13 +21,15 @@ class Textarea extends Field
 
     public function getHtml()
     {
-        $html ='<textarea name="'.$this->name.'" ';
+        $html ='<textarea name="'.$this->getName().'" ';
+
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
-        $html.= ">";
+
+        $html.= '>';
         $html.= htmlspecialchars($this->value);
-        $html.= "</textarea>\n";
+        $html.= '</textarea>'."\n";
 
         return $html;
     }
