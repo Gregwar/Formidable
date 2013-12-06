@@ -247,6 +247,11 @@ abstract class Field extends LanguageAware
         return $this->value;
     }
 
+    public function getMappingValue()
+    {
+        return $this->getValue();
+    }
+
     /**
      * Définition de la valeur
      */

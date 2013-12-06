@@ -54,12 +54,34 @@ class Multiple extends Field
         $this->setValues($value, array());
     }
 
+    public function check()
+    {
+        $errors = array();
+
+        foreach ($this->forms as $form) {
+            $errors = array_merge($errors, $form->check());
+        }
+
+        return $errors;
+    }
+
     public function getValue()
     {
         $value = array();
 
         foreach ($this->forms as $index => $form) {
             $value[$index] = $form->getValues();
+        }
+
+        return $value;
+    }
+
+    public function getMappingValue()
+    {
+        $value = array();
+
+        foreach ($this->forms as $index => $form) {
+            $value[$index] = $form->getData();
         }
 
         return $value;

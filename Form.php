@@ -358,7 +358,11 @@ class Form
                 $error = $field->check();
 
                 if ($error) {
-                    $errors[] = new Error($field, $error, $this->factory->getLanguage());
+                    if ($field instanceof Fields\Multiple) {
+                        $errors = array_merge($error, $errors);
+                    } else {
+                        $errors[] = new Error($field, $error, $this->factory->getLanguage());
+                    }
                 }
             }
         }
@@ -388,9 +392,9 @@ class Form
         foreach ($this->getFields() as $name => $field) {
             if ($mapping = $field->getMappingName()) {
                 if (is_array($entity)) {
-                    $entity[$mapping] = $field->getValue();
+                    $entity[$mapping] = $field->getMappingValue();
                 } else {
-                    $this->accessor->setValue($entity, $mapping, $field->getValue());
+                    $this->accessor->setValue($entity, $mapping, $field->getMappingValue());
                 }
             }
         }
