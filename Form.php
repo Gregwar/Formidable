@@ -116,8 +116,9 @@ class Form
     {
         $language = $this->factory->getLanguage();
 
-        if ($language && $this->parserData) {
-            foreach ($this->parserData->getFields() as &$field) {
+	if ($language && $this->parserData) {
+	    $fields = $this->parserData->getFields();
+            foreach ($fields as &$field) {
                 $field->setLanguage($this->factory->getLanguage());
             }
         }
