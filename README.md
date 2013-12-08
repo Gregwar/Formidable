@@ -117,8 +117,8 @@ library (you will have to install dependencies using composer).
 The following input types are supported:
 
 * `text`
-* `number`, see `min` and `max` attributes
-* `integer`, see `min` and `max` attributes
+* `number` or `numeric`, see `min` and `max` attributes
+* `int` or `integer`, see `min` and `max` attributes
 * `file`
 * `checkbox`
 * `radio`
