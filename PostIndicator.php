@@ -78,7 +78,7 @@ class PostIndicator
      */
     public function posted()
     {
-        return (isset($_POST[self::$fieldName]) && $this->getTOken() && $this->getToken() == $_POST[self::$fieldName]);
+        return (isset($_POST) && isset($_POST[self::$fieldName]) && $this->getToken() && $this->getToken() == $_POST[self::$fieldName]);
     }
 
     public function __toString()
