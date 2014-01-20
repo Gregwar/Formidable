@@ -68,7 +68,7 @@ class Select extends Field
         }
 	$html.= ">\n";
 
-	if ($this->optional) {
+	if (!$this->required) {
 	    $html .= '<option value=""></option>';
 	}
 

@@ -63,7 +63,6 @@ class MulticheckboxField extends Field
         foreach ($datas as $value => $label) {
             $this->checkboxes[$value] = $checkbox = new CheckboxField;
             $checkbox->push('name', $this->nameFor($value));
-            $checkbox->push('optional', null);
             $checkbox->push('value', '1');
             $this->labels[$this->nameFor($value)] = $label;
 

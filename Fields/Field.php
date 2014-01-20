@@ -33,9 +33,9 @@ abstract class Field extends LanguageAware
     protected $value = null;
 
     /**
-     * Is this field optional ?
+     * Is this field required ?
      */
-    protected $optional = false;
+    protected $required = false;
 
     /**
      * Regular expression
@@ -77,7 +77,7 @@ abstract class Field extends LanguageAware
     {
         return array(
             'constraints', 'mapping', 'valueChanged',
-            'readonly', 'prettyname', 'minlength', 'maxlength', 'regex', 'optional',
+            'readonly', 'prettyname', 'minlength', 'maxlength', 'regex', 'required',
             'type', 'name', 'attributes', 'value'
         );
     }
@@ -124,8 +124,6 @@ abstract class Field extends LanguageAware
     public function push($name, $value = null)
     {
         switch ($name) {
-        case 'required':
-            break;
         case 'name':
             $this->name = $value;
             break;
@@ -134,8 +132,8 @@ abstract class Field extends LanguageAware
         case 'value':
             $this->setValue($value, true);
             break;
-        case 'optional':
-            $this->optional = true;
+        case 'required':
+            $this->required = true;
             break;
         case 'regex':
             $this->regex = $value;
@@ -187,7 +185,7 @@ abstract class Field extends LanguageAware
         }
 
         if (null === $this->value || '' === $this->value) {
-            if (!$this->optional) {
+            if ($this->required) {
                 return array('value_required', $this->printName());
             }
         } else {
@@ -281,7 +279,7 @@ abstract class Field extends LanguageAware
             $html.= $name.'="'.$value.'" ';
         }
 
-        if (!$this->optional) {
+        if ($this->required) {
             $html.= 'required="required" ';
         }
 

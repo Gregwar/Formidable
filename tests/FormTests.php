@@ -255,7 +255,7 @@ class FormTests extends \PHPUnit_Framework_TestCase
     /**
      * Testing that accessing a non-existent field raise an exception
      *
-     * @expectedException              \Exception
+     * @expectedException              \InvalidArgumentException
      */
     public function testAccessingNotExistingField()
     {

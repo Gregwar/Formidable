@@ -93,7 +93,7 @@ class ParserData
         if (isset($this->fields[$name])) {
             return $this->fields[$name];
         } else {
-            throw new \Exception('Field with name '.$name.' not found');
+            throw new \InvalidArgumentException('Field with name '.$name.' not found');
         }
     }
 }

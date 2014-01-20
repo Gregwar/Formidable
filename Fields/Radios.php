@@ -70,7 +70,7 @@ class Radios extends Field
 
     public function check()
     {
-        if (!$this->optional && !$this->valueSet) {
+        if ($this->required && !$this->valueSet) {
             return array('should_check', $this->radios[0]->printName());
         }
     }

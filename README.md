@@ -117,8 +117,8 @@ library (you will have to install dependencies using composer).
 The following input types are supported:
 
 * `text`
-* `number`, see `min` and `max` attributes
-* `integer`, see `min` and `max` attributes
+* `number` or `numeric`, see `min` and `max` attributes
+* `int` or `integer`, see `min` and `max` attributes
 * `file`
 * `checkbox`
 * `radio`
@@ -147,7 +147,7 @@ Here is the list of available attributes:
 * `regex`: the regexp that the value should respect
 * `min` (for numbers): the minimum value
 * `max` (for numbers): the maximum value
-* `optional`: tell that the field is not required
+* `required`: tell that the field is required
 * `readonly`: the field is readonly and should not be modifier
 * `value`: the default value for the field
 * `min-entries`: specify the minimum number of
@@ -383,7 +383,7 @@ The `$label` will be interpreted using PHP.
 
 For performances reasons, you may want to cache the parsed forms.
 
-To do this, simply pass `true` as the first argument of the constructor:
+To do this, simply pass `true` as the third argument of the constructor:
 
 ```php
 <?php

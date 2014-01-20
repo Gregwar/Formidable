@@ -78,7 +78,7 @@ class FileField extends Field
                 }
             }
         } else {
-            if (!$this->optional) {
+            if ($this->required) {
                 return array('file_required', $this->printName());
             }
         }
