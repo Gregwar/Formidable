@@ -17,6 +17,11 @@ class CaptchaField extends Field
     protected $builder = null;
 
     /**
+     * Captcha is required
+     */
+    protected $required = true;
+
+    /**
      * Field type (text)
      */
     protected $type = 'text';
