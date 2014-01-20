@@ -383,7 +383,7 @@ The `$label` will be interpreted using PHP.
 
 For performances reasons, you may want to cache the parsed forms.
 
-To do this, simply pass `true` as the first argument of the constructor:
+To do this, simply pass `true` as the third argument of the constructor:
 
 ```php
 <?php
