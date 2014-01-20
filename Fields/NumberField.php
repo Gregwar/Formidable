@@ -47,7 +47,7 @@ class NumberField extends Field
 
     public function check()
     {
-        if ($this->optional && !$this->value) {
+        if (!$this->required && !$this->value) {
             return;
         }
 

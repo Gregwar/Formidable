@@ -28,7 +28,7 @@ class DateField extends Field
 
     public function push($var, $value = null)
     {
-	if ($var == 'name' || $var == 'optional' || $var == 'mapping') {
+	if ($var == 'name' || $var == 'required' || $var == 'mapping') {
 	    parent::push($var, $value);
 	} else {
 	    $this->pushSave[$var] = $value;
@@ -76,7 +76,7 @@ class DateField extends Field
 	    }
 	}
 
-        if ((!$this->optional && $filled==0)||($filled>0 && $filled<count($this->fields))) {
+        if (($this->required && $filled==0)||($filled>0 && $filled<count($this->fields))) {
             return array('bad_date', $this->printName());
 	}
     }

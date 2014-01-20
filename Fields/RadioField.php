@@ -38,6 +38,10 @@ class RadioField extends Field
         if ($this->checked) {
             $parent->setValue($this->value);
         }
+
+        if ($this->required) {
+            $parent->push('required', null);
+        }
     }
 
     public function push($name, $value = null)

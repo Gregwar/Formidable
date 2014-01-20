@@ -147,7 +147,7 @@ Here is the list of available attributes:
 * `regex`: the regexp that the value should respect
 * `min` (for numbers): the minimum value
 * `max` (for numbers): the maximum value
-* `optional`: tell that the field is not required
+* `required`: tell that the field is required
 * `readonly`: the field is readonly and should not be modifier
 * `value`: the default value for the field
 * `min-entries`: specify the minimum number of

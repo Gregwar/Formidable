@@ -198,7 +198,6 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test du typehint
      * Testing typehinting
      * @expectedException       \InvalidArgumentException
      */

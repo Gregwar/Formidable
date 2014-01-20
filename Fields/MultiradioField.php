@@ -38,7 +38,7 @@ class MultiradioField extends Field
 
     public function check()
     {
-        if (!$this->optional && !$this->value) {
+        if ($this->required && !$this->value) {
             return array('should_check', $this->printName());
         }
     }

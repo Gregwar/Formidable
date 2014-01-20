@@ -13,9 +13,4 @@ class HiddenField extends Field
      * Field type
      */
     protected $type = 'hidden';
-
-    /**
-     * Optional by default
-     */
-    protected $optional = true;
 }

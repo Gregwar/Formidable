@@ -1,28 +1,28 @@
 <form method="post" name="demo">
     First name:<br />
-    <input type="text" name="firstname" mapping="firstname" /><br />
+    <input type="text" name="firstname" mapping="firstname" required /><br />
 
     Age:<br />
-    <input type="int" value="" name="age" mapping="age" min="0" /><br />
+    <input type="int" value="" name="age" mapping="age" min="0" required /><br />
 
     E-mail :<br />
-    <input type="email" name="email" mapping="email" optional prettyname="e-mail address" /><br />
+    <input type="email" name="email" mapping="email" prettyname="e-mail address" /><br />
 
     Gender:<br />
-    <label><input type="radio" name="gender" value="m" mapping="gender" /> Homme</label><br />
+    <label><input type="radio" name="gender" value="m" required mapping="gender" /> Homme</label><br />
     <label><input type="radio" name="gender" value="f" /> Femme</label><br />
 
     Birthday:<br />
-    <input type="date" name="date" optional mapping="birthday" /><br />
+    <input type="date" name="date" mapping="birthday" /><br />
 
     Photo:<br />
-    <input type="file" filetype="image" name="photo" optional /><br />
+    <input type="file" filetype="image" name="photo" /><br />
 
     Choose some animals:<br />
-    <input type="multicheckbox" source="animals" name="animals" mapping="animals" />
+    <input type="multicheckbox" source="animals" required name="animals" mapping="animals" />
 
     CAPTCHA:<br />
-    <input type="captcha" name="code" />
+    <input type="captcha" name="code" required />
 
     <hr />
     <input type="submit" />

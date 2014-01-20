@@ -71,7 +71,7 @@ class Form
             } else if ($cache instanceof \Gregwar\Cache\Cache) {
                 $this->cache = $cache;
             } else {
-                throw new \Exception('The parameter $cache should be false, true or an instance of Gregwar\Cache\Cache');
+                throw new \InvalidArgumentException('The parameter $cache should be false, true or an instance of Gregwar\Cache\Cache');
             }
         }
 
@@ -134,7 +134,7 @@ class Form
                 extract($this->variables);
             } else {
                 if ($this->variables !== null) {
-                    throw new \Exception('$variables argument should be null or an array');
+                    throw new \InvalidArgumentException('$variables argument should be null or an array');
                 }
             }
 
