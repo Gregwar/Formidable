@@ -26,5 +26,6 @@ class English extends Language
         'should_choose' => 'You should choose a field for %s',
         'multiple_min' => 'You should at least provide %d entries for %s',
         'multiple_mmax' => 'You should not provide more than %d entries for %s',
+        'bad_array_value', 'The value for fields %s is not correct',
     );
 }

@@ -20,6 +20,7 @@ abstract class Field extends LanguageAware
      * Field name
      */
     protected $name;
+    protected $index = null;
     protected $hook = null;
 
     /**
@@ -78,7 +79,7 @@ abstract class Field extends LanguageAware
         return array(
             'constraints', 'mapping', 'valueChanged',
             'readonly', 'prettyname', 'minlength', 'maxlength', 'regex', 'required',
-            'type', 'name', 'attributes', 'value'
+            'type', 'name', 'attributes', 'value', 'index'
         );
     }
 
@@ -125,7 +126,7 @@ abstract class Field extends LanguageAware
     {
         switch ($name) {
         case 'name':
-            $this->name = $value;
+            $this->setName($value);
             break;
         case 'type':
             break;
@@ -217,12 +218,28 @@ abstract class Field extends LanguageAware
 
     public function getName()
     {
+        $name = $this->getBaseName();
+
+        if ($this->index !== null) {
+            $name .= '['.$this->index.']';
+        }
+
         if ($this->hook !== null) {
             $hook = $this->hook;
-            return $hook($this->name);
+            return $hook($name);
         } else {
-            return $this->name;
+            return $name;
         }
+    }
+
+    public function getBaseName()
+    {
+        return $this->name;
+    }
+
+    public function getIndex()
+    {
+        return $this->index;
     }
 
     public function hookName(\Closure $hook)
@@ -232,7 +249,12 @@ abstract class Field extends LanguageAware
 
     public function setName($name)
     {
-        $this->name = $name;
+        if (preg_match('#^(.+)\[(.*)\]$#mUsi', $name, $match) == 1) {
+            $this->name = $match[1];
+            $this->index = $match[2] ?: '';
+        } else {
+            $this->name = $name;
+        }
     }
 
     public function getMappingName()

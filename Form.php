@@ -201,8 +201,23 @@ class Form
     {
         $values = array();
         
-        foreach ($this->getFields() as $name => $field) {
-            $values[$name] = $field->getValue();
+        foreach ($this->getFields() as $field) {
+            $name = $field->getBaseName();
+            $index = $field->getIndex();
+
+            if ($index === null) {
+                $values[$name] = $field->getValue();
+            } else {
+                if (!isset($values[$name])) {
+                    $values[$name] = array();
+                }
+
+                if (trim($index)) {
+                    $values[$name][$index] = $field->getValue();
+                } else {
+                    $values[$name][] = $field->getValue();
+                }
+            }
         }
 
         return $values;
@@ -214,11 +229,31 @@ class Form
     public function setValues($values, array $files = array())
     {
         foreach ($this->getFields() as $name => $field) {
-            if (isset($values[$name])) {
-                if ($field instanceof Field\Multiple) {
-                    $field->setValues($values[$name], $files);
+            $name = $field->getBaseName();
+            $index = $field->getIndex();
+
+            if ($index === null) { 
+                if ($present = isset($values[$name])) {
+                    $value =& $values[$name];
+                }
+            } else {
+                if (trim($index)) {
+                    if ($present = isset($values[$name]) && is_array($values[$name])
+                        && isset($values[$name][$index])) {
+                            $value = $values[$name][$index];
+                    }
                 } else {
-                    $field->setValue($values[$name], $files);
+                    if ($present = isset($values[$name]) && is_array($values[$name])) {
+                        $value = in_array($field->getValue(), $values[$name]);
+                    }
+                }
+            }
+
+            if ($present) {
+                if ($field instanceof Field\Multiple) {
+                    $field->setValues($value, $files);
+                } else {
+                    $field->setValue($value, $files);
                 }
             } else {
                 if ($field instanceof Fields\FileField && isset($files[$name])) {

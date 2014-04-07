@@ -645,6 +645,27 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing an array of chk[]
+     */
+    public function testCheckArray()
+    {
+        $form = $this->getForm('chk_array.html');
+
+        $html = "$form";
+        $this->assertEquals(substr_count($html, 'chk[]'), 3);
+
+        $this->assertAccept($form, array('chk' => array('1', '3')));
+        $html = "$form";
+
+        $this->assertEquals(substr_count($html, 'checked="checked"'), 2);
+
+        $value = $form->getValue('chk');
+        $this->assertEquals($value, array('1', '3'));
+
+        $this->assertRefuse($form, array('chk' => 'x'));
+    }
+
+    /**
      * Testing that a form accept data
      */
     private function assertAccept($form, $data, $files = array()) {

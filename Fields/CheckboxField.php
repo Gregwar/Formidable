@@ -63,6 +63,11 @@ class CheckboxField extends Field
         return $this->checked ? $this->checkedValue : '';
     }
 
+    public function getCheckedValue()
+    {
+        return $this->checkedValue;
+    }
+
     public function check()
     {
         return;

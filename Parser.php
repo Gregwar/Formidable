@@ -166,7 +166,18 @@ class Parser extends ParserData
                                 if ($newNode instanceof Head) {
                                     $this->head = $newNode;
                                 } else {
-                                    $this->fields[$newNode->getName()] = $newNode;
+                                    if ($newNode->getIndex() === '') {
+                                        $name = $newNode->getBaseName();
+
+                                        if (!isset($this->fields[$name])) {
+                                            $this->fields[$name] = new Fields\Group;
+                                            $this->fields[$name]->setName($name);
+                                        }
+
+                                        $this->fields[$name]->addChild($newNode);
+                                    } else {
+                                        $this->fields[$newNode->getName()] = $newNode;
+                                    }
                                 }
 
                                 if ($newNode instanceof Fields\FileField && $this->head) {
