@@ -53,6 +53,11 @@ class Form
     protected $cache = null;
 
     /**
+     * Form constraints
+     */
+    protected $constraints = array();
+
+    /**
      * Is the form cached?
      */
     public $isCached = true;
@@ -309,9 +314,18 @@ class Form
     /**
      * Add a constraint on a field
      */
-    public function addConstraint($name, $closure)
+    public function addConstraint($name, $closure = null)
     {
-        $this->getField($name)->addConstraint($closure);
+        if ($name instanceof \Closure) {
+            $closure = $name;
+            $name = null;
+        }
+
+        if ($name == null) {
+            $this->constraints[] = $closure;
+        } else {
+            $this->getField($name)->addConstraint($closure);
+        }
     }
 
     /**
@@ -413,6 +427,14 @@ class Form
                 if ($field instanceof Fields\Multiple) {
                     $errors = array_merge($errors, $field->checkForms());
                 }
+            }
+        }
+
+        foreach ($this->constraints as $constraint) {
+            $error = $constraint($this);
+
+            if ($error) {
+                $errors[] = new Error(null, $error, $this->factory->getLanguage());
             }
         }
 

@@ -88,6 +88,13 @@ $form->addConstraint('name', function($value) {
         return 'Your name should be at least 10 characters!';
     }
 });
+
+// Adds a constraint on the whole form
+$form->addConstraint(function($form) {
+    if ($form->getValue('pass1') != $form->getValue('pass2')) {
+        return 'The passwords are different';
+    }
+});
 ```
 
 You can also try to change your form and add constraint directly in
@@ -169,7 +176,9 @@ You can call these method on your `$form` object:
 * `source($source, $values)`: feed a source (see the "Source" section)
 * `addConstraint($field, $callback)`: adds a custom constraint on a field, the 
   `callback` will be called with the field value and should return false if no
-  problem, or an error string 
+  problem, or an error string. If you just pass a closure to it, the closure will
+  be called with the form passed as argument and can then do some tests involving
+  multiple fields or form information.
 * `setValue($field, $value)`: set the value of a field
 * `getValue($field)`: gets the value of a field
 * `setValues(array $values)`: set the values for some fields

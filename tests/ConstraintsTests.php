@@ -666,6 +666,30 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing constraints on the whole form
+     */
+    public function testGlobalConstraints()
+    {
+        $form = $this->getForm('passwords.html');
+
+        $form->addConstraint(function($form) {
+            if ($form->getValue('pass1') != $form->getValue('pass2')) {
+                return 'The two passwords are different';
+            }
+        });
+
+        $this->assertAccept($form, array(
+            'pass1' => 'foo',
+            'pass2' => 'foo'
+        ));
+
+        $this->assertRefuse($form, array(
+            'pass1' => 'foo',
+            'pass2' => 'bar'
+        ));
+    }
+
+    /**
      * Testing that a form accept data
      */
     private function assertAccept($form, $data, $files = array()) {

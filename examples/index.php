@@ -3,7 +3,7 @@ session_start(); // required for CSRF
 include(__DIR__.'/../autoload.php');
 include('person.php');
 
-$form = new Gregwar\Formidable\Form('forms/demoform.html', array(), true);
+$form = new Gregwar\Formidable\Form('forms/demoform.html', array());
 
 // Example for setting language to french
 // $form->setLanguage(new Gregwar\Formidable\Language\French);
@@ -20,7 +20,7 @@ $form->source('animals', array(
 ));
 
 $errors = $form->handle(function() use ($form) {
-    $data = $form->getData(new Person);
+    $data = $form->getValues();
     var_dump($data);
 });
 
