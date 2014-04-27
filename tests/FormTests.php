@@ -226,19 +226,6 @@ class FormTests extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($html, $otherHtml);
     }
-    
-    /**
-     * Testing the <custom> tag
-     */
-    public function testCustom()
-    {
-        $form = $this->getForm('custom.html');
-        $form->source('something', 'Hello world!');
-        $html = $form->getHtml();
-
-        $this->assertNotContains('custom', $html);
-        $this->assertContains('Hello world!', $html);
-    }
 
     /**
      * Testing running the PHP interpreter on the form
@@ -262,6 +249,19 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $form = $this->getForm('basic.html');
 
         $form->getField('titi');
+    }
+
+    public function testPlaceholder()
+    {
+        $form = $this->getForm('placeholder.html');
+
+        $html = "$form";
+        $this->assertNotContains('something', $html);
+
+        $form->setPlaceholder('something', 'hello!');
+        
+        $html = "$form";
+        $this->assertContains('hello!', $html);
     }
 
     /**

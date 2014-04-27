@@ -207,6 +207,33 @@ class Parser extends ParserData
         if (null === $this->getHead()) {
             throw new ParserException('The Formidable form should have a <form> tag');
         }
+
+        $this->findPlaceholders();
+    }
+
+    /**
+     * Parsing second pass, finding placeholders in strings
+     */
+    protected function findPlaceholders()
+    {
+        $data = array();
+
+        foreach ($this->data as $part) {
+            if (is_string($part)) {
+                while (preg_match('#^(.+){{([^}]+)}}(.+)$#mUsi', $part, $match)) {
+                    $data[] = $match[1];
+                    $placeholder = new Placeholder($match[2]);
+                    $data[] = $placeholder;
+                    $this->placeholders[$placeholder->getName()] = $placeholder;
+                    $part = $match[3];
+                }
+                $data[] = $part;
+            } else {
+                $data[] = $part;
+            }
+        }
+
+        $this->data = $data;
     }
 
     /**

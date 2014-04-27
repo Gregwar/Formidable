@@ -28,13 +28,18 @@ class ParserData
     protected $needJs = false;
 
     /**
+     * Placeholders
+     */
+    protected $placeholders = array();
+
+    /**
      * Form header
      */
     protected $head = null;
 
     public function __sleep()
     {
-        return array('data', 'sources', 'fields', 'needJs', 'head');
+        return array('data', 'sources', 'fields', 'needJs', 'head', 'placeholders');
     }
 
     /**
@@ -94,6 +99,15 @@ class ParserData
             return $this->fields[$name];
         } else {
             throw new \InvalidArgumentException('Field with name '.$name.' not found');
+        }
+    }
+
+    public function getPlaceholder($name)
+    {
+        if (isset($this->placeholders[$name])) {
+            return $this->placeholders[$name];
+        } else {
+            throw new \InvalidArgumentException('Placeholder with name '.$name.' not found');
         }
     }
 }

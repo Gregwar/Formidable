@@ -304,6 +304,14 @@ class Form
     }
 
     /**
+     * Defines a placeholder value
+     */
+    public function setPlaceholder($name, $value)
+    {
+        $this->parserData->getPlaceholder($name)->setValue($value);
+    }
+
+    /**
      * Gets a field value
      */
     public function getValue($name)

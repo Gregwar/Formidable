@@ -174,6 +174,7 @@ You can call these method on your `$form` object:
 * `setAttribute($field, $attr, $value)`: sets an extra attribute on a field
 * `getAttribute($field, $attr)`: gets an extra attribute on a field
 * `source($source, $values)`: feed a source (see the "Source" section)
+* `setPlaceholder($name, $value)`: sets a placeholder value (see below)
 * `addConstraint($field, $callback)`: adds a custom constraint on a field, the 
   `callback` will be called with the field value and should return false if no
   problem, or an error string. If you just pass a closure to it, the closure will
@@ -349,23 +350,37 @@ number of entries in a multiple.
 
 In some case, you'll want to add custom data into the form, there is two way to do this.
 
-### First way: using the `<custom>` tag
+### First way: using the placeholders
 
-The `<custom source="name" />` tag allow you to simply inject data from the code, like this:
+The `{{ something }}` syntax allow you to simply inject data from the code, like this:
 
 ```php
 <?php
 
 $form = new Gregwar\Formidable\Form('<form method="post">
-    <custom source="something" />
+    Hello {{ name }}!
     </form>');
 
-$form->source('something', 'Hello world!');
+$form->setPlaceholder('name', 'Bob');
 
 echo $form;
 ```
 
-In the example above, the `<custom>` tag will not be rendered, but `Hello world!` will appear instead
+In the example above, the `{{ name }}` will be rendered as `Bob`.
+
+Note that placeholders may be used anyway excepted in the `<form>` and input tags:
+
+```php
+<?php
+
+$form = new Gregwar\Formidable\Form('<form method="post">
+    <span style="color:{{ color }}">Hello</span>
+    </form>');
+
+$form->setPlaceholder('color', 'red');
+
+echo $form;
+```
 
 ### Second way: using PHP form
 
