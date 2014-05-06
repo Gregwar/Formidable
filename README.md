@@ -161,6 +161,8 @@ Here is the list of available attributes:
   entries that you should provide for a multiple (see below)
 * `max-entries`: specify the maximum number of
   entries that you can provide for a multiple (see below)
+* `entries`: specify both minimum and maximum number of entries
+  for a multiple (see below)
 
 ## API
 
@@ -345,6 +347,10 @@ elements.
 
 You can use `min-entries` and `max-entries` constraint to set limits on the
 number of entries in a multiple.
+
+If you specify the same value for `min-entries` and `max-entries`, or specify
+a value for `entries` (which is actually an alias to do it), the number ofr inputs
+will be fixed and no javascript will be required.
 
 ## Adding dynamic data into the form
 

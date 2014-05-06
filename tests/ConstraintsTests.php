@@ -645,6 +645,34 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing <multiple>
+     */
+    public function testFixedMultiple()
+    {
+        $form = $this->getForm('multiple_fixed.html');
+        $html = "$form";
+
+        $this->assertEquals(2, substr_count($html, 'First name'));
+        $this->assertNotContains('script', $html);
+
+        $this->assertAccept($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '8'),
+            array('first_name' => 'Jack', 'age' => '18'),
+        )));
+        
+        $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '8'),
+            array('first_name' => 'Jack', 'age' => '18'),
+            array('first_name' => 'Brian', 'age' => '22'),
+        )));
+
+        $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
+            array('first_name' => 'Bob', 'age' => '3'),
+            array('first_name' => 'Jack', 'age' => '18'),
+        )));
+    }
+
+    /**
      * Testing an array of chk[]
      */
     public function testCheckArray()
@@ -697,7 +725,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $_POST[PostIndicator::$fieldName] = $form->getToken();
         $_FILES = $files;
         $this->assertTrue($form->posted());
-        $this->assertEmpty($form->check());
+        $this->assertEmpty($form->check(), 'There was error in a form that should be accepted');
     }
 
     /**
@@ -708,7 +736,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $_POST[PostIndicator::$fieldName] = $form->getToken();
         $_FILES = $files;
         $this->assertTrue($form->posted());
-        $this->assertNotEmpty($form->check());
+        $this->assertNotEmpty($form->check(), 'There was no error in a form that should not be accepted');
     }
 
     private function getForm($file)

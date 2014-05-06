@@ -30,6 +30,7 @@ class Multiple extends Field
     protected $minEntries = null;
     protected $maxEntries = null;
 
+
     public function setParserData(ParserData $parserData)
     {
         $this->parserData = $parserData;
@@ -42,6 +43,10 @@ class Multiple extends Field
             $this->minEntries = (int)$value;
             return;
         case 'max-entries':
+            $this->maxEntries = (int)$value;
+            return;
+        case 'entries':
+            $this->minEntries = (int)$value;
             $this->maxEntries = (int)$value;
             return;
         }
@@ -134,6 +139,12 @@ class Multiple extends Field
 
     public function getHtml()
     {
+        $js = $this->needJs();
+
+        for ($i=0; $i<$this->minEntries; $i++) {
+            $this->getForm($i);
+        }
+
         $id = 'multiple'.uniqid(time().mt_rand());
         $prototype = new DataForm($this->parserData, $this->language);
 
@@ -143,22 +154,26 @@ class Multiple extends Field
             $fid = 'multiple'.uniqid(time().mt_rand());
             $html .= '<div class="multiple-element" id="'.$fid.'"/>';
             $html .= $this->getHtmlOfForm($form, $index);
-            $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">';
-            $html .= $this->language->translate('remove');
-            $html .= '</a><br />';
+            if ($js) {
+                $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">';
+                $html .= $this->language->translate('remove');
+                $html .= '</a><br />';
+            }
             $html .= '</div>';
         }
         $html .= '</div>'."\n";
         $html .= '<div class="multiple-buttons">';
-        $html .= '<script type="text/javascript">';
-        $html .= 'var '.$id.'_code = ';
-        $html .= json_encode($this->getHtmlOfForm($prototype, '{number}'));
-        $html .= ";\n";
-        $html .= 'Formidable.multiple["'.$id.'"] = '.count($this->forms).";\n";
-        $html .= '</script>';
-        $html .= '<a href="javascript:Formidable.addInput(\''.$id.'\', '.$id.'_code);">';
-        $html .= $this->language->translate('add');
-        $html .= '</a>';
+        if ($js) {
+            $html .= '<script type="text/javascript">';
+            $html .= 'var '.$id.'_code = ';
+            $html .= json_encode($this->getHtmlOfForm($prototype, '{number}'));
+            $html .= ";\n";
+            $html .= 'Formidable.multiple["'.$id.'"] = '.count($this->forms).";\n";
+            $html .= '</script>';
+            $html .= '<a href="javascript:Formidable.addInput(\''.$id.'\', '.$id.'_code);">';
+            $html .= $this->language->translate('add');
+            $html .= '</a>';
+        }
         $html .= '</div>';
         $html .= '</div>'."\n";
 
@@ -173,6 +188,8 @@ class Multiple extends Field
 
     public function needJs()
     {
-        return true;
+        return ($this->minEntries === null
+            || $this->maxEntries === null
+            || ($this->minEntries != $this->maxEntries));
     }
 }
