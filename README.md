@@ -107,7 +107,7 @@ the HTML code:
 This will force the text to be at least 10 characters long when the
 server-side constraints will be checked.
 
-Want a CAPTCHA to secure your form? No problem:
+Want a CAPTCHA to secure your form?
 
 ```html
 <input type="captcha" name="code" />
@@ -123,19 +123,20 @@ library (you will have to install dependencies using composer).
 
 The following input types are supported:
 
-* `text`
-* `number` or `numeric`, see `min` and `max` attributes
-* `int` or `integer`, see `min` and `max` attributes
-* `file`
-* `checkbox`
-* `radio`
-* `hidden`
-* `password`
-* `captcha`, will automatically generate an image
-* `date`, will generate three selects, and return a `DateTime` as data
-* `multiradio` and `multicheckbox` (see the source section)
-
-Moreover, the textareas and select are supported
+* `input` tags, with types:
+    * `text`
+    * `number` or `numeric`, see `min` and `max` attributes
+    * `int` or `integer`, see `min` and `max` attributes
+    * `file`
+    * `checkbox`
+    * `radio`
+    * `hidden`
+    * `password`
+    * `captcha`, will automatically generate an image
+    * `date`, will generate three selects, and return a `DateTime` as data
+    * `multiradio` and `multicheckbox` (see the source section)
+* `textarea`
+* `select`
 
 ## Attributes
 
