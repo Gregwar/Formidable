@@ -37,7 +37,7 @@ class Group extends Field
         }
     }
 
-    public function setValue($value)
+    public function setValue($value, $default = false)
     {
         $this->badValue = false;
 
