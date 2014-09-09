@@ -718,6 +718,35 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing a stepped input
+     */
+    public function testStep()
+    {
+        $form = $this->getForm('step.html');
+
+        $this->assertAccept($form, array('test' => 0.1*32));
+        $this->assertRefuse($form, array('test' => 1.42));
+
+        $form = $this->getForm('step_default.html');
+        $this->assertContains('step="any"', "$form");
+
+        $form = $this->getForm('step_default_int.html');
+        $this->assertContains('step="1"', "$form");
+    }
+
+    /**
+     * Testing that min and max are rendered
+     */
+    public function testMinMaxRendered()
+    {
+        $form = $this->getForm('minmax.html');
+        $html = "$form";
+
+        $this->assertContains('min="5"', $html);
+        $this->assertContains('max="10"', $html);
+    }
+
+    /**
      * Testing that a form accept data
      */
     private function assertAccept($form, $data, $files = array()) {

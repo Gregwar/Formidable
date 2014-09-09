@@ -24,15 +24,20 @@ class NumberField extends Field
      */
     protected $max = null;
 
+    /**
+     * Step
+     */
+    protected $step = 'any';
+
     public function __construct()
     {
-        $this->setAttribute('step', 'any');
+        $this->attributes['step'] = $this->step;
     }
-    
+
     public function __sleep()
     {
         return array_merge(parent::__sleep(), array(
-            'min', 'max'
+            'min', 'max', 'step'
         ));
     }
 
@@ -41,9 +46,15 @@ class NumberField extends Field
         switch ($name) {
             case 'min':
                 $this->min = $value;
+                $this->attributes['min'] = $value;
                 break;
             case 'max':
                 $this->max = $value;
+                $this->attributes['max'] = $value;
+                break;
+            case 'step':
+                $this->step = $value;
+                $this->attributes['step'] = $value;
                 break;
         }
 
@@ -73,6 +84,16 @@ class NumberField extends Field
         if ($this->max !== null) {
             if ($this->value > $this->max) {
                 return array('number_max', $this->printName(), $this->max);
+            }
+        }
+
+        if ($this->step != 'any') {
+            $step = abs((float)$this->step);
+            $value = abs((float)$this->value);
+            $factor = $value/$step;
+            $delta = $factor - ((int)$factor);
+            if ($delta > 0.00001) {
+                return array('number_step', $this->printName(), $this->step);
             }
         }
     }

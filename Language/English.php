@@ -23,6 +23,7 @@ class English extends Language
         'number' => 'Field %s should be a number',
         'number_min' => 'Field %s should be at least equal to %s',
         'number_max' => 'Field %s should not be bigger than %s',
+        'number_step' => 'Field %s should be a multiple of %f',
         'should_choose' => 'You should choose a field for %s',
         'multiple_min' => 'You should at least provide %d entries for %s',
         'multiple_mmax' => 'You should not provide more than %d entries for %s',

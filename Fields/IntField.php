@@ -14,10 +14,10 @@ class IntField extends NumberField
      */
     protected $type = 'number';
 
-    public function __construct()
-    {
-        $this->setAttribute('step', '1');
-    }
+    /**
+     * Step
+     */
+    protected $step = 1;
 
     public function check()
     {
