@@ -90,8 +90,8 @@ class NumberField extends Field
         if ($this->step != 'any') {
             $step = abs((float)$this->step);
             $value = abs((float)$this->value);
-            $factor = $value/$step;
-            $delta = $factor - ((int)$factor);
+            $factor = round($value/$step)*$step;
+            $delta = $value-$factor;
             if ($delta > 0.00001) {
                 return array('number_step', $this->printName(), $this->step);
             }

@@ -724,8 +724,22 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getForm('step.html');
 
+        // Testing accepting
         $this->assertAccept($form, array('test' => 0.1*32));
+        $this->assertAccept($form, array('test' => 0.1*322938292839322));
+        $this->assertAccept($form, array('test' => -0.4));
+        $this->assertAccept($form, array('test' => -pow(10,10)));
+
+        // Values that are not correctly scaled
         $this->assertRefuse($form, array('test' => 1.42));
+        $this->assertRefuse($form, array('test' => -6.01));
+
+        // To avoid numerical approximations problem, values that are
+        // nearly scaled should be accepted
+        $this->assertAccept($form, array('test' => 0.3999999));
+        $this->assertAccept($form, array('test' => 0.4000001));
+        $this->assertAccept($form, array('test' => -0.3999999));
+        $this->assertAccept($form, array('test' => -0.4000001));
 
         $form = $this->getForm('step_default.html');
         $this->assertContains('step="any"', "$form");
