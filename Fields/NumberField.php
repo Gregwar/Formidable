@@ -23,6 +23,11 @@ class NumberField extends Field
      * Maximum value
      */
     protected $max = null;
+
+    public function __construct()
+    {
+        $this->setAttribute('step', 'any');
+    }
     
     public function __sleep()
     {
