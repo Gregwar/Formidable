@@ -115,7 +115,7 @@ class MulticheckboxField extends Field
 
         if ($this->checkboxes) {
             foreach ($this->checkboxes as $checkbox) {
-                $html.= '<div class="'.$this->getAttribute('class').'" />';
+                $html.= '<div class="'.$this->getAttribute('class').'">';
                 $html.= '<label>';
                 $html.= $checkbox->getHtml();
                 $html.= $this->labels[$checkbox->getName()];
