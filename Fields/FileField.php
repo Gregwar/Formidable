@@ -118,7 +118,6 @@ class FileField extends Field
     {
         $unites = array('o', 'Ko', 'Mo', 'Go', 'To', 'Po');
 
-        $size = $this->datas['size'];
         $n = floor(log($size)/log(1024));
         $t = round($size/pow(1024,$n),1);
 
