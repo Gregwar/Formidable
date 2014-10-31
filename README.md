@@ -1,6 +1,6 @@
 # Formidable
 
-![Build status](https://travis-ci.org/Gregwar/Formidable.svg?branch=master)
+[![Build status](https://travis-ci.org/Gregwar/Formidable.svg?branch=master)](https://travis-ci.org/Gregwar/Formidable)
 
 Formidable is a PHP library to handles forms. It parses an HTML
 form and allow you to manipulate it from your PHP code, and then
