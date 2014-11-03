@@ -27,6 +27,6 @@ class German extends Language
         'should_choose' => 'Sie sollten ein Feld für %s auswählen',
         'multiple_min' => 'Sie sollten mindestens %d Einträge für das Feld %s auswählen',
         'multiple_mmax' => 'Sie sollten nicht mehr als %d Einträge für das Feld %s auswählen',
-        'bad_array_value', 'Der Wert des Feldes %s ist nicht korrekt',
+        'bad_array_value' => 'Der Wert des Feldes %s ist nicht korrekt',
     );
 }

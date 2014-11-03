@@ -27,6 +27,6 @@ class French extends Language
         'should_choose' => 'Vous devez choisir une valeur pour %s',
         'multiple_min' => 'Vous devez au moins fournir %d entrées pour %s',
         'multiple_mmax' => 'Vous ne pouvez pas fournir plus de %d entrées pour %s',
-        'bad_array_value', 'La valeur des champs %s n\'est pas correcte',
+        'bad_array_value' => 'La valeur des champs %s n\'est pas correcte',
     );
 }
