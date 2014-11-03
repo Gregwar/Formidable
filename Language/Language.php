@@ -23,6 +23,11 @@ class Language
         return call_user_func_array('sprintf', $args);
     }
 
+    public function set($key, $value)
+    {
+        $this->messages[$key] = $value;
+    }
+
     public function translateArray(array $params)
     {
         $params[0] = $this->getFormat($params[0]);
