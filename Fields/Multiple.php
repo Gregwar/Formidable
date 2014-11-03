@@ -155,9 +155,11 @@ class Multiple extends Field
             $html .= '<div class="multiple-element" id="'.$fid.'"/>';
             $html .= $this->getHtmlOfForm($form, $index);
             if ($js) {
+                $html .= '<span class="multiple-remove">';
                 $html .= '<a href="javascript:Formidable.removeInput(\''.$fid.'\')">';
                 $html .= $this->language->translate('remove');
                 $html .= '</a><br />';
+                $html .= '</span>';
             }
             $html .= '</div>';
         }
