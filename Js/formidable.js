@@ -13,7 +13,7 @@ if (typeof(Formidable) == 'undefined') {
             div.innerHTML = code;
             var number = Formidable.multiple[id]++;
             code = code.replace(/{number}/g, number);
-            div.innerHTML = code + '<a href="javascript:Formidable.removeInput(\''+n+'\');">{remove}</a><br />';
+            div.innerHTML = code + '<span class="multiple-remove"><a href="javascript:Formidable.removeInput(\''+n+'\');">{remove}</a><br /></span>';
             document.getElementById(id).appendChild(div);
         },
         removeInput : function(id) {
