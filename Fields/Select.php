@@ -51,9 +51,13 @@ class Select extends Field
             return $error;
         }
 
-        foreach ($this->options as $opt) {
-            if ($this->value == $opt->getValue()) {
-                return;
+        if (!$this->required && $this->value == '') {
+            return;
+        } else {
+            foreach ($this->options as $opt) {
+                if ($this->value == $opt->getValue()) {
+                    return;
+                }
             }
         }
 
