@@ -13,7 +13,7 @@ class Select extends Field
      * Childrens
      */
     protected $options = array();
-    
+
     public function __sleep()
     {
         return array_merge(parent::__sleep(), array(
@@ -51,9 +51,13 @@ class Select extends Field
             return $error;
         }
 
-        foreach ($this->options as $opt) {
-            if ($this->value == $opt->getValue()) {
-                return;
+        if (!$this->required && $this->value == '') {
+            return;
+        } else {
+            foreach ($this->options as $opt) {
+                if ($this->value == $opt->getValue()) {
+                    return;
+                }
             }
         }
 
@@ -66,11 +70,11 @@ class Select extends Field
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
-	$html.= ">\n";
+        $html.= ">\n";
 
-	if (!$this->required) {
-	    $html .= '<option value=""></option>';
-	}
+        if (!$this->required) {
+            $html .= '<option value=""></option>';
+        }
 
         foreach ($this->options as $option) {
             if ($option->getValue() == $this->value) {

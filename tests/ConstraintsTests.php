@@ -272,8 +272,24 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             'city' => 'xy'
         ));
         
+        $this->assertAccept($form, array(
+            'city' => ''
+        ));
+
+        $form = $this->getForm('select-required.html');
+
+        $this->assertAccept($form, array(
+            'city' => 'la'
+        ));
+
+        $this->assertEquals('la', $form->city);
+
         $this->assertRefuse($form, array(
-            'city' => array('x')
+            'city' => 'xy'
+        ));
+        
+        $this->assertRefuse($form, array(
+            'city' => ''
         ));
     }
 
