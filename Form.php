@@ -255,7 +255,7 @@ class Form
             }
 
             if ($present) {
-                if ($field instanceof Field\Multiple) {
+                if ($field instanceof Fields\Multiple) {
                     $field->setValues($value, $files);
                 } else {
                     $field->setValue($value, $files);
