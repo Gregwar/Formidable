@@ -687,6 +687,17 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             array('first_name' => 'Jack', 'age' => '18'),
         )));
     }
+    
+    /**
+     * Testing bad type
+     
+     * @expectedException               Gregwar\Formidable\ParserException
+     * @expectedExceptionMessage        Unknown field type: name
+     */
+    public function testCheckBadType()
+    {
+        $form = $this->getForm('bad_type.html');
+    }
 
     /**
      * Testing an array of chk[]

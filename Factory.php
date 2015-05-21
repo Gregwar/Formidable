@@ -86,7 +86,11 @@ class Factory extends Language\LanguageAware
      */
     public function getField($name)
     {
-        return $this->inject(new $this->typeClasses[$name]);
+        if (isset($this->typeClasses[$name])) {
+            return $this->inject(new $this->typeClasses[$name]);
+        } else {
+            throw new ParserException('Unknown field type: '.$name);
+        }
     }
 
     /**
