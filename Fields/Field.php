@@ -308,7 +308,7 @@ abstract class Field extends LanguageAware
         $html.= 'type="'.$this->type.'" ';
         $html.= 'name="'.$this->getName().'" ';
 
-        if (($value = $this->getValue()) !== null) {
+        if (($value = $this->getValue()) !== null && gettype($value) != 'object') {
             $html.= 'value="'.htmlspecialchars($value).'" ';
         }
 
