@@ -526,14 +526,14 @@ class Form
     /**
      * Check if the form was posted
      */
-    public function posted($populate = 'post')
+    public function posted($method = 'post')
     {
         $postIndicator = $this->getPostIndicator();
 
-        if ($postIndicator->posted()) {
-            if ($populate == 'post') {
+        if ($postIndicator->posted($method)) {
+            if ($method == 'post') {
                 $this->setValues($_POST, $_FILES);
-            } else if ($populate == 'get') {
+            } else if ($method == 'get') {
                 $this->setValues($_GET);
             }
             return true;

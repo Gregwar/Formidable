@@ -76,9 +76,10 @@ class PostIndicator
     /**
      * Tell if the given form was posted
      */
-    public function posted()
+    public function posted($method = 'post')
     {
-        return (isset($_POST) && isset($_POST[self::$fieldName]) && $this->getToken() && $this->getToken() == $_POST[self::$fieldName]);
+        $origin = ($method == 'post' ? $_POST : $_GET);
+        return (isset($origin) && isset($origin[self::$fieldName]) && $this->getToken() && $this->getToken() == $origin[self::$fieldName]);
     }
 
     public function __toString()
