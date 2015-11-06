@@ -405,7 +405,11 @@ class Form
             $html .= $this->getJs();
         }
 
+        $k = 0;
         foreach ($this->parserData->getData() as $data) {
+            if ($data instanceof Fields\FileField) {
+                $data->getHtml(true);
+            }
             $html .= (string)$data;
         }
 
@@ -522,12 +526,16 @@ class Form
     /**
      * Check if the form was posted
      */
-    public function posted()
+    public function posted($populate = 'post')
     {
         $postIndicator = $this->getPostIndicator();
 
         if ($postIndicator->posted()) {
-            $this->setValues($_POST, $_FILES);
+            if ($populate == 'post') {
+                $this->setValues($_POST, $_FILES);
+            } else if ($populate == 'get') {
+                $this->setValues($_GET);
+            }
             return true;
         }
 
