@@ -10,15 +10,45 @@ namespace Gregwar\Formidable\Fields;
 class Select extends Field
 {
     /**
+     * Is it a multiple select?
+     */
+    protected $multiple = false;
+
+    /**
      * Childrens
      */
     protected $options = array();
+    
+    public function push($name, $value = null)
+    {
+        if ($name == 'multiple') {
+            $this->multiple = true;
+        }
+
+        parent::push($name, $value);
+    }
 
     public function __sleep()
     {
         return array_merge(parent::__sleep(), array(
-            'options'
+            'options', 'multiple'
         ));
+    }
+    
+    public function setValue($value, $default = false)
+    {
+        if ($this->multiple) {
+            if (is_array($value)) {
+                foreach ($value as &$v) {
+                    $v = (string)$v;
+                }
+                $this->value = $value;
+            } else {
+                $this->value = null;
+            }
+        } else {
+            parent::setValue($value, $default);
+        }
     }
 
     public function countOptions()
@@ -55,7 +85,8 @@ class Select extends Field
             return;
         } else {
             foreach ($this->options as $opt) {
-                if ($this->value == $opt->getValue()) {
+                if (($this->multiple && in_array($opt->getValue(), $this->value))
+                    || (!$this->multiple && $this->value == $opt->getValue())) {
                     return;
                 }
             }
@@ -66,7 +97,12 @@ class Select extends Field
 
     public function getHtml()
     {
-        $html = '<select name="'.$this->getName().'" ';
+        $arr = '';
+        if ($this->multiple) {
+            $arr = '[]';
+        }
+
+        $html = '<select name="'.$this->getName().$arr.'" ';
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
@@ -77,7 +113,8 @@ class Select extends Field
         }
 
         foreach ($this->options as $option) {
-            if ($option->getValue() == $this->value) {
+            if (($this->multiple && in_array($option->getValue(), $this->value))
+                || (!$this->multiple && $option->getValue() == $this->value)) {
                 $html .= $option->getOptionHtml(true);
             } else {
                 $html .= $option->getOptionHtml(false);

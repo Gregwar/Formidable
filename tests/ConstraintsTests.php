@@ -294,6 +294,30 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing against a select with multiple field
+     */
+    public function testSelectMultiple()
+    {
+        $form = $this->getForm('select-multiple.html');
+        
+        $this->assertAccept($form, array(
+            'city' => array('pa')
+        ));
+        
+        $this->assertAccept($form, array(
+            'city' => array('pa', 'la')
+        ));
+        
+        $this->assertRefuse($form, array(
+            'city' => 'pa'
+        ));
+        
+        $this->assertRefuse($form, array(
+            'city' => array('xy')
+        ));
+    }
+
+    /**
      * Testing that we can't change the readonly field
      */
     public function testReadOnly()
