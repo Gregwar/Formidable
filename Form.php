@@ -121,8 +121,8 @@ class Form
     {
         $language = $this->factory->getLanguage();
 
-	if ($language && $this->parserData) {
-	    $fields = $this->parserData->getFields();
+        if ($language && $this->parserData) {
+            $fields = $this->parserData->getFields();
             foreach ($fields as &$field) {
                 $field->setLanguage($this->factory->getLanguage());
             }
@@ -186,7 +186,7 @@ class Form
         } else {
             $this->originalParserData = $generate();
         }
-        
+
         $this->reset();
     }
 
@@ -205,7 +205,7 @@ class Form
     public function getValues()
     {
         $values = array();
-        
+
         foreach ($this->getFields() as $field) {
             $name = $field->getBaseName();
             $index = $field->getIndex();
@@ -245,7 +245,7 @@ class Form
                 if (trim($index)) {
                     if ($present = isset($values[$name]) && is_array($values[$name])
                         && isset($values[$name][$index])) {
-                            $value = $values[$name][$index];
+                        $value = $values[$name][$index];
                     }
                 } else {
                     if ($present = isset($values[$name]) && is_array($values[$name])) {
@@ -435,7 +435,7 @@ class Form
                 if ($error) {
                     $errors[] = new Error($field, $error, $this->factory->getLanguage());
                 }
-            
+
                 if ($field instanceof Fields\Multiple) {
                     $errors = array_merge($errors, $field->checkForms());
                 }
