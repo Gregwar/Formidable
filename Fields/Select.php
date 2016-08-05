@@ -113,7 +113,7 @@ class Select extends Field
         }
 
         foreach ($this->options as $option) {
-            if (($this->multiple && in_array($option->getValue(), $this->value))
+            if (($this->multiple && is_array($this->value) && in_array($option->getValue(), $this->value))
                 || (!$this->multiple && $option->getValue() == $this->value)) {
                 $html .= $option->getOptionHtml(true);
             } else {
