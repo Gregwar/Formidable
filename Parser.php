@@ -220,7 +220,7 @@ class Parser extends ParserData
 
         foreach ($this->data as $part) {
             if (is_string($part)) {
-                while (preg_match('#^(.+){{([^}]+)}}(.+)$#mUsi', $part, $match)) {
+                while (preg_match('#^(.+){{([^}]+)}}(.+)$#Usi', $part, $match)) {
                     $data[] = $match[1];
                     $placeholder = new Placeholder($match[2]);
                     $data[] = $placeholder;
