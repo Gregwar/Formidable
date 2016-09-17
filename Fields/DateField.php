@@ -12,12 +12,12 @@ class DateField extends Field
     /**
      * Push save
      */
-    private $pushSave = array();
+    protected $pushSave = array();
 
     /**
      * Sub-field
      */
-    private $fields;
+    protected $fields;
 
     public function __sleep()
     {
@@ -81,7 +81,7 @@ class DateField extends Field
 	}
     }
 
-    private function generate()
+    protected function generate()
     {
 	$this->fields = array();
 
@@ -90,7 +90,7 @@ class DateField extends Field
 	$this->fields[] = $this->createSelect('year', range(date('Y')-120, date('Y')));
     }
 
-    private function createSelect($name, $options)
+    protected function createSelect($name, $options)
     {
         $select = new Select;
         $select->setLanguage($this->language);
@@ -106,7 +106,7 @@ class DateField extends Field
 	return $select;
     }
 
-    private function buildOptions(&$select, $range)
+    protected function buildOptions(&$select, $range)
     {
 	foreach ($range as $value) {
 	    $option = new Option;
@@ -116,7 +116,7 @@ class DateField extends Field
 	}
     }
 
-    private function proxyPush($target)
+    protected function proxyPush($target)
     {
 	foreach ($this->pushSave as $var => $value) {
 	    $target->push($var, $value);
