@@ -744,9 +744,9 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2', $values['x']['y']['z']['k']);
 
         $this->assertAccept($form, array(
-            't' => ['abc', 'def'],
-            'a' => ['b' => ['c' => 'foo']],
-            'x' => ['y' => ['z' => ['k' => '1']]]
+            't' => array('abc', 'def'),
+            'a' => array('b' => array('c' => 'foo')),
+            'x' => array('y' => array('z' => array('k' => '1')))
         ));
 
         $values = $form->getValues();
