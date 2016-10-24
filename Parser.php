@@ -166,7 +166,7 @@ class Parser extends ParserData
                                 if ($newNode instanceof Head) {
                                     $this->head = $newNode;
                                 } else {
-                                    if ($newNode->getIndex() === '') {
+                                    if ($newNode->getIndex() === array()) {
                                         $name = $newNode->getBaseName();
 
                                         if (!isset($this->fields[$name])) {

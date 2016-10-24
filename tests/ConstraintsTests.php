@@ -724,6 +724,39 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing that array names works
+     */
+    public function testArrayNames()
+    {
+        $form = $this->getForm('array.html');
+
+        $this->assertTrue(is_array($form->getValue('t')));
+        $this->assertEquals(2, count($form->getValue('t')));
+
+        $values = $form->getValues();
+        $this->assertTrue(is_array($values['a']));
+        $this->assertTrue(is_array($values['a']['b']));
+        $this->assertEquals('testing', $values['a']['b']['c']);
+
+        $this->assertTrue(is_array($values['x']));
+        $this->assertTrue(is_array($values['x']['y']));
+        $this->assertTrue(is_array($values['x']['y']['z']));
+        $this->assertEquals('2', $values['x']['y']['z']['k']);
+
+        $this->assertAccept($form, array(
+            't' => ['abc', 'def'],
+            'a' => ['b' => ['c' => 'foo']],
+            'x' => ['y' => ['z' => ['k' => '1']]]
+        ));
+
+        $values = $form->getValues();
+        $this->assertEquals('abc', $values['t'][0]);
+        $this->assertEquals('def', $values['t'][1]);
+        $this->assertEquals('foo', $values['a']['b']['c']);
+        $this->assertEquals('1', $values['x']['y']['z']['k']);
+    }
+
+    /**
      * Testing an array of chk[]
      */
     public function testCheckArray()

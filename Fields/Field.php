@@ -221,7 +221,13 @@ abstract class Field extends LanguageAware
         $name = $this->getBaseName();
 
         if ($this->index !== null) {
-            $name .= '['.$this->index.']';
+            if ($this->index) {
+                foreach ($this->index as $part) {
+                    $name .= '['.$part.']';
+                }
+            } else {
+                $name .= '[]';
+            }
         }
 
         if ($this->hook !== null) {
@@ -251,7 +257,14 @@ abstract class Field extends LanguageAware
     {
         if (preg_match('#^(.+)\[(.*)\]$#mUsi', $name, $match) == 1) {
             $this->name = $match[1];
-            $this->index = $match[2] ?: '';
+            $this->index = array();
+
+            if ($match[2]) {
+                $parts = explode('][', $match[2]);
+                foreach ($parts as $part) {
+                    $this->index[] = $part;
+                }
+            }
         } else {
             $this->name = $name;
         }

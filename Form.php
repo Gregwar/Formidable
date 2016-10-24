@@ -217,8 +217,13 @@ class Form
                     $values[$name] = array();
                 }
 
-                if (trim($index)) {
-                    $values[$name][$index] = $field->getValue();
+                if ($index) {
+                    $value = &$values[$name];
+                    foreach ($index as $part) {
+                        $value[$part] = array();
+                        $value = &$value[$part];
+                    }
+                    $value = $field->getValue();
                 } else {
                     $values[$name][] = $field->getValue();
                 }
@@ -242,10 +247,19 @@ class Form
                     $value =& $values[$name];
                 }
             } else {
-                if (trim($index)) {
-                    if ($present = isset($values[$name]) && is_array($values[$name])
-                        && isset($values[$name][$index])) {
-                        $value = $values[$name][$index];
+                if ($index) {
+                    $present = true;
+                    $tmp = &$values[$name];
+                    foreach ($index as $part) {
+                        if (isset($tmp[$part])) {
+                            $tmp = &$tmp[$part];
+                        } else {
+                            $present = false;
+                        }
+                    }
+
+                    if ($present) {
+                        $value = $tmp;
                     }
                 } else {
                     if ($present = isset($values[$name]) && is_array($values[$name])) {
