@@ -593,6 +593,18 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
                 )
             )
         ));
+        
+        $this->assertRefuse($form, array(), array(
+            'files' => array(
+                0 => array(
+                    'file' => array(
+                        'size' => filesize($file),
+                        'tmp_name' => $file,
+                        'name' => 'a.txt'
+                    )
+                )
+            )
+        ));
     }
 
     /**
