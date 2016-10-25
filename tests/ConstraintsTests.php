@@ -566,6 +566,36 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Handling multiple files
+     */
+    public function testMultipleFiles()
+    {
+        $factory = new Factory;
+        $factory->registerType('file', '\FileField_NoSave');
+        $form = $factory->getForm(__DIR__.'/files/form/multiple_file.html');
+        $file = __DIR__.'/files/upload/test.txt';
+
+        $this->assertAccept($form, array(), array(
+            'files' => array(
+                0 => array(
+                    'file' => array(
+                        'size' => filesize($file),
+                        'tmp_name' => $file,
+                        'name' => 'a.txt'
+                    )
+                ),
+                1 => array(
+                    'file' => array(
+                        'size' => filesize($file),
+                        'tmp_name' => $file,
+                        'name' => 'b.txt'
+                    )
+                )
+            )
+        ));
+    }
+
+    /**
      * Testing the filetype="image"
      */
     public function testFileImage()

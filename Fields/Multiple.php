@@ -67,19 +67,17 @@ class Multiple extends Field
     {	
         $this->forms = array();
 
-        if (is_array($values)) {
-            $index = 0;
+        $indexes = array();
+        if ($values) {
+            $indexes = array_keys($values);
+        } else if ($files) {
+            $indexes = array_keys($files);
+        }
 
-            foreach ($values as $v) {
-                $f = array();
-                foreach ($files as $attribute => $file){
-                    foreach($file[$index] as $field_name => $attribute_value){
-                        $f[$field_name][$attribute] = $attribute_value;
-                    }
-                }
-                $this->getForm($index)->setValues($v, $f);
-                $index++;
-            }
+        foreach ($indexes as $index) {
+            $v = isset($values[$index]) ? $values[$index] : array();
+            $f = isset($files[$index]) ? $files[$index] : array();
+            $this->getForm($index)->setValues($v, $f);
         }
     }
 

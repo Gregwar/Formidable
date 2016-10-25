@@ -270,17 +270,20 @@ class Form
                 }
             }
 
-            if ($present) {
-                if ($field instanceof Fields\Multiple) {
-                    $field->setValues($value, (isset($files[$name])?$files[$name]:array()));
-                } else {
-                    $field->setValue($value, $files);
+            if ($field instanceof Fields\Multiple) {
+                if (!$present) {
+                    $value = array();
                 }
+                $field->setValues($value, (isset($files[$name])?$files[$name]:array()));
             } else {
-                if ($field instanceof Fields\FileField && isset($files[$name])) {
-                    $field->setValue($files[$name]);
+                if ($present) {
+                    $field->setValue($value, $files);
                 } else {
-                    $field->setValue('');
+                    if ($field instanceof Fields\FileField && isset($files[$name])) {
+                        $field->setValue($files[$name]);
+                    } else {
+                        $field->setValue('');
+                    }
                 }
             }
         }
