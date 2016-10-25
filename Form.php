@@ -220,7 +220,9 @@ class Form
                 if ($index) {
                     $value = &$values[$name];
                     foreach ($index as $part) {
-                        $value[$part] = array();
+                        if (!isset($value[$part])) {
+                            $value[$part] = array();
+                        }
                         $value = &$value[$part];
                     }
                     $value = $field->getValue();

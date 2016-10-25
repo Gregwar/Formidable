@@ -737,6 +737,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($values['a']));
         $this->assertTrue(is_array($values['a']['b']));
         $this->assertEquals('testing', $values['a']['b']['c']);
+        $this->assertEquals('testing2', $values['a']['b']['d']);
 
         $this->assertTrue(is_array($values['x']));
         $this->assertTrue(is_array($values['x']['y']));
@@ -745,7 +746,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
 
         $this->assertAccept($form, array(
             't' => array('abc', 'def'),
-            'a' => array('b' => array('c' => 'foo')),
+            'a' => array('b' => array('c' => 'foo', 'd' => 'bar')),
             'x' => array('y' => array('z' => array('k' => '1')))
         ));
 
@@ -753,6 +754,7 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals('abc', $values['t'][0]);
         $this->assertEquals('def', $values['t'][1]);
         $this->assertEquals('foo', $values['a']['b']['c']);
+        $this->assertEquals('bar', $values['a']['b']['d']);
         $this->assertEquals('1', $values['x']['y']['z']['k']);
     }
 
