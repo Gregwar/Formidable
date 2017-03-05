@@ -71,6 +71,8 @@ class Options extends Field
 
     public function source($options)
     {
+        $toAdd = array();
+
         foreach ($options as $key => $label) {
             if (is_object($label)) {
                 $key = $label->getKey();
@@ -86,8 +88,10 @@ class Options extends Field
             $option->setValue($key);
             $option->setLabel($label);
 
-            $this->parent->addOption($option, $this->position);
+            $toAdd[] = $option;
         }
+
+        $this->parent->addOptions($toAdd, $this->position);
     }
 }
 

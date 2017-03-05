@@ -290,6 +290,27 @@ class FormTests extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $form->isCached);
     }
 
+    /**
+     * Testing the order of sourced select
+     */
+    public function testSourceOrder()
+    {
+        $form = $this->getForm('source.html');
+
+        $form->source('data', array(
+            'A' => 'a',
+            'B' => 'b'
+        ));
+        $html = "$form";
+
+        preg_match_all('#option value="(.+)"#mUsi', $html, $matches);
+
+        $this->assertEquals(3, count($matches[1]));
+        $this->assertEquals('X', $matches[1][0]);
+        $this->assertEquals('A', $matches[1][1]);
+        $this->assertEquals('B', $matches[1][2]);
+    }
+
     private function getForm($file, $vars = array(), $cache = false)
     {
         return new Form(__DIR__.'/files/form/'.$file, $vars, $cache);

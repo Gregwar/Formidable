@@ -55,19 +55,26 @@ class Select extends Field
     {
         return count($this->options);
     }
-
+    
     public function addOption($option, $position = null)
     {
-        $option->setParent($this);
+        $this->addOptions(array($option), $position);
+    }
 
-        if ($position == null) {
-            $this->options[] = $option;
-        } else {
-            for ($i = $this->countOptions(); $i > $position; $i--) {
-                $this->options[$i] = $this->options[$i-1];
-            }
-            $this->options[$position] = $option;
+    public function addOptions(array $options, $position = null)
+    {
+        foreach ($options as $option) {
+            $option->setParent($this);
         }
+
+        if ($position === null) {
+            $position = 0;
+        }
+
+        $before = array_slice($this->options, 0, $position);
+        $after = array_slice($this->options, $position);
+
+        $this->options = array_merge($before, $options, $after);
     }
 
     public function addValue($c)
