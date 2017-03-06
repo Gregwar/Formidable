@@ -115,10 +115,6 @@ class Select extends Field
         }
         $html.= ">\n";
 
-        if (!$this->required) {
-            $html .= '<option value=""></option>';
-        }
-
         foreach ($this->options as $option) {
             if (($this->multiple && is_array($this->value) && in_array($option->getValue(), $this->value))
                 || (!$this->multiple && $option->getValue() == $this->value)) {
