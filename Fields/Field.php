@@ -207,11 +207,11 @@ abstract class Field extends LanguageAware
             }
         }
 
-        // Contraintes custom
+        // Custom constraints
         foreach ($this->constraints as $constraint) {
-            $err = $constraint($this->value);
-            if ($err) {
-                return $err;
+            $error = $constraint($this->value);
+            if ($error) {
+                return $error;
             }
         }
     }

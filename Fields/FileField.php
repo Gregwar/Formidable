@@ -83,6 +83,14 @@ class FileField extends Field
             }
         }
 
+        // Custom constraints
+        foreach ($this->constraints as $constraint) {
+            $error = $constraint($this->value);
+            if ($error) {
+                return $error;
+            }
+        }
+
         return;
     }
 
