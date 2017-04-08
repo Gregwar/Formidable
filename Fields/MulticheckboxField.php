@@ -85,8 +85,14 @@ class MulticheckboxField extends Field
 
         $checked = array();
 
-        foreach ($values as $name => $one) {
-            $checked[$this->nameFor($name)] = true;
+        if ( $this->is_numeric_array( $values ) ) {
+		foreach ( $values as $name ) {
+			$checked[ $this->nameFor( $name ) ] = true;
+		}
+        } else {
+	        foreach ( $values as $name => $one ) {
+		        $checked[ $this->nameFor( $name ) ] = true;
+	        }
         }
 
         foreach ($this->checkboxes as $checkbox) {
@@ -96,6 +102,21 @@ class MulticheckboxField extends Field
                 $checkbox->setChecked(false);
             }
         }
+    }
+	
+    protected function is_numeric_array( $array ) {
+
+    	$i = 0;
+
+    	foreach ( $array as $key => $_ ) {
+    		if ( $i !== $key ) {
+    			return false;
+		    }
+
+		    $i++;
+	    }
+
+	    return true;
     }
 
     public function getValue()
