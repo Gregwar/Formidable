@@ -108,7 +108,7 @@ class MulticheckboxField extends Field
     {
         $i = 0;
 
-        foreach ($array as $key => $_ ) {
+        foreach ($array as $key => $_) {
             if ($i !== $key) {
                 return false;
             }
