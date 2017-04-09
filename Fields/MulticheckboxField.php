@@ -85,7 +85,7 @@ class MulticheckboxField extends Field
 
         $checked = array();
 
-        if ($this->isNumericArray( $values ) ) {
+        if ($this->isNumericArray($values)) {
             foreach ($values as $name) {
                 $checked[$this->nameFor($name)] = true;
             }
