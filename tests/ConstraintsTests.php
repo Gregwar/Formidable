@@ -543,10 +543,10 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
             '3' => 'Zebra'
         ));
 
-        $form->setValue('animals', ['2' => '1', '3' => '1']);
+        $form->setValue('animals', array('2' => '1', '3' => '1'));
         $this->assertEquals(array('2', '3'), $form->getValue('animals'));
         
-        $form->setValue('animals', ['2', '3']);
+        $form->setValue('animals', array('2', '3'));
         $this->assertEquals(array('2', '3'), $form->getValue('animals'));
     }
 
