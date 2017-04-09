@@ -28,7 +28,7 @@ class MulticheckboxField extends Field
      * Push saving
      */
     protected $pushSave = array();
-    
+
     public function __sleep()
     {
         return array_merge(parent::__sleep(), array(
@@ -85,14 +85,14 @@ class MulticheckboxField extends Field
 
         $checked = array();
 
-        if ( $this->is_numeric_array( $values ) ) {
-		foreach ( $values as $name ) {
-			$checked[ $this->nameFor( $name ) ] = true;
-		}
+        if ($this->isNumericArray( $values ) ) {
+            foreach ($values as $name) {
+                $checked[$this->nameFor($name)] = true;
+            }
         } else {
-	        foreach ( $values as $name => $one ) {
-		        $checked[ $this->nameFor( $name ) ] = true;
-	        }
+            foreach ($values as $name => $one) {
+                $checked[$this->nameFor($name)] = true;
+            }
         }
 
         foreach ($this->checkboxes as $checkbox) {
@@ -103,20 +103,20 @@ class MulticheckboxField extends Field
             }
         }
     }
-	
-    protected function is_numeric_array( $array ) {
 
-    	$i = 0;
+    protected function isNumericArray(array $array)
+    {
+        $i = 0;
 
-    	foreach ( $array as $key => $_ ) {
-    		if ( $i !== $key ) {
-    			return false;
-		    }
+        foreach ($array as $key => $_ ) {
+            if ($i !== $key) {
+                return false;
+            }
 
-		    $i++;
-	    }
+            $i++;
+        }
 
-	    return true;
+        return true;
     }
 
     public function getValue()
