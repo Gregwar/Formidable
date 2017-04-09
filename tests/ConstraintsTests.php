@@ -531,6 +531,26 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Testing the two setValue for multicheckbox
+     */
+    public function testMultiCheckBoxSetValue()
+    {
+        $form = $this->getForm('multicheckbox.html');
+        
+        $form->source('animals', array(
+            '1' => 'Cat',
+            '2' => 'Dog',
+            '3' => 'Zebra'
+        ));
+
+        $form->setValue('animals', ['2' => '1', '3' => '1']);
+        $this->assertEquals(array('2', '3'), $form->getValue('animals'));
+        
+        $form->setValue('animals', ['2', '3']);
+        $this->assertEquals(array('2', '3'), $form->getValue('animals'));
+    }
+
+    /**
      * Testing file type
      */
     public function testFile()
