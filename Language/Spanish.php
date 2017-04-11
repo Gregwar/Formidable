@@ -1,4 +1,5 @@
 <?php
+
 namespace Gregwar\Formidable\Language;
 
 class Spanish extends Language
