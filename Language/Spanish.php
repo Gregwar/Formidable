@@ -19,7 +19,7 @@ class Spanish extends Language
         'file_image' => 'El archivo del campo %s debe ser una imagen',
         'file_required' => 'Se necesita un archivo para el campo %s',
         'integer' => 'El campo %s debe ser un número entero',
-        'should_check' => 'Debes marcar al menos una opcin para el campo %s',
+        'should_check' => 'Debes marcar al menos una opción para el campo %s',
         'number' => 'El campo %s debe ser un número',
         'number_min' => 'El campo %s debe ser al menos igual a %s',
         'number_max' => 'El campo %s no debe ser mayor que %s',
