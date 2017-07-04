@@ -4,8 +4,8 @@
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YUXRLWHQSWS6L)
 
 
-Formidable is a PHP library to handles forms. It parses an HTML
-form and allow you to manipulate it from your PHP code, and then
+Formidable is a PHP library to handle forms. It parses an HTML
+form and allows you to manipulate it from your PHP code, and then
 render it.
 
 ## How does it work?
