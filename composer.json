@@ -9,6 +9,11 @@
             "name": "Grégoire Passault",
             "email": "g.passault@gmail.com",
             "homepage": "http://www.gregwar.com/"
+        },
+        {
+            "name": "Ashley Kitson aka chippyash",
+            "email": "info@zf4.biz",
+            "homepage": "http://zf4.biz"
         }
     ],
     "require": {
@@ -17,7 +22,7 @@
         "symfony/property-access": "2.*"
     },
     "suggest": {
-        "gregwar/captcha": "1.1.*"
+        "gregwar/captcha": "To implement Captcha capability into forms"
     },
     "target-dir": "Gregwar/Formidable",
     "autoload": {
