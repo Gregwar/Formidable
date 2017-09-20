@@ -262,6 +262,8 @@ class ConstraintsTests extends \PHPUnit_Framework_TestCase
     {
         $form = $this->getForm('select.html');
 
+        $this->assertContains(">Paris<", "$form");
+
         $this->assertAccept($form, array(
             'city' => 'la'
         ));

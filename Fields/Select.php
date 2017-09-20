@@ -68,13 +68,13 @@ class Select extends Field
         }
 
         if ($position === null) {
-            $position = 0;
+            $this->options = array_merge($this->options, $options);
+        } else {
+            $before = array_slice($this->options, 0, $position);
+            $after = array_slice($this->options, $position);
+
+            $this->options = array_merge($before, $options, $after);
         }
-
-        $before = array_slice($this->options, 0, $position);
-        $after = array_slice($this->options, $position);
-
-        $this->options = array_merge($before, $options, $after);
     }
 
     public function addValue($c)
