@@ -1,6 +1,9 @@
 
+<?php
+
 namespace Gregwar\Formidable\Language;
-class English extends Language
+
+class Turkish extends Language
 {
     protected $messages = array(
         'read_only' => '%s alanı salt okunurdur ve değiştirilemez.',
@@ -28,3 +31,4 @@ class English extends Language
         'bad_array_value' => '%s alanları için değer doğru değildir.',
     );
 }
+?>
