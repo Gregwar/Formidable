@@ -15,14 +15,22 @@ class Select extends Field
     protected $multiple = false;
 
     /**
+     * Allow adding values ?
+     */
+    protected $allowAdd = false;
+
+    /**
      * Childrens
      */
     protected $options = array();
-    
+
     public function push($name, $value = null)
     {
         if ($name == 'multiple') {
             $this->multiple = true;
+        }
+        if ($name == 'allow-add') {
+            $this->allowAdd = true;
         }
 
         parent::push($name, $value);
@@ -31,16 +39,27 @@ class Select extends Field
     public function __sleep()
     {
         return array_merge(parent::__sleep(), array(
-            'options', 'multiple'
+            'options', 'multiple', 'allowAdd'
         ));
     }
-    
+
     public function setValue($value, $default = false)
     {
         if ($this->multiple) {
             if (is_array($value)) {
+                $availableOptions = [];
+                foreach ($this->options as $option) {
+                    $availableOptions[$option->getValue()] = true;
+                }
+
                 foreach ($value as &$v) {
                     $v = (string)$v;
+                    if ($this->allowAdd && !isset($availableOptions[$v])) {
+                        $option = new Option;
+                        $option->setValue($v);
+                        $option->setLabel($v);
+                        $this->addOption($option);
+                    }
                 }
                 $this->value = $value;
             } else {
@@ -55,7 +74,7 @@ class Select extends Field
     {
         return count($this->options);
     }
-    
+
     public function addOption($option, $position = null)
     {
         $this->addOptions(array($option), $position);
@@ -92,8 +111,8 @@ class Select extends Field
             return;
         } else {
             foreach ($this->options as $opt) {
-                if (($this->multiple && in_array($opt->getValue(), $this->value))
-                    || (!$this->multiple && $this->value == $opt->getValue())) {
+                if ($this->allowAdd || (($this->multiple && in_array($opt->getValue(), $this->value))
+                    || (!$this->multiple && $this->value == $opt->getValue()))) {
                     return;
                 }
             }
