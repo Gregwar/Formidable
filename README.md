@@ -213,7 +213,7 @@ The language for the errors can be set with `setLanguage()`:
 <?php
 
 // Will set the language to french for errors
-$form->setLanguage(new Gregwar\Formidable\French);
+$form->setLanguage(new Gregwar\Formidable\Language\French);
 ```
 
 Check that your language is supported in the `Language` directory, don't hesitate
