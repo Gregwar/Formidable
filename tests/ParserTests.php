@@ -3,18 +3,12 @@
 use Gregwar\Formidable\Parser;
 use Gregwar\Formidable\ParserException;
 
-// backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase') &&
-    class_exists('\PHPUnit_Framework_TestCase')) {
-    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-}
-
 /**
  * Testing Formidable parser
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class ParserTests extends \PHPUnit_Framework_TestCase
+class ParserTests extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing the returns of a basic parse

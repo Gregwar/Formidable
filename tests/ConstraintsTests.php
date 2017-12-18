@@ -4,12 +4,6 @@ use Gregwar\Formidable\Form;
 use Gregwar\Formidable\Factory;
 use Gregwar\Formidable\PostIndicator;
 
-// backward compatibility
-if (!class_exists('\PHPUnit\Framework\TestCase') &&
-    class_exists('\PHPUnit_Framework_TestCase')) {
-    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
-}
-
 /**
  * Special type "file" returning hash of the file instead of actually saving it 
  */
@@ -26,7 +20,7 @@ class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class ConstraintsTests extends \PHPUnit_Framework_TestCase
+class ConstraintsTests extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing rendering a required field
