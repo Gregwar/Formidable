@@ -2,7 +2,7 @@ language: php
 
 php:
     - 5.4
-    - 5.5
+    # - 5.5 - Not sure why travis 5.5 version does not support imagettfbox()
     - 5.6
     - 7.0
     - 7.1
