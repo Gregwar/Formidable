@@ -3,6 +3,12 @@
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\PostIndicator;
 
+// backward compatibility
+if (!class_exists('\PHPUnit\Framework\TestCase') &&
+    class_exists('\PHPUnit_Framework_TestCase')) {
+    class_alias('\PHPUnit_Framework_TestCase', '\PHPUnit\Framework\TestCase');
+}
+
 /**
  * Testing Formidable forms
  *
