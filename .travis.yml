@@ -9,7 +9,7 @@ php:
 
 addons:
     apt_packages:
-        - php-gd
+        - php*-gd
 
 script:
     - composer install
