@@ -50,12 +50,22 @@ class FormTests extends \PHPUnit\Framework\TestCase
     public function testAttributes()
     {
         $form = $this->getForm('attributes.html');
-        
+
         $this->assertEquals('red rounded', $form->getAttribute('name', 'class'));
         $this->assertEquals('Your name', $form->getAttribute('name', 'title'));
 
         $form->setAttribute('name', 'title', 'Outside attribute');
         $this->assertContains('title="Outside attribute"', "$form");
+    }
+
+    /**
+     * Testing attributes handling
+     */
+    public function testButton()
+    {
+        $form = $this->getForm('button.html');
+
+        $this->assertEquals('Click here', $form->getValue('button'));
     }
 
     /**
@@ -129,7 +139,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
     {
         $form1 = $this->getForm('empty.html');
         $token1 = $form1->getToken();
-        
+
         $form2 = $this->getForm('empty.html');
         $token2 = $form2->getToken();
 
@@ -160,7 +170,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
         unset($_SESSION);
         $form1 = $this->getForm('post-indicator.html');
         $token1 = $form1->getToken();
-        
+
         unset($_SESSION);
         $form2 = $this->getForm('post-indicator.html');
         $token2 = $form2->getToken();
@@ -259,10 +269,10 @@ class FormTests extends \PHPUnit\Framework\TestCase
         $this->assertNotContains('something', $html);
 
         $form->setPlaceholder('something', 'hello!');
-        
+
         $html = "$form";
         $this->assertContains('hello!', $html);
-        
+
         $form = $this->getForm('placeholder_multiline.html');
         $form->setPlaceholder('name', 'Bob');
         $form->setPlaceholder('age', 30);
