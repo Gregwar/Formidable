@@ -36,8 +36,9 @@ class Factory extends Language\LanguageAware
         'hidden' => '\Gregwar\Formidable\Fields\HiddenField',
         'multicheckbox' => '\Gregwar\Formidable\Fields\MulticheckboxField',
         'multiradio' => '\Gregwar\Formidable\Fields\MultiradioField',
-	'password' => '\Gregwar\Formidable\Fields\PasswordField',
-	'date' => '\Gregwar\Formidable\Fields\DateField',
+        'password' => '\Gregwar\Formidable\Fields\PasswordField',
+        'date' => '\Gregwar\Formidable\Fields\DateField',
+        'button' => '\Gregwar\Formidable\Fields\ButtonField',
     );
 
     /**
