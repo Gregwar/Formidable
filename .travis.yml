@@ -12,4 +12,4 @@ addons:
 
 script:
     - composer install
-    - phpunit
+    - vendor/bin/phpunit
