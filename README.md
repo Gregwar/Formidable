@@ -444,3 +444,7 @@ to set the cache directory.
 ## License
 
 `Gregwar\Formidable` is under MIT License, have a look at the `LICENSE` file for more information.
+
+## History
+
+V2.0 End support for PHP <5.6
