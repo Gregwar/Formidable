@@ -1,5 +1,9 @@
 # Formidable
 
+![PHP 5.6](https://img.shields.io/badge/PHP-5.6-blue.svg)
+![PHP 7](https://img.shields.io/badge/PHP-7.0-blue.svg)
+![PHP 7.1](https://img.shields.io/badge/PHP-7.1-blue.svg)
+![PHP 7.2](https://img.shields.io/badge/PHP-7.2-blue.svg)
 [![Build status](https://travis-ci.org/Gregwar/Formidable.svg?branch=master)](https://travis-ci.org/Gregwar/Formidable)
 [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=YUXRLWHQSWS6L)
 
@@ -447,4 +451,6 @@ to set the cache directory.
 
 ## History
 
-V2.0 End support for PHP <5.6
+V2.0.0 End support for PHP <5.6
+
+V2.1.0 Remove hard dependency on Captcha library

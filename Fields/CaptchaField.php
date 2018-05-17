@@ -33,6 +33,10 @@ class CaptchaField extends Field
 
     public function __construct()
     {
+        if (!class_exists(CaptchaBuilder::class)) {
+            throw new \LogicException('You should install gregwar/captcha to use the CAPTCHA type');
+        }
+
         $this->generate();
     }
 
