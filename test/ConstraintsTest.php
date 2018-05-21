@@ -1,4 +1,5 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\Factory;
@@ -566,7 +567,7 @@ class ConstraintsTest extends \PHPUnit\Framework\TestCase
     public function testFile()
     {
         $factory = new Factory;
-        $factory->registerType('file', '\FileField_NoSave');
+        $factory->registerType('file', '\Test\Gregwar\Formidable\FileField_NoSave');
         $form = $factory->getForm(__DIR__.'/fixtures/form/upload.html');
         $file = __DIR__.'/fixtures/upload/test.txt';
         $hash = sha1(file_get_contents($file));
@@ -601,7 +602,7 @@ class ConstraintsTest extends \PHPUnit\Framework\TestCase
     public function testMultipleFiles()
     {
         $factory = new Factory;
-        $factory->registerType('file', '\FileField_NoSave');
+        $factory->registerType('file', '\Test\Gregwar\Formidable\FileField_NoSave');
         $form = $factory->getForm(__DIR__.'/fixtures/form/multiple_file.html');
         $file = __DIR__.'/fixtures/upload/test.txt';
 

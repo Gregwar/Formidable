@@ -9,7 +9,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="test/bootstrap.php"
+         bootstrap="./vendor/autoload.php"
 >
     <testsuites>
         <testsuite name="Default">
@@ -22,7 +22,7 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="testdox-html" target="../docs/contract.html"/>
+        <log type="testdox-html" target="./docs/contract.html"/>
     </logging>
 
 </phpunit>

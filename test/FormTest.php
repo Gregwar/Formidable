@@ -1,7 +1,9 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\PostIndicator;
+use Gregwar\Cache\Cache;
 
 /**
  * Testing Formidable forms
@@ -286,7 +288,7 @@ class FormTest extends \PHPUnit\Framework\TestCase
      */
     public function testCache()
     {
-        $cache = new Gregwar\Cache\Cache;
+        $cache = new Cache();
         $cache->setCacheDirectory($this->getCacheDirectory());
 
         $form = $this->getForm('basic.html', null, $cache);

@@ -1,4 +1,5 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Parser;
 use Gregwar\Formidable\ParserException;
