@@ -454,3 +454,5 @@ to set the cache directory.
 V2.0.0 End support for PHP <5.6
 
 V2.1.0 Remove hard dependency on Captcha library
+
+V2.1.1 Standardise code structure
