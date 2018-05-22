@@ -50,7 +50,7 @@ class PostIndicator
             );
 
             if (isset($_SESSION)) {
-                $key = sha1(__DIR__ . 'PostIndicator.php/' . 'formidable_secret');
+                $key = sha1(__DIR__ . '/' . 'formidable_secret');
 
                 if (isset($_SESSION[$key])) {
                     $secret['csrf'] = $_SESSION[$key];
