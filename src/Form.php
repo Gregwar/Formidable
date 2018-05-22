@@ -2,6 +2,9 @@
 
 namespace Gregwar\Formidable;
 
+use Gregwar\Cache\Cache;
+use Gregwar\Formidable\Fields\Field;
+use Gregwar\Formidable\Language\Language;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
@@ -13,55 +16,78 @@ class Form
 {
     /**
      * HTML contents of the form
+     * @var string
      */
     protected $content = null;
 
     /**
      * File path
+     * @var string
      */
     protected $path = null;
 
     /**
      * File variables
+     * @var array [key=>value,...]
      */
-    protected $variables = null;
+    protected $variables = [];
 
     /**
      * Current position for iterator
+     * @var int
      */
     protected $position = 0;
 
     /**
-     * Factory
+     * @var Factory
      */
     protected $factory;
 
     /**
      * Parser raw data
+     * @var ?
      */
     protected $originalParserData;
+
+    /**
+     * @var ParserData
+     */
     protected $parserData;
 
     /**
      * Property accessor
+     * @var ?
      */
     protected $accessor = null;
 
     /***
      * Cache system
+     * @var Cache|null
      */
     protected $cache = null;
 
     /**
      * Form constraints
+     * @var array
      */
-    protected $constraints = array();
+    protected $constraints = [];
 
     /**
      * Is the form cached?
+     * @var bool
      */
     public $isCached = true;
 
+    /**
+     * Form constructor.
+     *
+     * @param string $pathOrContent
+     * @param array|null   $variables
+     * @param Cache|bool|null   $cache
+     * @param Factory|null   $factory
+     *
+     * @throws \InvalidArgumentException
+     */
     public function __construct($pathOrContent = '', $variables = null, $cache = false, $factory = null)
     {
         if (null === $factory) {
@@ -72,8 +98,8 @@ class Form
 
         if ($cache !== null && $cache !== false) {
             if ($cache === true) {
-                $this->cache = new \Gregwar\Cache\Cache;
-            } else if ($cache instanceof \Gregwar\Cache\Cache) {
+                $this->cache = new Cache;
+            } else if ($cache instanceof Cache) {
                 $this->cache = $cache;
             } else {
                 throw new \InvalidArgumentException('The parameter $cache should be false, true or an instance of Gregwar\Cache\Cache');
@@ -92,6 +118,9 @@ class Form
         $this->parse();
     }
 
+    /**
+     * @return Factory|null
+     */
     public function getFactory()
     {
         return $this->factory;
@@ -99,6 +128,8 @@ class Form
 
     /**
      * Gets the parser data
+     *
+     * @return ParserData
      */
     public function getParserData()
     {
@@ -107,8 +138,10 @@ class Form
 
     /**
      * Sets the language
+     *
+     * @param Language $language
      */
-    public function setLanguage(Language\Language $language)
+    public function setLanguage(Language $language)
     {
         $this->factory->setLanguage($language);
         $this->pushLanguage();
@@ -122,8 +155,8 @@ class Form
         $language = $this->factory->getLanguage();
 
         if ($language && $this->parserData) {
-            $fields = $this->parserData->getFields();
-            foreach ($fields as &$field) {
+            /** @var  Field $field */
+            foreach ($this->parserData->getFields() as &$field) {
                 $field->setLanguage($this->factory->getLanguage());
             }
         }
@@ -131,6 +164,10 @@ class Form
 
     /**
      * Get the form contents
+     *
+     * @return string
+     *
+     * @throws \InvalidArgumentException
      */
     public function getContent()
     {
@@ -156,11 +193,10 @@ class Form
      */
     protected function parse()
     {
-        $formidable = $this;
-        $generate = function() use ($formidable) {
+        $generate = function() {
             // Parses the contents
-            $parser = $formidable->getFactory()->getParser($formidable->getContent());
-            $formidable->isCached = false;
+            $parser = $this->getFactory()->getParser($this->getContent());
+            $this->isCached = false;
 
             return $parser;
         };
@@ -240,6 +276,10 @@ class Form
      */
     public function setValues($values, array $files = array())
     {
+        /**
+         * @var string $name
+         * @var Field $field
+         */
         foreach ($this->getFields() as $name => $field) {
             $name = $field->getBaseName();
             $index = $field->getIndex();
@@ -298,6 +338,7 @@ class Form
             $this->accessor = new PropertyAccessor;
         }
 
+        /** @var Field $field */
         foreach ($this->getFields() as $field) {
             if (is_object($field)) {
                 if (($mapping = $field->getMappingName()) && !$field->readOnly()) {
@@ -316,6 +357,9 @@ class Form
 
     /**
      * Defines a field value
+     *
+     * @param string $name
+     * @param mixed $value
      */
     public function setValue($name, $value)
     {
@@ -324,6 +368,9 @@ class Form
 
     /**
      * Defines a placeholder value
+     *
+     * @param string $name
+     * @param mixed $value
      */
     public function setPlaceholder($name, $value)
     {
@@ -332,6 +379,10 @@ class Form
 
     /**
      * Gets a field value
+     *
+     * @param string $name
+     *
+     * @return mixed
      */
     public function getValue($name)
     {
@@ -340,6 +391,9 @@ class Form
 
     /**
      * Add a constraint on a field
+     *
+     * @param string $name
+     * @param \Closure|callable $closure
      */
     public function addConstraint($name, $closure = null)
     {
@@ -357,6 +411,10 @@ class Form
 
     /**
      * Defines an attribute value
+     *
+     * @param string $name Field name
+     * @param string $attribute Attribute name
+     * @param string $value Attribute value
      */
     public function setAttribute($name, $attribute, $value)
     {
@@ -381,19 +439,28 @@ class Form
 
     /**
      * Get a field
+     *
+     * @return Field
      */
     public function getField($name)
     {
         return $this->parserData->getField($name);
     }
 
+    /**
+     * Get all fields
+     *
+     * @return array [Field,...]
+     */
     public function getFields()
     {
         return $this->parserData->getFields();
     }
 
     /**
-     * Convert to HTML
+     * @proxy getHtml()
+     *
+     * @return string Html string
      */
     public function __toString()
     {
@@ -402,6 +469,8 @@ class Form
 
     /**
      * Get the JavaScript code to embed
+     *
+     * @return string Html script tag
      */
     public function getJs()
     {
@@ -415,6 +484,8 @@ class Form
 
     /**
      * Convert to HTML
+     *
+     * @return string HTML
      */
     public function getHtml()
     {
@@ -441,6 +512,8 @@ class Form
 
     /**
      * Error checking
+     *
+     * @return array [Error,...]
      */
     public function check()
     {
@@ -474,16 +547,25 @@ class Form
 
     /**
      * Values sourcing
+     *
+     * @param string $source
+     * @param mixed $data
      */
     public function source($source, $data)
     {
-        $sources = $this->parserData->getSources();
-
-        $sources[$source]->source($data);
+        $this->parserData
+            ->getSources()[$source]
+            ->source($data);
     }
 
     /**
      * Gets the data using mapping
+     *
+     * Side effect:?
+     *
+     * @param array $entity
+     *
+     * @return ?
      */
     public function getData($entity = array())
     {
@@ -506,6 +588,10 @@ class Form
 
     /**
      * Get a field's value
+     *
+     * @param string $name
+     *
+     * @return mixed
      */
     public function __get($name)
     {
@@ -514,6 +600,9 @@ class Form
 
     /**
      * Set a field value
+     *
+     * @param string $var
+     * @param mixed $val
      */
     public function __set($var, $val)
     {
@@ -522,6 +611,8 @@ class Form
 
     /**
      * Get the CSRF manager
+     *
+     * @return PostIndicator|null
      */
     public function getPostIndicator()
     {
@@ -536,6 +627,8 @@ class Form
 
     /**
      * Gets the post indicator
+     *
+     * @return string
      */
     public function getToken()
     {
@@ -544,6 +637,12 @@ class Form
 
     /**
      * Check if the form was posted
+     *
+     * Side effect: will set form values according to $_GET, $_POST and $_FILES
+     *
+     * @param string $method
+     *
+     * @return bool
      */
     public function posted($method = 'post')
     {
@@ -563,8 +662,13 @@ class Form
 
     /**
      * Check a form, helper function
+     *
+     * @param callable|null $callback
+     * @param callable|null $errorsCallback
+     *
+     * @return array
      */
-    public function handle($callback = null, $errorsCallback = null)
+    public function handle(callable $callback = null, callable $errorsCallback = null)
     {
         if ($this->posted()) {
             $errors = $this->check();
