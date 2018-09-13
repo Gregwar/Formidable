@@ -1,14 +1,16 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\PostIndicator;
+use Gregwar\Cache\Cache;
 
 /**
  * Testing Formidable forms
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class FormTests extends \PHPUnit\Framework\TestCase
+class FormTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing that toString() give the same thing as getHtml()
@@ -286,7 +288,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
      */
     public function testCache()
     {
-        $cache = new Gregwar\Cache\Cache;
+        $cache = new Cache();
         $cache->setCacheDirectory($this->getCacheDirectory());
 
         $form = $this->getForm('basic.html', null, $cache);
@@ -323,7 +325,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
 
     private function getForm($file, $vars = array(), $cache = false)
     {
-        return new Form(__DIR__.'/files/form/'.$file, $vars, $cache);
+        return new Form(__DIR__.'/fixtures/form/'.$file, $vars, $cache);
     }
 
     public function setup()

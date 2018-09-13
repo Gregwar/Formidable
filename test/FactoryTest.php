@@ -1,4 +1,5 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Factory;
 
@@ -7,7 +8,7 @@ use Gregwar\Formidable\Factory;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class FactoryTests extends \PHPUnit\Framework\TestCase
+class FactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing creating forms using the factory
@@ -15,7 +16,7 @@ class FactoryTests extends \PHPUnit\Framework\TestCase
     public function testFactoryCreation()
     {
         $factory = new Factory;
-        $form = $factory->getForm(__DIR__.'/files/factory/form.html');
+        $form = $factory->getForm(__DIR__.'/fixtures/context/form.html');
 
         $html = "$form";
         $this->assertContains('test', $html);
@@ -30,7 +31,7 @@ class FactoryTests extends \PHPUnit\Framework\TestCase
         $factory = new Factory;
         $factory->registerType('testing', '\Gregwar\Formidable\Fields\TextField');
 
-        $form = $factory->getForm(__DIR__.'/files/factory/testing.html');
+        $form = $factory->getForm(__DIR__.'/fixtures/context/testing.html');
         $html = "$form";
         $this->assertContains('text', $html);
         $this->assertEquals('Hello', $form->test);

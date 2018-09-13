@@ -52,6 +52,7 @@ class ParserData
 
     /**
      * Fields mapped by name
+     * @return array
      */
     public function getFields()
     {
@@ -92,6 +93,10 @@ class ParserData
 
     /**
      * Gets a field
+     *
+     * @return Field
+     *
+     * @throws \InvalidArgumentException
      */
     public function getField($name)
     {

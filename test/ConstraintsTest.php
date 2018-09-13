@@ -1,4 +1,5 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\Factory;
@@ -20,7 +21,7 @@ class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class ConstraintsTests extends \PHPUnit\Framework\TestCase
+class ConstraintsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing rendering a required field
@@ -213,6 +214,10 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
      */
     public function testCaptcha()
     {
+        if (!function_exists('imagettfbbox')) {
+            $this->markTestSkipped('No TrueType support');
+            return;
+        }
         $form = $this->getForm('captcha.html');
         $html = "$form";
 
@@ -241,6 +246,10 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
      */
     public function testCaptchaNotReusable()
     {
+        if (!function_exists('imagettfbbox')) {
+            $this->markTestSkipped('No TrueType support');
+            return;
+        }
         $form = $this->getForm('captcha.html');
         $html = "$form";
 
@@ -558,9 +567,9 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testFile()
     {
         $factory = new Factory;
-        $factory->registerType('file', '\FileField_NoSave');
-        $form = $factory->getForm(__DIR__.'/files/form/upload.html');
-        $file = __DIR__.'/files/upload/test.txt';
+        $factory->registerType('file', '\Test\Gregwar\Formidable\FileField_NoSave');
+        $form = $factory->getForm(__DIR__.'/fixtures/form/upload.html');
+        $file = __DIR__.'/fixtures/upload/test.txt';
         $hash = sha1(file_get_contents($file));
 
         $this->assertContains('file', "$form");
@@ -577,7 +586,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
         $this->assertEquals($hash, $form->attachement->save(null));
         $this->assertEquals('test.txt', $form->getField('attachement')->fileName());
 
-        $file = __DIR__.'/files/upload/long.txt';
+        $file = __DIR__.'/fixtures/upload/long.txt';
         $this->assertRefuse($form, array(), array(
             'attachement' => array(
                 'size' => filesize($file),
@@ -593,9 +602,9 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testMultipleFiles()
     {
         $factory = new Factory;
-        $factory->registerType('file', '\FileField_NoSave');
-        $form = $factory->getForm(__DIR__.'/files/form/multiple_file.html');
-        $file = __DIR__.'/files/upload/test.txt';
+        $factory->registerType('file', '\Test\Gregwar\Formidable\FileField_NoSave');
+        $form = $factory->getForm(__DIR__.'/fixtures/form/multiple_file.html');
+        $file = __DIR__.'/fixtures/upload/test.txt';
 
         $this->assertAccept($form, array(), array(
             'files' => array(
@@ -636,7 +645,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getForm('upload_image.html');
 
-        $file = __DIR__.'/files/upload/image.jpg';
+        $file = __DIR__.'/fixtures/upload/image.jpg';
         $this->assertAccept($form, array(), array(
             'photo' => array(
                 'size' => filesize($file),
@@ -645,7 +654,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
             )
         ));
 
-        $file = __DIR__.'/files/upload/test.txt';
+        $file = __DIR__.'/fixtures/upload/test.txt';
         $this->assertRefuse($form, array(), array(
             'photo' => array(
                 'size' => filesize($file),
@@ -934,7 +943,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
 
     private function getForm($file)
     {
-        return new Form(__DIR__.'/files/form/'.$file);
+        return new Form(__DIR__.'/fixtures/form/'.$file);
     }
 
     public function setup()

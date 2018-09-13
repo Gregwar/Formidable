@@ -1,4 +1,5 @@
 <?php
+namespace Test\Gregwar\Formidable;
 
 use Gregwar\Formidable\Parser;
 use Gregwar\Formidable\ParserException;
@@ -8,7 +9,7 @@ use Gregwar\Formidable\ParserException;
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class ParserTests extends \PHPUnit\Framework\TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing the returns of a basic parse
@@ -145,6 +146,6 @@ class ParserTests extends \PHPUnit\Framework\TestCase
 
     private function getParser($file)
     {
-        return new Parser(file_get_contents(__DIR__.'/files/parser/'.$file));
+        return new Parser(file_get_contents(__DIR__.'/fixtures/parser/'.$file));
     }
 }

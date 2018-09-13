@@ -9,15 +9,20 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="./vendor/autoload.php"
 >
     <testsuites>
-        <testsuite name="Formidable Test Suite">
-            <file>./tests/ParserTests.php</file>
-            <file>./tests/FormTests.php</file>
-            <file>./tests/ContextTests.php</file>
-            <file>./tests/ConstraintsTests.php</file>
+        <testsuite name="Default">
+            <directory suffix="Test.php">./test</directory>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="testdox-html" target="./docs/contract.html"/>
+    </logging>
 
 </phpunit>

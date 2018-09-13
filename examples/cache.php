@@ -1,7 +1,7 @@
 <?php
 $_SESSION = array();
 
-include(__DIR__.'/../autoload.php');
+include(__DIR__ . '/../vendor/autoload.php');
 
 $form = new Gregwar\Formidable\Form('<form method="post">
     What\'s your name? <input type="text" name="nom" /><br />

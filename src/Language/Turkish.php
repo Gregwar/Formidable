@@ -1,6 +1,4 @@
-
 <?php
-
 namespace Gregwar\Formidable\Language;
 
 class Turkish extends Language

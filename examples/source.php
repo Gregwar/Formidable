@@ -1,6 +1,6 @@
 <?php
 
-include(__DIR__.'/../autoload.php');
+include(__DIR__ . '/../vendor/autoload.php');
 
 $form = new Gregwar\Formidable\Form('<form method="post">
     <select name="animal">

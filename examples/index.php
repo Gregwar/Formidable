@@ -1,6 +1,6 @@
 <?php
 session_start(); // required for CSRF
-include(__DIR__.'/../autoload.php');
+include(__DIR__ . '/../vendor/autoload.php');
 include('person.php');
 
 $form = new Gregwar\Formidable\Form('forms/demoform.html', array());
@@ -35,7 +35,7 @@ $errors = $form->handle(function() use ($form) {
         <h1>Formidable Demo</h1>
         <?php if ($errors) { ?>
             <div style="color:red">
-                <h2>Validations error</h1>
+                <h1>Validations error</h1>
                 <ul>
                 <?php foreach ($errors as $error) { ?>
                     <li><?php echo $error; ?></li>
