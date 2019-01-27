@@ -136,11 +136,14 @@ abstract class Field extends LanguageAware
         case 'required':
             $this->required = true;
             break;
+        case 'pattern':
         case 'regex':
             $this->regex = $value;
+            $this->attributes['pattern'] = $value;
             break;
         case 'minlength':
             $this->minlength = $value;
+            $this->attributes['minlength'] = $value;
             break;
         case 'maxlength':
             $this->maxlength = $value;

@@ -103,7 +103,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getForm('minlength.html');
         
-        $this->assertNotContains('minlength', "$form");
+        $this->assertContains('minlength', "$form");
 
         $this->assertAccept($form, array(
             'nick' => str_repeat('x', 10)
@@ -121,7 +121,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getForm('regex.html');
 
-        $this->assertNotContains('regex', "$form");
+        $this->assertContains('pattern', "$form");
 
         $this->assertAccept($form, array(
             'nick' => 'hello'
