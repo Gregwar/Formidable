@@ -1,6 +1,5 @@
 # Formidable
 
-![PHP 5.6](https://img.shields.io/badge/PHP-5.6-blue.svg)
 ![PHP 7](https://img.shields.io/badge/PHP-7.0-blue.svg)
 ![PHP 7.1](https://img.shields.io/badge/PHP-7.1-blue.svg)
 ![PHP 7.2](https://img.shields.io/badge/PHP-7.2-blue.svg)
