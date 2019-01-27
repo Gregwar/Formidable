@@ -28,7 +28,7 @@
   },
   "require-dev": {
     "gregwar/captcha": "~1.1.6",
-    "phpunit/phpunit": "~4.8.9"
+    "phpunit/phpunit": "^6.4"
   },
   "suggest": {
     "gregwar/captcha": "To implement Captcha capability into forms"
