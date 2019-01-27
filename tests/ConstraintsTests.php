@@ -133,6 +133,24 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Testing the pattern constraint
+     */
+    public function testPattern()
+    {
+        $form = $this->getForm('pattern.html');
+
+        $this->assertContains('pattern', "$form");
+
+        $this->assertAccept($form, array(
+            'nick' => 'hello'
+        ));
+
+        $this->assertRefuse($form, array(
+            'nick' => 'hm hm'
+        ));
+    }
+
+    /**
      * Testing hidden field
      */
     public function testHidden()
