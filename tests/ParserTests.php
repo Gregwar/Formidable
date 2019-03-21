@@ -19,8 +19,9 @@ class ParserTests extends \PHPUnit\Framework\TestCase
 
         $fields = $parser->getFields();
 
-        $this->assertEquals(1, count($fields));
+        $this->assertEquals(2, count($fields));
         $this->assertArrayHasKey('foo', $fields);
+        $this->assertArrayHasKey('foo2', $fields);
 
         $this->assertEquals('foo', $fields['foo']->getName());
     }

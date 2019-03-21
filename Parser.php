@@ -305,17 +305,18 @@ class Parser extends ParserData
             break;
         }
         if (null !== $field) {
-            $data = preg_replace_callback('#="([^"]+)"#mUsi', function($matches) {
-                return '="'.urlencode($matches[1]).'"';
-            }, $data);
-
-            $attributes = explode(' ', $data);
-
-            foreach ($attributes as $attribute) {
-                if (preg_match("#([^=]+)(=\"(.+)\"|)#muSi", $attribute, $match)) {
-                    $field->push($match[1], isset($match[3]) ? html_entity_decode(urldecode($match[3])) : null);
+            preg_replace_callback('#([^= ]+)(=("([^"]*)"|\'([^\']*)\')|)#', function($match) use ($field) {
+                $key = trim($match[1]);
+                $value = null;
+            
+                if (isset($match[5])) {
+                    $value = trim($match[5]);
+                } else if (isset($match[4])) {
+                    $value = trim($match[4]);
                 }
-            }
+
+                $field->push($key, $value ? html_entity_decode($value) : $value);
+            }, $data);
 
             return $field;
         } else {
