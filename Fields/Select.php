@@ -24,7 +24,7 @@ class Select extends Field
      */
     protected $options = array();
 
-    public function push($name, $value = null)
+    public function push($name, $value = null, $quote = '"')
     {
         if ($name == 'multiple') {
             $this->multiple = true;
@@ -33,7 +33,7 @@ class Select extends Field
             $this->allowAdd = true;
         }
 
-        parent::push($name, $value);
+        parent::push($name, $value, $quote);
     }
 
     public function __sleep()
@@ -130,7 +130,8 @@ class Select extends Field
 
         $html = '<select name="'.$this->getName().$arr.'" ';
         foreach ($this->attributes as $name => $value) {
-            $html.= $name.'="'.$value.'" ';
+            $quote = $value['quote'];
+            $html .= $name."={$quote}{$value['value']}{$quote} ";
         }
         $html.= ">\n";
 
