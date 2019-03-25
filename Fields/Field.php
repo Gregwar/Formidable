@@ -86,9 +86,9 @@ abstract class Field extends LanguageAware
     /**
      * Define an attribute
      */
-    public function setAttribute($name, $value)
+    public function setAttribute($name, $value, $quote = '"')
     {
-        $this->attributes[$name] = $value;
+        $this->attributes[$name] = ['value' => $value, 'quote' => $quote];
     }
 
     /**
@@ -122,7 +122,7 @@ abstract class Field extends LanguageAware
     /**
      * Function called by the dispatcher
      */
-    public function push($name, $value = null)
+    public function push($name, $value = null, $quote = '"')
     {
         switch ($name) {
         case 'name':
@@ -162,9 +162,9 @@ abstract class Field extends LanguageAware
         default:
             if (preg_match('#^([a-z0-9_-]+)$#mUsi', $name)) {
                 if (null !== $value) {
-                    $this->setAttribute($name, $value);
+                    $this->setAttribute($name, $value, $quote);
                 } else {
-                    $this->setAttribute($name, $name);
+                    $this->setAttribute($name, $name, $quote);
                 }
             }
         }
@@ -314,7 +314,8 @@ abstract class Field extends LanguageAware
         $html = '<input ';
 
         foreach ($this->attributes as $name => $value) {
-            $html.= $name.'="'.$value.'" ';
+            $quote = $value['quote'];
+            $html.= $name."={$quote}{$value['value']}{$quote} ";
         }
 
         if ($this->required) {
@@ -325,7 +326,8 @@ abstract class Field extends LanguageAware
         $html.= 'name="'.$this->getName().'" ';
 
         if (($value = $this->getValue()) !== null && gettype($value) != 'object') {
-            $html.= 'value="'.htmlspecialchars($value).'" ';
+            $quote = $value['quote'];
+            $html.= "value={$quote}".htmlspecialchars($value)."{$quote}";
         }
 
         $html.= '/>';

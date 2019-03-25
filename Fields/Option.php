@@ -71,7 +71,8 @@ class Option extends Field
     {
         $html = '<option ';
         foreach ($this->attributes as $name => $value) {
-            $html.= $name.'="'.$value.'" ';
+            $quote = $value['quote'];
+            $html.= $name."={$quote}{$value['value']}{$quote} ";
         }
         if ($selected) {
             $html.='selected="selected" ';

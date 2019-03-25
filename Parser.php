@@ -118,7 +118,7 @@ class Parser extends ParserData
                                 }
 
                                 $this->push(new PostIndicator($name));
-                            } 
+                            }
 
                             $this->push('</form>');
                             break;
@@ -310,12 +310,15 @@ class Parser extends ParserData
                 $value = null;
             
                 if (isset($match[5])) {
+                    // Single quotes are being used
+                    $quote = "'";
                     $value = trim($match[5]);
                 } else if (isset($match[4])) {
+                    // Double quotes are being used
+                    $quote = '"';
                     $value = trim($match[4]);
                 }
-
-                $field->push($key, $value ? html_entity_decode($value) : $value);
+                $field->push($key, $value ? html_entity_decode($value) : $value, $quote);
             }, $data);
 
             return $field;
