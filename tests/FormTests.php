@@ -261,6 +261,24 @@ class FormTests extends \PHPUnit\Framework\TestCase
         $form->getField('titi');
     }
 
+    public function testQuotesAttributes()
+    {
+        $form = $this->getForm('quotes.html');
+        $field = $form->getField('xxx');
+        
+        $this->assertTrue($field->hasAttribute('foo'));
+        $this->assertEquals($field->getAttribute('foo'), 'bar baz "bax"');
+
+        $doc = new DOMDocument();
+        $doc->loadHTML("$form");
+        $element = $doc->getElementById('theinput');
+
+        $this->assertFalse($element == null);
+        $this->assertTrue($element->hasAttribute('foo'));
+        $this->assertEquals($element->getAttribute('foo'), 'bar baz "bax"');
+        
+    }
+
     public function testPlaceholder()
     {
         $form = $this->getForm('placeholder.html');

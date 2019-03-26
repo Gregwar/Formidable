@@ -314,7 +314,7 @@ abstract class Field extends LanguageAware
         $html = '<input ';
 
         foreach ($this->attributes as $name => $value) {
-            $html.= $name.'="'.$value.'" ';
+            $html.= $name.'="'.htmlspecialchars($value).'" ';
         }
 
         if ($this->required) {
