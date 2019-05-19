@@ -68,7 +68,7 @@ class Multiple extends Field
         $this->forms = array();
 
         $indexes = array();
-        if ($values) {
+        if ($values && is_array($values)) {
             $indexes = array_keys($values);
         } else if ($files) {
             $indexes = array_keys($files);
