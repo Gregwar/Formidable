@@ -129,9 +129,15 @@ class Select extends Field
         }
 
         $html = '<select name="'.$this->getName().$arr.'" ';
+
         foreach ($this->attributes as $name => $value) {
             $html.= $name.'="'.$value.'" ';
         }
+
+        if ($this->required) {
+            $html.= 'required="required" ';
+        }
+
         $html.= ">\n";
 
         foreach ($this->options as $option) {
