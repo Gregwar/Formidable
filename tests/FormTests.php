@@ -117,6 +117,16 @@ class FormTests extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Testing that the emitted <select> HTML contains the required attribute
+     */
+    public function testSelectRequiredAttribute()
+    {
+        $form = $this->getForm('select-required.html');
+
+        $this->assertContains('required="required"', $form->getHtml());
+    }
+
+    /**
      * Testing that the CSRF token is t he same if computer twice on
      * the same file, and different for another file with a different form name
      */
