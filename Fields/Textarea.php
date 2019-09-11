@@ -27,6 +27,10 @@ class Textarea extends Field
             $html.= $name.'="'.$value.'" ';
         }
 
+        if ($this->required) {
+            $html.= 'required="required" ';
+        }
+
         $html.= '>';
         $html.= htmlspecialchars($this->value);
         $html.= '</textarea>'."\n";
