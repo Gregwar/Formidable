@@ -1,14 +1,23 @@
 <?php
 
 use Gregwar\Formidable\Parser;
-use Gregwar\Formidable\ParserException;
+use Gregwar\Formidable\Fields\TextField;
+use Gregwar\Formidable\Fields\EmailField;
+use Gregwar\Formidable\Fields\PasswordField;
+use Gregwar\Formidable\Fields\FileField;
+use Gregwar\Formidable\Fields\HiddenField;
+use Gregwar\Formidable\Fields\IntField;
+use Gregwar\Formidable\Fields\Select;
+use Gregwar\Formidable\Fields\Radios;
+use Gregwar\Formidable\Fields\Textarea;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing Formidable parser
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class ParserTests extends \PHPUnit\Framework\TestCase
+class ParserTests extends TestCase
 {
     /**
      * Testing the returns of a basic parse
@@ -19,7 +28,7 @@ class ParserTests extends \PHPUnit\Framework\TestCase
 
         $fields = $parser->getFields();
 
-        $this->assertEquals(2, count($fields));
+        $this->assertCount(2, $fields);
         $this->assertArrayHasKey('foo', $fields);
         $this->assertArrayHasKey('foo2', $fields);
 
@@ -35,17 +44,17 @@ class ParserTests extends \PHPUnit\Framework\TestCase
 
         $fields = $parser->getFields();
 
-        $this->assertEquals(9, count($fields));
+        $this->assertCount(9, $fields);
 
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\TextField', $fields['name']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\EmailField', $fields['email']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\PasswordField', $fields['pass']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\FileField', $fields['picture']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\HiddenField', $fields['cache']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\IntField', $fields['age']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\Select', $fields['choices']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\Radios', $fields['radio']);
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\Textarea', $fields['area']);
+        $this->assertInstanceOf(TextField::class, $fields['name']);
+        $this->assertInstanceOf(EmailField::class, $fields['email']);
+        $this->assertInstanceOf(PasswordField::class, $fields['pass']);
+        $this->assertInstanceOf(FileField::class, $fields['picture']);
+        $this->assertInstanceOf(HiddenField::class, $fields['cache']);
+        $this->assertInstanceOf(IntField::class, $fields['age']);
+        $this->assertInstanceOf(Select::class, $fields['choices']);
+        $this->assertInstanceOf(Radios::class, $fields['radio']);
+        $this->assertInstanceOf(Textarea::class, $fields['area']);
     }
 
     /**
@@ -130,7 +139,7 @@ class ParserTests extends \PHPUnit\Framework\TestCase
         $parser = $this->getParser('untyped_input.html');
         $fields = $parser->getFields();
 
-        $this->assertInstanceOf('Gregwar\Formidable\Fields\TextField', $fields['test']);
+        $this->assertInstanceOf(TextField::class, $fields['test']);
     }
 
     /**

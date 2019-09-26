@@ -1,14 +1,16 @@
 <?php
 
+use Gregwar\Cache\Cache;
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\PostIndicator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing Formidable forms
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class FormTests extends \PHPUnit\Framework\TestCase
+class FormTests extends TestCase
 {
     /**
      * Testing that toString() give the same thing as getHtml()
@@ -38,7 +40,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
     public function testEnctype()
     {
         $form = $this->getForm('enctype_normal.html');
-        $this->assertFalse(strpos("$form", 'enctype='));
+        $this->assertNotContains('enctype=', "$form");
 
         $form = $this->getForm('enctype_file.html');
         $this->assertContains('enctype=', "$form");
@@ -176,7 +178,6 @@ class FormTests extends \PHPUnit\Framework\TestCase
      */
     public function testPostIndicator()
     {
-
         unset($_SESSION);
         $form1 = $this->getForm('post-indicator.html');
         $token1 = $form1->getToken();
@@ -275,7 +276,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getForm('quotes.html');
         $field = $form->getField('xxx');
-        
+
         $this->assertTrue($field->hasAttribute('foo'));
         $this->assertEquals($field->getAttribute('foo'), 'bar baz "bax"');
 
@@ -286,7 +287,6 @@ class FormTests extends \PHPUnit\Framework\TestCase
         $this->assertFalse($element == null);
         $this->assertTrue($element->hasAttribute('foo'));
         $this->assertEquals($element->getAttribute('foo'), 'bar baz "bax"');
-        
     }
 
     public function testPlaceholder()
@@ -314,7 +314,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
      */
     public function testCache()
     {
-        $cache = new Gregwar\Cache\Cache;
+        $cache = new Cache;
         $cache->setCacheDirectory($this->getCacheDirectory());
 
         $form = $this->getForm('basic.html', null, $cache);
@@ -343,7 +343,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
 
         preg_match_all('#option value="(.+)"#mUsi', $html, $matches);
 
-        $this->assertEquals(3, count($matches[1]));
+        $this->assertCount(3, $matches[1]);
         $this->assertEquals('X', $matches[1][0]);
         $this->assertEquals('A', $matches[1][1]);
         $this->assertEquals('B', $matches[1][2]);
@@ -354,7 +354,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
         return new Form(__DIR__.'/files/form/'.$file, $vars, $cache);
     }
 
-    public function setup()
+    protected function setup()
     {
         $_SESSION = array();
     }
@@ -364,7 +364,7 @@ class FormTests extends \PHPUnit\Framework\TestCase
         return __DIR__ . '/cache';
     }
 
-    public function teardown()
+    protected function teardown()
     {
         $cacheDir = $this->getCacheDirectory();
         `rm -rf $cacheDir`;
