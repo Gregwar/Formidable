@@ -4,11 +4,7 @@ php:
     - 7.0
     - 7.1
     - 7.2
-
-addons:
-    apt_packages:
-        - php*-gd
-        - libfreetype*
+    - 7.3
 
 script:
     - composer install
