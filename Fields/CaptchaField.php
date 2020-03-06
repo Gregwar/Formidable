@@ -75,7 +75,7 @@ class CaptchaField extends Field
         $input_html = parent::getHtml();
         $this->value = $temp;
 
-        $_SESSION['Formidable_Captcha'] = $this->getCaptchaValue();
+        $_SESSION['Formidable_Captcha'] = strtolower($this->getCaptchaValue());
 
         $html = '<img src="'.$this->builder->inline().'" class="Formidable_Captcha" alt="Code visuel" ><br />'.$input_html;
 
