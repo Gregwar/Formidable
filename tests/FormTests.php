@@ -295,11 +295,21 @@ class FormTests extends \PHPUnit\Framework\TestCase
 
         $html = "$form";
         $this->assertNotContains('something', $html);
-
         $form->setPlaceholder('something', 'hello!');
-
         $html = "$form";
         $this->assertContains('hello!', $html);
+
+        ///
+
+        $form = $this->getForm('placeholder_repeat.html');
+
+        $form->setPlaceholder('repeat', 'repeatme');
+        $html = "$form";
+
+        $this->assertContains('<b>repeatme</b>', $html);
+        $this->assertContains('<u>repeatme</u>', $html);
+
+        ///
 
         $form = $this->getForm('placeholder_multiline.html');
         $form->setPlaceholder('name', 'Bob');

@@ -327,7 +327,9 @@ class Form
      */
     public function setPlaceholder($name, $value)
     {
-        $this->parserData->getPlaceholder($name)->setValue($value);
+        foreach ($this->parserData->getPlaceholders($name) as $placeholder) {
+            $placeholder->setValue($value);
+        }
     }
 
     /**

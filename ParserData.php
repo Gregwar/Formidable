@@ -102,7 +102,7 @@ class ParserData
         }
     }
 
-    public function getPlaceholder($name)
+    public function getPlaceholders($name)
     {
         if (isset($this->placeholders[$name])) {
             return $this->placeholders[$name];

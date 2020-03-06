@@ -224,7 +224,11 @@ class Parser extends ParserData
                     $data[] = $match[1];
                     $placeholder = new Placeholder($match[2]);
                     $data[] = $placeholder;
-                    $this->placeholders[$placeholder->getName()] = $placeholder;
+                    if (!isset($this->placeholders[$placeholder->getName()])) {
+                        $this->placeholders[$placeholder->getName()] = array();
+                    }
+
+                    $this->placeholders[$placeholder->getName()][] = $placeholder;
                     $part = $match[3];
                 }
                 $data[] = $part;
