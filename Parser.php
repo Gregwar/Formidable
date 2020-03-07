@@ -34,7 +34,20 @@ class Parser extends ParserData
      */
     private $offset = 0;
 
-    public function __construct($content, $factory = null, $offset = 0)
+    /**
+     * Parent parser (for back references from multiples parsers)
+     */
+    private $parser_parent;
+
+    /**
+     * Parser constructor.
+     * @param $content
+     * @param null $factory
+     * @param int $offset
+     * @param null $parent
+     */
+
+    public function __construct($content, $factory = null, $offset = 0, $parser_parent = null)
     {
         if (null === $factory) {
             $this->factory = new Factory;
@@ -42,6 +55,7 @@ class Parser extends ParserData
             $this->factory = $factory;
         }
 
+        $this->parser_parent = $parser_parent;
         $this->offset = $offset;
         $this->parse($content);
     }
@@ -135,7 +149,13 @@ class Parser extends ParserData
                             if (!$this->data[$idx-1] instanceof Fields\Select) {
                                 throw new ParserException('<option> should always be in a <select>');
                             }
-                            $this->sources[$newNode->getSource()] = $newNode;
+
+                            // target the parent sources area to create an index
+                            if ($this->parser_parent == null) {
+                                $this->sources[$newNode->getSource()] = $newNode;
+                            } else {
+                                $this->parser_parent->sources[$newNode->getSource()] = $newNode;
+                            }
                             $newNode->setParent($this->data[$idx-1]);
                         } else {
                             if ($newNode instanceof Fields\Option) {
@@ -158,7 +178,9 @@ class Parser extends ParserData
                                 $this->push($newNode);
 
                                 if ($newNode instanceof Fields\Multiple) {
-                                    $parser = $this->factory->getParser($content, $this->offset+1);
+                                    // pass in $this for $parser_parent - to make sources available to multiple selects
+                                    $parser = $this->factory->getParser($content, $this->offset+1, $this);
+
                                     $newNode->setParserData($parser);
                                     $this->offset = $parser->getOffset();
                                 }

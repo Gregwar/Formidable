@@ -75,11 +75,11 @@ class Factory extends Language\LanguageAware
     /**
      * Get a parser
      */
-    public function getParser($content, $offset = 0)
+    public function getParser($content, $offset = 0, $parser_parent = null)
     {
         $parserClass = $this->parserClass;
 
-        return $this->inject(new $parserClass($content, $this, $offset));
+        return $this->inject(new $parserClass($content, $this, $offset, $parser_parent));
     }
 
     /**
