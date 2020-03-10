@@ -359,6 +359,21 @@ class FormTests extends \PHPUnit\Framework\TestCase
         $this->assertEquals('B', $matches[1][2]);
     }
 
+    /**
+     * Testing the order of sourced select
+     */
+    public function testSourceMultiple()
+    {
+        $form = $this->getForm('multiple_source.html');
+
+        $form->source('colors', array(
+            'red', 'green', 'blue', 'purple'
+        ));
+
+        $html = "$form";
+        $this->assertEquals(2, substr_count($html, '<option value="0">red</option>'));
+    }
+
     private function getForm($file, $vars = array(), $cache = false)
     {
         return new Form(__DIR__.'/files/form/'.$file, $vars, $cache);

@@ -135,7 +135,10 @@ class Parser extends ParserData
                             if (!$this->data[$idx-1] instanceof Fields\Select) {
                                 throw new ParserException('<option> should always be in a <select>');
                             }
-                            $this->sources[$newNode->getSource()] = $newNode;
+                            if (!isset($this->sources[$newNode->getSource()])) {
+                                $this->sources[$newNode->getSource()] = array();
+                            }
+                            $this->sources[$newNode->getSource()][] = $newNode;
                             $newNode->setParent($this->data[$idx-1]);
                         } else {
                             if ($newNode instanceof Fields\Option) {
@@ -193,7 +196,10 @@ class Parser extends ParserData
                                 }
 
                                 if ($newNode->getSource()) {
-                                    $this->sources[$newNode->getSource()] = $newNode;
+                                    if (!isset($this->sources[$newNode->getSource()])) {
+                                        $this->sources[$newNode->getSource()] = array();
+                                    }
+                                    $this->sources[$newNode->getSource()][] = $newNode;
                                 }
                             }
                         }

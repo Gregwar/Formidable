@@ -481,7 +481,9 @@ class Form
     {
         $sources = $this->parserData->getSources();
 
-        $sources[$source]->source($data);
+        foreach ($sources[$source] as $node) {
+            $node->source($data);
+        }
     }
 
     /**
