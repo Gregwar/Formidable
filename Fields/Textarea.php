@@ -32,7 +32,11 @@ class Textarea extends Field
         }
 
         $html.= '>';
-        $html.= htmlspecialchars($this->value);
+        
+        if ($this->value) {
+            $html.= htmlspecialchars($this->value);
+        }
+        
         $html.= '</textarea>'."\n";
 
         return $html;
