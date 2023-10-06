@@ -1,13 +1,15 @@
 <?php
 
 use Gregwar\Formidable\Factory;
+use Gregwar\Formidable\Fields\TextField;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Testing Formidable factory
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class FactoryTests extends \PHPUnit\Framework\TestCase
+class FactoryTests extends TestCase
 {
     /**
      * Testing creating forms using the factory
@@ -28,7 +30,7 @@ class FactoryTests extends \PHPUnit\Framework\TestCase
     public function testFactoryCustomType()
     {
         $factory = new Factory;
-        $factory->registerType('testing', '\Gregwar\Formidable\Fields\TextField');
+        $factory->registerType('testing', TextField::class);
 
         $form = $factory->getForm(__DIR__.'/files/factory/testing.html');
         $html = "$form";

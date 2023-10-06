@@ -3,11 +3,13 @@
 use Gregwar\Formidable\Form;
 use Gregwar\Formidable\Factory;
 use Gregwar\Formidable\PostIndicator;
+use Gregwar\Formidable\Fields\FileField;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Special type "file" returning hash of the file instead of actually saving it 
+ * Special type "file" returning hash of the file instead of actually saving it
  */
-class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
+class FileField_NoSave extends FileField
 {
     public function save($filename)
     {
@@ -20,7 +22,7 @@ class FileField_NoSave extends \Gregwar\Formidable\Fields\FileField
  *
  * @author Grégoire Passault <g.passault@gmail.com>
  */
-class ConstraintsTests extends \PHPUnit\Framework\TestCase
+class ConstraintsTests extends TestCase
 {
     /**
      * Testing rendering a required field
@@ -68,7 +70,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
         $this->assertAccept($form, array(
             'name' => ''
         ));
- 
+
         $this->assertEquals('', $form->name);
 
         $this->assertAccept($form, array(
@@ -84,7 +86,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testMaxLength()
     {
         $form = $this->getForm('maxlength.html');
-        
+
         $this->assertContains('maxlength', "$form");
 
         $this->assertAccept($form, array(
@@ -102,7 +104,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testMinLength()
     {
         $form = $this->getForm('minlength.html');
-        
+
         $this->assertContains('minlength', "$form");
 
         $this->assertAccept($form, array(
@@ -291,7 +293,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
         $this->assertRefuse($form, array(
             'city' => 'xy'
         ));
-        
+
         $this->assertAccept($form, array(
             'city' => ''
         ));
@@ -307,7 +309,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
         $this->assertRefuse($form, array(
             'city' => 'xy'
         ));
-        
+
         $this->assertRefuse($form, array(
             'city' => ''
         ));
@@ -319,19 +321,19 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testSelectMultiple()
     {
         $form = $this->getForm('select-multiple.html');
-        
+
         $this->assertAccept($form, array(
             'city' => array('pa')
         ));
-        
+
         $this->assertAccept($form, array(
             'city' => array('pa', 'la')
         ));
-        
+
         $this->assertRefuse($form, array(
             'city' => 'pa'
         ));
-        
+
         $this->assertRefuse($form, array(
             'city' => array('xy')
         ));
@@ -391,7 +393,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
 
         $form->source('animals', array(
             '1' => 'Cat',
-            '2' => 'Dog', 
+            '2' => 'Dog',
             '3' => 'Zebra'
         ));
 
@@ -538,8 +540,8 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
             'animals' => array('1' => '1', '3' => '1')
         ));
 
-        $this->assertTrue(in_array('1', $form->animals));
-        $this->assertTrue(in_array('3', $form->animals));
+        $this->assertContains('1', $form->animals);
+        $this->assertContains('3', $form->animals);
 
         $this->assertContains('checked', "$form");
 
@@ -556,7 +558,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testMultiCheckBoxSetValue()
     {
         $form = $this->getForm('multicheckbox.html');
-        
+
         $form->source('animals', array(
             '1' => 'Cat',
             '2' => 'Dog',
@@ -565,7 +567,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
 
         $form->setValue('animals', array('2' => '1', '3' => '1'));
         $this->assertEquals(array('2', '3'), $form->getValue('animals'));
-        
+
         $form->setValue('animals', array('2', '3'));
         $this->assertEquals(array('2', '3'), $form->getValue('animals'));
     }
@@ -576,7 +578,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testFile()
     {
         $factory = new Factory;
-        $factory->registerType('file', '\FileField_NoSave');
+        $factory->registerType('file', \FileField_NoSave::class);
         $form = $factory->getForm(__DIR__.'/files/form/upload.html');
         $file = __DIR__.'/files/upload/test.txt';
         $hash = sha1(file_get_contents($file));
@@ -611,7 +613,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     public function testMultipleFiles()
     {
         $factory = new Factory;
-        $factory->registerType('file', '\FileField_NoSave');
+        $factory->registerType('file', \FileField_NoSave::class);
         $form = $factory->getForm(__DIR__.'/files/form/multiple_file.html');
         $file = __DIR__.'/files/upload/test.txt';
 
@@ -633,7 +635,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
                 )
             )
         ));
-        
+
         $this->assertRefuse($form, array(), array(
             'files' => array(
                 0 => array(
@@ -748,17 +750,17 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
             array('first_name' => 'Bob', 'age' => '8'),
             array('first_name' => 'Jack', 'age' => '18'),
         )));
-        
+
         $this->assertAccept($form, array('book_name' => 'Test', 'authors' => array(
             array('first_name' => 'Bob', 'age' => '8'),
             array('first_name' => 'Jack', 'age' => '18'),
         )));
 
-       // The min-entries constraint 
+       // The min-entries constraint
         $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
             array('first_name' => 'Bob', 'age' => '8'),
         )));
-       
+
         // The min
         $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
             array('first_name' => 'Bob', 'age' => '3'),
@@ -781,7 +783,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
             array('first_name' => 'Bob', 'age' => '8'),
             array('first_name' => 'Jack', 'age' => '18'),
         )));
-        
+
         $this->assertRefuse($form, array('book_name' => 'Test', 'authors' => array(
             array('first_name' => 'Bob', 'age' => '8'),
             array('first_name' => 'Jack', 'age' => '18'),
@@ -793,16 +795,16 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
             array('first_name' => 'Jack', 'age' => '18'),
         )));
     }
-    
+
     /**
      * Testing bad type
-     
+
      * @expectedException               Gregwar\Formidable\ParserException
      * @expectedExceptionMessage        Unknown field type: name
      */
     public function testCheckBadType()
     {
-        $form = $this->getForm('bad_type.html');
+        $this->getForm('bad_type.html');
     }
 
     /**
@@ -812,18 +814,18 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
     {
         $form = $this->getForm('array.html');
 
-        $this->assertTrue(is_array($form->getValue('t')));
-        $this->assertEquals(2, count($form->getValue('t')));
+        $this->assertInternalType('array', $form->getValue('t'));
+        $this->assertCount(2, $form->getValue('t'));
 
         $values = $form->getValues();
-        $this->assertTrue(is_array($values['a']));
-        $this->assertTrue(is_array($values['a']['b']));
+        $this->assertInternalType('array', $values['a']);
+        $this->assertInternalType('array', $values['a']['b']);
         $this->assertEquals('testing', $values['a']['b']['c']);
         $this->assertEquals('testing2', $values['a']['b']['d']);
 
-        $this->assertTrue(is_array($values['x']));
-        $this->assertTrue(is_array($values['x']['y']));
-        $this->assertTrue(is_array($values['x']['y']['z']));
+        $this->assertInternalType('array', $values['x']);
+        $this->assertInternalType('array', $values['x']['y']);
+        $this->assertInternalType('array', $values['x']['y']['z']);
         $this->assertEquals('2', $values['x']['y']['z']['k']);
 
         $this->assertAccept($form, array(
@@ -955,7 +957,7 @@ class ConstraintsTests extends \PHPUnit\Framework\TestCase
         return new Form(__DIR__.'/files/form/'.$file);
     }
 
-    public function setup()
+    protected function setup()
     {
         $_SESSION = array();
     }
